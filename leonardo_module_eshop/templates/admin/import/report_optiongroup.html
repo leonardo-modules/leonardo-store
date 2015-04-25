@@ -1,0 +1,23 @@
+{% load i18n %}
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Group" %}</th>
+			<th>{% trans "Name" %}</th>
+			<th>{% trans "Label" %}</th>
+			<th>{% trans "Ordering" %}</th>
+			<th>Akce</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in report %}
+		<tr class="{% cycle alternate,normal %}">
+			<td>{{ object.object.option_group.name }}</td>
+			<td>{{ object.object.value }}</td>
+			<td>{{ object.object.name }}</td>
+			<td>{{ object.object.sort_order }}</td>
+			<td>{{ object.flag }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

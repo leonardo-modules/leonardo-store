@@ -1,0 +1,24 @@
+<ul class="vertical">
+{% for root in category_list %}
+{% if root.id == level_0.id %}
+<li class="{% if root.id  == category_current.id %}active{% else %}subactive{% endif %}">
+	<a href="{% url webcms.module.store.apps.category/webcms_store_category root.slug %}">{{ root.translated_name|capfirst }}</a>
+	{% for level_1_category in root.child.all %}
+	{% if forloop.first %}<ul>{% endif %}
+	{% if level_1_category.id == level_2.id %}
+		{% if level_1_category.is_active %}
+		<li class="{% if level_1_category.id  == category_current.id %}active{% else %}subactive{% endif %}"><a href="{% url webcms.module.store.apps.category/webcms_store_category level_1_category.parent_slugs level_1_category.slug %}">{{ level_1_category.translated_name|capfirst }}</a></li>
+		{% endif %}
+	{% else %}
+		{% if level_1_category.is_active %}
+		<li><a href="{% url webcms.module.store.apps.category/webcms_store_category level_1_category.parent_slugs level_1_category.slug %}">{{ level_1_category.translated_name|capfirst }}</a></li>
+		{% endif %}
+	{% endif %}
+	{% if forloop.last %}</ul>{% endif %}
+	{% endfor %}
+</li>
+{% else %}
+<li><a {% if forloop.last %}class="last"{% endif %} href="{% url webcms.module.store.apps.category/webcms_store_category root.slug %}">{{ root.translated_name|capfirst }}</a></li>
+{% endif %}
+{% endfor %}
+</ul>

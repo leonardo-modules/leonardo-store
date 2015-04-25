@@ -1,0 +1,14 @@
+{% extends "email/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+
+{% block title %}
+{% trans "New Order" %}
+{% endblock %}
+
+{% block content %}
+<p>{% blocktrans %}Thank you for your order.{% endblocktrans %}</p>
+{% include "shop/email/_order_detail_table.html" %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block object-tools %}
+<li><a href="{% url webcms_admin:product_product_changelist %}">{% trans "Product catalog" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Product export" %}</h2>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="." enctype="multipart/form-data" class="form">
+	{% csrf_token %}
+	<div class="fieldset">
+		{{ form.format|form_field }}
+		{{ form.types|form_field }}
+		{{ form.vars|form_field }}
+	</div>
+	<div class="admin-form-buttons">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<button type="submit">{% trans 'Start export' %}</button>
+	</div>
+</form>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('.admin-form-tabs').tabs();
+	jQuery('.admin-form-buttons button').button();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block head_title %}
+{% trans "Customer Log In" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Customer Log In" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Customer Log In" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% for error in form.non_field_errors %}
+<p class="error">{{ error }}</p>
+{% endfor %}
+<form class="form" method="post" action="." id="webcms_store_login">
+	{% csrf_token %}
+	<div class="hidden">
+		{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard as webcms_store_account_dashboard %}
+		<input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{{ webcms_store_account_dashboard }}{% endif %}" />
+	</div>
+	<div class="fieldset">
+		<div class="fieldrow">
+			{{ form.username|form_field }}
+			{{ form.password|form_field }}
+		</div>
+	</div>
+	<div class="buttonset">
+		<ul class="a-left f-left">
+			{% url webcms.module.store.apps.registration/webcms_store_register_contact as webcms_store_register_contact %}
+			{% if webcms_store_register_contact %}
+			<li><a href="{{ webcms_store_register_contact }}">{% trans "New Registration" %}</a></li>
+			{% endif %}
+			<li><a href="{% url webcms.module.store.apps.auth/webcms_store_password_reset %}">{% trans "Forgotten Password" %}</a></li>
+		</ul>
+		<p class="required">* {% trans "Required fields" %}</p>
+		{% form_button "submit" "Log In" %}
+	</div>
+</form>
+{% endblock %}

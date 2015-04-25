@@ -1,0 +1,223 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block object-tools %}
+<li><a href="{% url webcms_admin:product_product_changelist %}">{% trans "Product catalog" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}
+
+{% block title %}{% trans "Product Import" %}{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Product Import" %}</h2>
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript" src="/media/lib/swfupload/2.2/js/swfupload.js"></script>
+<script type="text/javascript" src="/media/lib/swfupload/2.2/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/media/lib/swfupload/2.2/js/swfupload.swfobject.js"></script>
+<script type="text/javascript" src="/media/lib/webcms/js/utils.js"></script>
+<script type="text/javascript" src="/media/lib/webcms/js/handlers.js"></script>
+<div class="admin-form-tabs">
+	<div class="span-6">
+		<h3>{% trans "Select import page" %}</h3>
+		<ul>
+			{% if report %}
+			<li><a href="#report">{% trans "Import Report" %}</a></li>
+			{% endif %}
+			<li><a href="#data_product">{% trans "Product Import" %}</a></li>
+			{% comment %}
+			{% if import_price %}
+			<li><a href="#data_product_price">{% trans "Product Prices Import" %}</a></li>
+			{% endif %}
+			{% endcomment %}
+			<li><a href="#data_product_image">{% trans "Product Images Import" %}</a></li>
+		</ul>
+	</div>
+	<div class="span-18 last">
+		<div class="tabs-container">
+			{% if report %}
+			<div id="report">
+				<h2>{% trans "Import Report" %}</h2>
+				{{ report }}
+			</div>
+			{% endif %}
+			<div id="data_product_image">
+				<h2>{% trans "Product Images Import" %}</h2>
+				<form enctype="multipart/form-data" method="post" action="{% url webcms_store_import_product_image %}" class="media-upload-form type-form validate" id="file-form">
+					<div id="media-upload-notice"></div>
+					<div id="media-upload-error"></div>
+					<div id="flash-upload-ui">
+						<div>{% trans "Choose images to upload" %}
+							<div id="flash-browse-button"></div><br />
+							<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="Cancel Upload" class="button" /></span>
+						</div>
+						<p class="upload-flash-bypass">{% trans "You are using the Flash uploader." %} {% trans "Problems?" %} {% trans "Try the:" %} <a href=".?flash=0">{% trans "Browser uploader" %}</a> {% trans "instead" %}.</p>
+						<p class="howto">{% trans "After a file has been uploaded, you can see the status of uploaded file." %}</p>
+					</div>
+					<div id="html-upload-ui" style="display:none;">
+						<p id="async-upload-wrap">
+							<label class="screen-reader-text" for="async-upload">{% trans "Upload" %}</label>
+							<input type="file" name="async-upload" id="async-upload" />
+							<input type="submit" class="button" name="html-upload" value="Upload" />
+							<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;">{% trans "Cancel" %}</a>
+						</p>
+						<div class="clear"></div>
+						<p class="upload-html-bypass">{% trans "You are using the Browser uploader." %} Try the <a href=".?flash=1">Flash uploader</a> instead.</p>
+					</div>
+					<script type="text/javascript">
+					jQuery(function($){
+						var preloaded = $(".media-item.preloaded");
+						if ( preloaded.length > 0 ) {
+							preloaded.each(function(){prepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
+						}
+	//					updateMediaForm();
+						post_id = 0;
+						shortform = 1;
+					});
+					</script>
+					<input type="hidden" name="post_id" id="post_id" value="0" />
+					<div id="media-items"> </div>
+				</form>
+			</div>
+			{% comment %}
+			{% if import_price %}
+			<div id="data_product_price">
+				<h2>{% trans "Product Prices Import" %}</h2>
+				<form method="post" action="." enctype="multipart/form-data" class="form">
+					{% csrf_token %}
+					<div class="fieldset">
+						<input id="id_type" type="hidden" value="price" name="type" />
+						{{ product_price_form.format|form_field }}
+						{{ product_price_form.file|form_field }}
+					</div>
+					<div class="admin-form-buttons">
+						<p class="required">* {% trans "Required fields" %}</p>
+						<button type="submit">{% trans 'Start the import' %}</button>
+					</div>
+				</form>
+			</div>
+			{% endif %}
+			{% endcomment %}
+			<div id="data_product">
+				<h2>{% trans "Product Import" %}</h2>
+				<form method="post" action="." enctype="multipart/form-data" class="form">
+					{% csrf_token %}
+					<div class="fieldset">
+						<input id="id_type" type="hidden" value="product" name="type" />
+						{{ product_form.format|form_field }}
+						{{ product_form.file|form_field }}
+					</div>
+					<div class="admin-form-buttons">
+						<p class="required">* {% trans "Required fields" %}</p>
+						<button type="submit">{% trans 'Start the import' %}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('.admin-form-tabs').tabs();
+	jQuery('#cancel-upload').button();
+});
+</script>
+<script type="text/javascript">
+//<![CDATA[
+var uploaderMode = 0;
+jQuery(document).ready(function($){
+	uploaderMode = getUserSetting('uploader');
+	$('.upload-html-bypass a').click(function(){
+		deleteUserSetting('uploader');
+		uploaderMode=0;swfuploadPreLoad();
+		return false;
+	});
+	$('.upload-flash-bypass a').click(function(){
+		setUserSetting('uploader', '1');
+		uploaderMode=1;
+		swfuploadPreLoad();
+		return false;
+	});
+});
+//]]>
+</script>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var swfuploadL10n = {
+	queue_limit_exceeded: "You have attempted to queue too many files.",
+	file_exceeds_size_limit: "This file is too big. The maximum upload size for your server is 8M.",
+	zero_byte_file: "This file is empty. Please try another.",
+	invalid_filetype: "This file type is not allowed. Please try another.",
+	default_error: "An error occurred in the upload. Please try again later.",
+	missing_upload_url: "There was a configuration error. Please contact the server administrator.",
+	upload_limit_exceeded: "You may only upload 1 file.",
+	http_error: "HTTP error.",
+	upload_failed: "Upload failed.",
+	io_error: "IO error.",
+	security_error: "Security error.",
+	file_cancelled: "File cancelled.",
+	upload_stopped: "Upload stopped.",
+	dismiss: "Dismiss",
+	crunching: "Crunching&hellip;",
+	deleted: "moved to the trash."
+};
+try{convertEntities(swfuploadL10n);}catch(e){};
+/* ]]> */
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var swfu;
+SWFUpload.onload = function() {
+	var settings = {
+		button_text: '<span class="button">Select images</span>',
+		button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,sans-serif; }',
+		button_height: "24",
+		button_width: "132",
+		button_text_top_padding: 2,
+		button_image_url: '/media/lib/swfupload/2.2/gfx/upload.png',
+		button_placeholder_id: "flash-browse-button",
+		upload_url : "{% url webcms_store_import_product_image %}",
+		flash_url : "/media/lib/swfupload/2.2/swf/swfupload.swf",
+		file_post_name: "file",
+		file_types: "*.jpg;*.png;*.gif",
+		post_params : {
+			"post_id" : "0",
+			"user_id" : "{{ request.user.id }}",
+			"async" : "yes"
+		},
+		file_size_limit : "8388608b",
+		file_dialog_start_handler : fileDialogStart,
+		file_queued_handler : fileQueued,
+		upload_start_handler : uploadStart,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadSuccess,
+		upload_complete_handler : uploadComplete,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		swfupload_pre_load_handler: swfuploadPreLoad,
+		swfupload_load_failed_handler: swfuploadLoadFailed,
+		custom_settings : {
+			degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
+			swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
+		},
+		debug: false
+	};
+	swfu = new SWFUpload(settings);
+};
+//]]>
+</script>
+
+<style type="text/css">
+#wpbody-content .filename { width:600px; }
+.media-item { position:relative; }
+.describe-toggle-on, .describe-toggle-off { position:absolute; top:0; right:0; }
+</style>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+<ul class="vertical">
+{% for root in brand_list %}
+	{% url webcms.module.store.apps.brand/webcms_store_brand root.slug as brand_url %}
+	<li {% if brand_current.id == root.id %}class="active"{% endif %}>
+		<a {% if forloop.last %}class="last"{% endif %} href="{{ brand_url }}">{{ root.translation.name|capfirst }}</a>
+	</li>
+{% endfor %}
+</ul>

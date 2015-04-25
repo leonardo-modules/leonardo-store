@@ -1,0 +1,20 @@
+{% extends "email/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<p>{% trans "Dear customer" %}</p>
+
+Váš známý {{ name }} se domnívá, že Vás bude zajímat zboží {{ product.name }} z e-shopu www.staviva.cz{% if text %} a posílá Vám následující vzkaz:
+
+{{ text }}{% else %}.{% endif %}
+
+<p>{% trans "You can set new password at the following link:" %} 
+ 
+Pro zobrazení detailu zboží klikněte na odkaz: <a href="{{ protocol }}://{{ domain }}{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">{% trans "Link to product" %}</a></p>
+
+<p>{% trans "We believe you'll be interested in our offer." %}</p>
+
+<p>{% trans "With regards" %},<br />
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+{% endblock %}

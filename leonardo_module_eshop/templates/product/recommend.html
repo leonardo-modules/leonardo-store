@@ -1,0 +1,55 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block head_title %}
+{% trans "Recommend product" %} {{ product.translated_name }}
+{% endblock %}
+
+
+{% block page_title %}
+{% trans "Recommend product" %} {{ product.translated_name }}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% if product.category.all.0.parent %}
+{% with product.category.all.0.parent as cat %}
+<li><a href="{% url webcms.module.store.apps.category/webcms_store_category cat.slug %}">{{ cat.translated_name }}</a></li>
+{% endwith %}
+{% endif %}
+{% if product.category.all.0 %}
+{% with product.category.all.0 as cat %}
+<li><a href="{% url webcms.module.store.apps.category/webcms_store_category cat.slug %}">{{ cat.translated_name }}</a></li>
+{% endwith %}
+{% endif %}
+<li><strong>{{ product.translated_name }}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if sent %}
+<p class="success">{% trans "E-mail with link to the product was successfuly sent." %}</p>
+<div class="buttonset">
+	<a class="f-left link" href="{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">{% trans "Back" %}</a>
+</div>
+{% else %}
+<form method="post" action="." class="form">
+	{% csrf_token %}
+	<div class="fieldset">
+		<div class="fieldrow">
+			{{ form.name|form_field }}
+			{{ form.sender|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.receiver|form_field }}
+		</div>
+		{{ form.contents|form_field }}
+	</div>
+	<div class="buttonset">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<a class="f-left link" href="{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">{% trans "Back" %}</a>
+		{% form_button "submit" "Send" %}
+	</div>
+</form>
+{% endif %}
+{% endblock %}

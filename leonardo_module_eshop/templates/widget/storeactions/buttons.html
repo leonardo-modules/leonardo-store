@@ -1,0 +1,19 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load normalize_decimal %}
+
+{% block content %}
+<ul class="{% if widget.inline %}horizontal{% else %}vertical{% endif %}">
+	<li><a class="button" href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}"><span><span>{% trans "My Account" %}</span></span></a></li>
+	<li><a class="button" href="{% url webcms.module.store.apps.cart/webcms_store_cart %}"><span><span>{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems|normalize_decimal }}){% endif %}</span></span></a></li>
+	{% if cart.numItems > 0 %}
+	<li><a class="button" href="{% url webcms.module.store.apps.payment/webcms_store_checkout_step1 %}"><span><span>{% trans "Check Out" %}</span></span></a></li>
+	{% endif %}
+	{% if request.user.is_authenticated %}
+	<li><a class="button" href="{% url webcms.module.store.apps.auth/webcms_store_logout %}"><span><span>{% trans "Log Out" %}</span></span></a></li>
+	{% else %}
+	<li><a class="button" href="{% url webcms.module.store.apps.auth/webcms_store_login %}"><span><span>{% trans "Log In" %}</span></span></a></li>
+	{% endif %}
+</ul>
+{% endblock %}

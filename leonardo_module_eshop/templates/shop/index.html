@@ -1,0 +1,24 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_store_tags %}
+
+{% block head_title %}
+{% trans "Featured Items" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Featured Items" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Featured Items" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if all_products_list %}
+{% product_list 'queryset' all_products_list 'grid_4' '8' 'short' %}
+{% else %}
+<p>{% trans "No featured products to display." %}</p>
+{% endif %}
+{% endblock %}

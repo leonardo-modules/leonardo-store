@@ -1,0 +1,25 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_order %}
+
+{% block head_title %}
+{% trans "Order Tracking" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Order Tracking" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a></li>
+<li><a href="{% url webcms.module.store.apps.accounts/webcms_store_order_list %}">{% trans "Order History" %}</a></li>
+<li><strong>{% trans "Order Tracking" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% order_tracking_details order "true" default_view_tax %}
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.accounts/webcms_store_order_list %}">{% trans "Order History" %}</a>
+</div>
+{% endblock %}

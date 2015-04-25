@@ -1,0 +1,23 @@
+{% extends "shop/checkout/base_pay_ship.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block payment_table %}
+<div class="fieldset">
+	<h3>{% trans "Payment Information" %}</h3>
+	{% if not PAYMENT_LIVE %}
+	<p>Use <strong>Visa</strong> and <strong>4111111111111111</strong> for Credit card number.<br/>
+	<strong>Any future date</strong> for expiration and <strong>any 3 digit</strong> CCV.</p>
+	{% endif %}
+	<div class="fieldrow">
+		{{ form.credit_type|form_field:"label=Type of credit card" }}
+		{{ form.credit_number|form_field:"label=Credit card number" }}
+	</div>
+	<div class="fieldrow">
+		{{ form.year_expires|form_field:"label=Expiration date" }}
+		{{ form.month_expires|form_field:"label=Expiration date" }}
+	</div>
+	{{ form.ccv|form_field:"label=CCV" }}
+</div>
+{% endblock %}

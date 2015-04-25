@@ -1,0 +1,38 @@
+{% extends "widget/base.html" %}
+
+{% load satchmo_google %}
+{% load i18n %}
+
+{% block head_title %}
+{% trans "New Registration" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "New Registration" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "New Registration" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+<p class="success">
+	{% trans "Thank you for signing up." %}
+	{% if verify %}{% trans "An activation link has been sent to the email address you supplied, along with instructions for activating your account." %}{% endif %}
+</p>
+{% if not verify %}
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.auth/webcms_store_login %}">{% trans 'Log In' %}</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block google-tracker %}
+{% if shop.options.GOOGLE.ANALYTICS.value %}
+{% show_tracker is_secure %}
+{% google_track_signup %}
+{% endif %}
+{% if shop.options.GOOGLE.ADWORDS.value %}
+{% google_adwords_signup %}
+{% endif %}
+{% endblock %}

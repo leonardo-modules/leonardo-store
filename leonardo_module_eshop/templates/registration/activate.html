@@ -1,0 +1,39 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_google %}
+{% load webcms_form_tags %}
+{% load webcms_store_tags %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Account Activation" %}</strong></li>
+{% endblock %}
+
+{% block head_title %}
+{% trans "Account Activation" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Account Activation" %}
+{% endblock %}
+
+{% block content %}
+{% if account %}
+<p class="success">{% trans "Thanks for signing up!" %}
+	{% if request.user.is_authenticated %}
+	{% trans "You are now logged in." %}
+	{% else %}
+	{% trans "You may now log in." %}
+	{% endif %}
+</p>
+{% else %}
+<p class="alert">{% blocktrans %}Either your activation link was incorrect, or the activation key for your account has expired. Activation keys are only valid for {{ expiration_days }} days after registration.{% endblocktrans %}</p>
+{% endif %}
+<div class="buttonset">
+	{% if request.user.is_authenticated %}
+	<a class="link" href="{% get_last_url request %}">{% trans "Start Shopping" %}</a>
+	{% else %}
+	<a class="link" href="{% url webcms.module.store.apps.auth/webcms_store_login %}">{% trans "Log In" %}</a>
+	{% endif %}
+</div>
+{% endblock %}

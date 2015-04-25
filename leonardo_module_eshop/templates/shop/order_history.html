@@ -1,0 +1,54 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load normalize_decimal %}
+
+{% block head_title %}
+{% trans "My Account" %} &rsaquo; {% trans "Order History" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Order History" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a></li>
+<li><strong>{% trans "Order History" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if orders %}
+<table class="table clear">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>{% trans 'Status' %}</th>
+			<th>{% trans 'Date' %}</th>
+			<th>{% trans 'Items' %}</th>
+			<th class="a-right">{% trans 'Order total' %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order in orders %}
+		<tr class="{% cycle normal,alt %}">
+			<td><a href="{% url webcms.module.store.apps.accounts/webcms_store_order_detail order.id %}">{{ order.id }}</a></td>
+			<td>{{ order.get_status_display }}</td>
+			<td>{{ order.time_stamp|date:"j. F Y" }}</td>
+			<td>
+				{% for item in order.orderitem_set.all %}
+				{{ item.quantity|normalize_decimal }} &times; {{ item.product.translated_name }}{% if not forloop.last %}<br />{% endif %}
+				{% endfor %}
+			</td>
+			<td class="a-right">{{ order.total|currency }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p class="notice">{% trans "You haven't made any orders yet." %}</p>
+{% endif %}
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a>
+</div>
+{% endblock %}

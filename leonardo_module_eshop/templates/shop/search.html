@@ -1,0 +1,57 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+
+{% block head_title %}
+{% trans "Store search" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Store search" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Store search" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{{ length_ok }}
+<h3>{% trans "Searched Keywords" %}</h3>
+<p>{{ keywords|join:", " }}</p>
+{% if not results.categories and not results.products %}
+<p class="warning">{% trans "Nothing found!" %}</p>
+{% else %}
+{% if category %}
+{% with results.categories.0.translated_name as category_name %}
+<h4>{% blocktrans %}Search results for {{ category_name }} products{% endblocktrans %}</h4>
+{% endwith %}
+{% else %}
+{% if results.categories %}
+<h3>{% trans "Found categories" %}</h3>
+<ul>
+{% for category in results.categories %}
+	{% url webcms.module.store.apps.category/webcms_store_category category.slug as category_url %}
+	{% ifchanged %}<li><a href="{{ category_url }}">{{ category.translated_name }}</a></li>{% endifchanged %}
+{% endfor %}
+</ul>
+{% endif %}
+{% endif %}
+{% if results.products %}
+{% if not category %}
+<h3>{% trans "Found products" %}</h3>
+{% endif %}
+<ul>
+{% for product in results.products %}
+	{% url webcms.module.store.apps.products/webcms_store_product product.slug as product_url %}
+	<li><a href="{{ product_url }}">{{ product.translated_name }}</a> {% trans "for" %} {{ product|discount_price:sale|currency}}</li>
+{% endfor %}
+</ul>
+{% else %}
+{% if category %}
+<p class="warning">{% trans "Nothing found!" %}</p>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

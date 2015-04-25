@@ -1,0 +1,33 @@
+{% extends "email/base.html" %}
+
+{% load i18n %}
+{% load config_tags %}
+{% load webcms_store_tags %}
+
+{% block title %}{% trans "New Registration" %}{% endblock %}
+
+{% block content %}
+<p>{% trans "Dear customer," %}</p>
+{% with shop_config.store_name as shop_name %}
+<p>{% blocktrans %}Thank you for signing up with our store.{% endblocktrans %}</p>
+{% endwith %}
+<table class="innerTable">
+	<tr>
+		<td>{% trans "Username" %}:</td>
+		<td>{% if "SHOP.ALLOW_NICKNAME_USERNAME"|config_boolean %}{{ user.username }}{% else %}{{ user.email }}{% endif %}</td>
+	</tr>
+	{% if password %}
+	<tr>
+		<td>{% trans "Password" %}:</td>
+		<td>{{ password }}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td>{% trans "Login link" %}:</td>
+		<td><a href="http://{{ site_url }}{{ login_url }}">http://{{ site_url }}{{ login_url }}</a></td>
+	</tr>
+</table>
+{% with shop_config.store_email as shop_email %}
+<p>{% trans "If you have problems with login, contact us at" %} <a href="mailto:{% webcms_store_email %}">{% webcms_store_email %}</a>.</p>
+{% endwith %}
+{% endblock %}

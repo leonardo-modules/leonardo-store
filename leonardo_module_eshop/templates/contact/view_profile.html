@@ -1,0 +1,96 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_contact %}
+{% load satchmo_currency %}
+{% load normalize_decimal %}
+
+{% block head_title %}
+{% trans "My Account" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "My Account" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "My Account" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if user_data %}
+{% url webcms.module.store.apps.accounts/webcms_store_account_update as account_update %}
+{% url webcms.module.store.apps.accounts/webcms_store_password_change as password_change %}
+{% url webcms.module.store.apps.accounts/webcms_store_order_list as order_list %}
+{% url webcms.module.store.apps.wishlist/webcms_store_wishlist as wishlist %}
+<div class="span-24 ui-helper-clearfix">
+	<div class="span-8">
+		<h3>{% trans "Personal Information" %}</h3>
+		<ul>
+			<li>{% trans "Full name" %}: <strong>{{ user_data.full_name }}</strong></li>
+			<li>E-mail: <strong>{{ user_data.email }}</strong></li>
+			<li>{% trans 'Telephone' %}: <strong>{{ user_data.primary_phone.phone }}</strong></li>
+			{% if show_newsletter %}
+			<li>{% trans 'Newsletter' %}: {% if newsletter %}{% trans 'Yes' %}{% else %}{% trans 'No' %}{% endif %}</li>
+			{% endif %}
+		</ul>
+		<h3>{% trans "Business Information" %}</h3>
+	</div>
+	<div class="span-8">
+		<h3>{% trans 'Billing Address'%}</h3>
+		{% addressblock user_data.billing_address %}
+		<h3>{% trans 'Shipping Address'%}</h3>
+		{% addressblock user_data.shipping_address %}
+	</div>
+	<div class="span-8 last">
+		<h3>{% trans "Account Settings" %}</h3>
+		<ul>
+			<li><a href="{{ account_update }}">{% trans "Change Account Information" %}</a></li>
+			<li><a href="{{ password_change }}">{% trans "Change Password" %}</a></li>
+			{% if wishlist %}
+			<li><a href="{{ wishlist }}">{% trans "Favorite Items" %}</a></li>
+			{% endif %}
+			<li><a href="{{ order_list }}">{% trans "Order History" %}</a></li>
+		</ul>
+	</div>
+</div>
+{% if user_data.order_set.count > 0 %}
+<div class="span-24">
+	<h3>{% trans 'Recent Orders'%}</h3>
+	<table class="table clear">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>{% trans 'Status' %}</th>
+				<th>{% trans 'Date' %}</th>
+				<th>{% trans 'Items' %}</th>
+				<th class="a-right">{% trans 'Order total' %}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in user_data.order_set.all %}
+			{% if forloop.counter < 4 %}
+			<tr class="{% cycle normal,alt %}">
+				<td><a href="{% url webcms.module.store.apps.accounts/webcms_store_order_detail order.id %}">{{ order.id }}</a></td>
+				<td>{{ order.get_status_display }}</td>
+				<td>{{ order.time_stamp|date:"F jS Y H:i" }}</td>
+				<td>
+					{% for item in order.orderitem_set.all %}
+					{{ item.quantity|normalize_decimal }} &times; {{ item.product.translated_name }}{% if not forloop.last %}<br />{% endif %}
+					{% endfor %}
+				</td>
+				<td class="a-right">{{ order.total|currency }}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}
+{% else %}
+<p class="notice">{% trans "Sorry, the user you've logged in as doesn't have any contact information." %}{% if request.user.is_staff %} {% trans 'Probably because you are an admin.' %}{% endif %}</p>
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.accounts/webcms_store_account_update %}">{% trans 'Setup Account Information' %} »</a>
+</div>
+{% endif %}
+{% endblock %}

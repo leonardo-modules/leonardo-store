@@ -1,0 +1,54 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block page_title %}
+{% trans "Shipping Method" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Shipping Method" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% comment %}
+{% if not PAYMENT_LIVE %}
+<p class="notice">{% trans "Payment process is in the test mode." %}</p>
+{% endif %}
+{% endcomment %}
+<form method="post" action="." class="form">
+	{% csrf_token %}
+
+	{% block payment_table %}
+	{# put your payment module specific rows here.  For example, CC number. #}
+	{% endblock %}
+
+	{% if cart.is_shippable %}
+	{% if form.shipping_hidden %}
+	<div class="hidden">
+		{{ form.shipping }}
+	</div>
+	{% else %}
+	<div class="fieldset">
+		<h3>{% trans "Shipping Information" %}</h3>
+		{% block shipping_table %}
+		{{ form.shipping|form_field }}
+		{% if form.shipping_description %}<p>{{ form.shipping_description }}</p>{% endif %}
+		{% endblock %}
+	</div>
+	{% endif %}
+	{% else %}
+	<p>{% trans "There are no items in this order to ship." %}</p>
+	{{ form.shipping }}
+	{% endif %}
+
+	{% if form.shipping.field.choices|length_is:0 and cart.is_shippable %}
+	<p>{% blocktrans %}No valid shipping method is available. Please verify that your address is correct.{% endblocktrans %}</p>
+	{% else %}
+	<div class="buttonset">
+		{% form_button "submit" "Order Overview" %}
+	</div>
+	{% endif %}
+</form>
+{% endblock %}

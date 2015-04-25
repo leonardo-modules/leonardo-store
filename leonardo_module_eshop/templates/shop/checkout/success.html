@@ -1,0 +1,37 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_order %}
+{% load satchmo_google %}
+{% load webcms_form_tags %}
+{% load webcms_store_tags %}
+
+{% block head_title %}
+{% trans "Thank you for your order!" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Thank you for your order!" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Checkout Success" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+<p class="success">{% trans "Please print out this page as a receipt." %} {% trans "You will also receive an email with this information." %}</p>
+{% order_tracking_details order %}
+<div class="buttonset">
+	<a class="link" href="{% get_last_url request %}">{% trans "Continue Shopping" %}</a>
+</div>
+{% endblock %}
+
+{% block google-tracker %}
+{% if shop.options.GOOGLE.ANALYTICS.value %}
+{% show_tracker %}
+{% show_receipt %}
+{% endif %}
+{% if shop.options.GOOGLE.ADWORDS.value %}
+{% google_adwords_sale %}
+{% endif %}
+{% endblock %}

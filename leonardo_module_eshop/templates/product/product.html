@@ -1,0 +1,253 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load thumbnail %}
+{% load applicationcontent_tags %}
+{% load normalize_decimal %}
+{% load satchmo_price %}
+{% load satchmo_currency %}
+{% load satchmo_category %}
+{% load satchmo_util %}
+{% load satchmo_discounts %}
+{% load webcms_form_tags %}
+{% load webcms_store_tags %}
+
+{% block current_category %}{{ product.category.all.0.id }}{% endblock %}
+{% block current_product %}{{ product.id }}{% endblock %}
+
+{% if product.meta %}
+{% block extra_meta %}
+{{ product.meta|escape }}
+{% endblock %}
+{% endif %}
+
+{% block head_title %}
+{{ product.translated_name }}
+{% endblock %}
+
+{% block page_title %}
+{{ product.translated_name }}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% if product.category.all.0.parent %}
+{% with product.category.all.0.parent as cat %}
+<li><a href="{% url webcms.module.store.apps.category/webcms_store_category cat.slug %}">{{ cat.translated_name }}</a></li>
+{% endwith %}
+{% endif %}
+{% if product.category.all.0 %}
+{% with product.category.all.0 as cat %}
+<li><a href="{% url webcms.module.store.apps.category/webcms_store_category cat.slug %}">{{ cat.translated_name }}</a></li>
+{% endwith %}
+{% endif %}
+<li><strong>{{ product.translated_name }}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% endif %}
+<div class="span-24 ui-helper-clearfix product_detail">
+	<div class="object-image">
+		{% if product.productimage_set.count > 0 %}
+		{% thumbnail product.main_image.picture "300x300" format="PNG" as thumb %}
+		{% thumbnail product.main_image.picture "800x800" format="PNG" as image %}
+		<a href="{{ image.url }}" rel="product_images" title="{{ product.main_image.caption }}"><img alt="{{ product.translated_name }}" src="{{ thumb.url }}" /></a>
+		{% endthumbnail %}
+		{% endthumbnail %}
+		{% else %}
+		{% thumbnail request.webcms_options.no_image "300x300" crop="center" format="PNG" as image %}
+		<img alt="{{ product.translated_name }}" src="{{ image.url }}" />
+		{% endthumbnail %}
+		{% endif %}
+		{% if product.productimage_set.count > 1 %}
+		<h3>{% trans "More views" %}</h3>
+		{% for pic in product.productimage_set.all %}
+		{% if not forloop.first %}
+		{% thumbnail pic.picture "80x80" crop="center" format="PNG" as thumb %}
+		{% thumbnail pic.picture "800x800" format="PNG" as image %}
+		<a href="{{ image.url }}" rel="product_images" title="{{ pic.caption }}"><img alt="{{ product.translated_name }}" src="{{ thumb.url }}" /></a>
+		{% endthumbnail %}
+		{% endthumbnail %}
+		{% endif %}
+		{% endfor %}
+		{% endif %}
+	</div>
+	<div class="object-box">
+		{% block productdetail %}
+		<h2>{{ product.translated_name }}</h2>
+		<form class="form" action="{% url webcms.module.store.apps.cart/webcms_store_cart_item_add product.id %}" method="post">
+			{% csrf_token %}
+			<div class="product_detail_base_attrs">
+				<ul>
+					{% if product.ext.delivery %}
+					<li>{% trans "Availability" %}: <strong>{{ product.ext.get_delivery_display }}</strong></li>
+					{% endif %}
+					{% if product.sku %}
+					<li>{% trans "Product Code" %}: <strong>{{ product.sku }}</strong></li>
+					{% endif %}
+					<li>{% trans "Product Brand" %}: {% for brand in product.brand_set.all %}
+						{% url webcms.module.store.apps.brand/webcms_store_brand brand.slug as webcms_store_brand %}
+						<strong><a href="{{ webcms_store_brand }}">{{ brand }}</a></strong>{% endfor %}
+					</li>
+				</ul>
+			</div>
+			<div class="product_detail_actions">
+				<ul>
+					<li><a id="product_recommend" href="{% url webcms.module.store.apps.products/webcms_store_product_recommend product.slug %}">{% trans "Recommend product" %}</a></li>
+					{% url webcms.module.store.apps.wishlist/webcms_store_wishlist_add product.id as webcms_store_wishlist_add %}
+					{% if webcms_store_wishlist_add %}
+					<li><a id="product_favourite" href="{{ webcms_store_wishlist_add }}">{% trans "Add to wishlist" %}</a></li>
+					{% endif %}
+					<li><a id="product_print" href="#">{% trans "Print product" %}</a></li>
+				</ul>
+			</div>
+			{% if product.translated_short_description %}
+			<h3>{% trans "Quick Overview" %}</h3>
+			{{ product.translated_short_description }}
+			{% endif %}
+			<div class="product_detail_buy ui-helper-clearfix">
+				<div class="product_detail_price">
+					{% trans "Price" %} {% if default_view_tax %} {% trans 'incl. tax' %}{% endif %}:
+					<span class="price" id="price">{{ product|discount_price:sale|currency }}</span>
+				</div>
+				<div class="product_detail_quantity">
+					{% trans "Quantity" %}:
+					<input type="hidden" name="productname" id="productname" value="{{product.slug}}" />
+					<input type="text" size="5" name="quantity" id="quantity" value="1" class="priced" />
+				</div>
+				{% form_button "submit" "Add to Cart" %}
+			</div>
+		</form>
+		{% endblock %}
+	</div>
+</div>
+{% if product.translated_description or product.productattribute_set.count > 0 or product.height or product.weight or product.width or product.productfile_set.count > 0 or product.related_items.count > 0 or product.also_purchased.count > 0 %}
+<div class="object-tabs" style="clear:both;">
+	<ul>
+		{% if product.translated_description %}
+		<li><a href="#description">{% trans "Product Description" %}</a></li>
+		{% endif %}
+		{% if product.productattribute_set.count > 0 %}
+		<li><a href="#attrs">{% trans "Additional Information" %}</a></li>
+		{% endif %}
+		{% if product.height or product.weight or product.width %}
+		<li><a href="#dimensions">{% trans "Dimensions" %}</a></li>
+		{% endif %}
+		{% if product.productfile_set.count > 0 %}
+		<li><a href="#files">{% trans "Download Files" %}</a></li>
+		{% endif %}
+		{% if product.related_items.count > 0 %}
+		<li><a href="#upsell">{% trans "We Recommend" %}</a></li>
+		{% endif %}
+		{% if product.also_purchased.count > 0 %}
+		<li><a href="#crosssell">{% trans "Also Puchased" %}</a></li>
+		{% endif %}
+	</ul>
+	{% if product.also_purchased.count > 0 %}
+	<div id="crosssell">
+		<p><strong>{% trans "Other customers also bought following product(s)" %}:</strong></p>
+		<div class="ui-helper-clearfix">
+			{% product_list 'queryset' product.also_purchased.all 'grid_4' '8' 'short' %}
+		</div>
+	</div>
+	{% endif %}
+	{% if product.related_items.count > 0 %}
+	<div id="upsell">
+		<p><strong>{% trans "You may also be interested in the following product(s)" %}:</strong></p>
+		<div class="ui-helper-clearfix">
+			{% product_list 'queryset' product.related_items.all 'grid_4' '8' 'short' %}
+		</div>
+	</div>
+	{% endif %}
+	{% if product.height or product.weight or product.width %}
+	<div id="dimensions">
+		<table>
+			<col width="25%">
+			<col>
+			<thead>
+				<tr>
+					<th>{% trans "Attribute" %}</th>
+					<th>{% trans "Value" %}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if product.height %}
+				<tr>
+					<th>{% trans "Height" %}</th>
+					<td>{{ product.height|normalize_decimal }} {{ product.height_units }}</td>
+				</tr>
+				{% endif %}
+				{% if product.width %}
+				<tr>
+					<th>{% trans "Width" %}</th>
+					<td>{{ product.width|normalize_decimal }} {{ product.width_units }}</td>
+				</tr>
+				{% endif %}
+				{% if product.length %}
+				<tr>
+					<th>{% trans "Length" %}</th>
+					<td>{{ product.length|normalize_decimal }} {{ product.length_units }}</td>
+				</tr>
+				{% endif %}
+				{% if product.weight %}
+				<tr>
+					<th>{% trans "Weight" %}</th>
+					<td>{{ product.weight|normalize_decimal }} {{ product.weight_units }}</td>
+				</tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+	{% endif %}
+	{% if product.translated_description %}
+	<div id="description">
+		{{ product.translated_description }}
+	</div>
+	{% endif %}
+	{% with product.translated_attributes as atts %}
+	{% if atts %}
+	<div id="attrs">
+		<table>
+			<col width="25%">
+			<col>
+			<thead>
+				<th>{% trans "Attribute" %}</th>
+				<th>{% trans "Value" %}</th>
+			</thead>
+			<tbody>
+				{% for att in product.translated_attributes %}
+				<tr>
+					<th>{{ att.description }}</th>
+					<td>{{ att.value }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{% endif %}
+	{% endwith %}
+</div>
+{% endif %}
+{% if sale %}
+{% include "product/product_discount_eligible.html" %}
+{% endif %}
+<script type="text/javascript">
+/* <![CDATA[ */
+jQuery(document).ready(function() {
+	jQuery(".object-tabs").tabs();
+	jQuery("a[rel='product_images']").colorbox({
+		current: "{% trans 'photo {current} of {total}' %}",
+		previous: "{% trans 'previous' %}",
+		next: "{% trans 'next' %}",
+		close: "{% trans 'close' %}"
+	});
+	jQuery("#product_print").bind('click', function() {
+		window.print();
+		return false;
+	});
+});
+/* ]]> */
+</script>
+{% set_last_url request %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_order %}
+{% load webcms_form_tags %}
+
+
+{% block head_title %}
+{% trans "Order Overview" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Order Overview" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Order Overview" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% comment %}
+{% if not PAYMENT_LIVE %}
+<p class="notice">{% trans "Payment process is in the test mode." %}</p>
+{% endif %}
+{% endcomment %}
+{% block error_processing %}
+{% if errors %}
+<div class="error">
+	<p>{% trans "The following error was returned while trying to process your payment. Please correct and resubmit." %}</p>
+	<p>{{ errors }}</p>
+</div>
+{% else %}
+<p>{% trans "Please validate the following information, then submit your order." %}</p>
+{% endif %}
+{% endblock %}
+{% block order_details %}
+{% order_details order default_view_tax %}
+{% endblock %}
+{% block payment_display %}
+{% endblock %}
+{% block payment_form %}
+<form method="post" action=".">
+	{% csrf_token %}
+	<div class="buttonset">
+		{% form_button "submit" "Confirm Order" %}
+		<input type="hidden" name="Process" value="True">
+	</div>
+</form>
+{% endblock %}
+{% endblock %}

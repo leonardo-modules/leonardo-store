@@ -1,0 +1,17 @@
+{% load i18n satchmo_order leonardo_tags leonardo_admin_tags %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="{{ LANGUAGE_CODE }}">
+	<head>
+		<title>{% trans 'Detail of order #' %} {{ order.id }}</title>
+		{% link_asset "wp-admin" "2.9" "css" "global,wp-admin,thickbox" %}
+		{% link_asset "jquery-ui" "1.7.2" "css" "base/jquery-ui" %}
+		{% link_asset "wp-admin" "2.9" "css" "colors-fresh" %}
+		{% link_asset "htfs" "3.2" "css" "core,admin" %}
+		<meta name="robots" content="NONE,NOARCHIVE" />
+	</head>
+	<body class="is_popup" style="height:auto;">
+		<div style="width:800px; padding:20px 60px;">
+			{% order_tracking_details order "False" default_view_tax %}
+		</div>
+		<br style="clear: both;" />
+	</body>
+</html>

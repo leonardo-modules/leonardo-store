@@ -1,0 +1,12 @@
+Váš známý {{ name }} se domnívá, že Vás bude zajímat zboží {{ product.name }} z e-shopu www.staviva.cz{% if text %} a posílá Vám následující vzkaz:
+
+{{ text }}{% else %}.{% endif %}
+ 
+Pro zobrazení detailu zboží klikněte na odkaz: http://shop.staviva.cz/{{ product.get_absolute_url }}
+
+Věříme, že Vás naše nabídka zaujme.
+
+
+S pozdravem
+
+Tým Staviva.cz

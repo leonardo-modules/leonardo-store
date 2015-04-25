@@ -1,0 +1,56 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block object-tools %}
+<li><a href="{% url webcms_admin:contact_contact_changelist %}">{% trans "Customer list" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}
+
+{% block title %}{% trans "Create new Customer" %}{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Create new Customer" %}</h2>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="." class="form">
+	{% if saved %}
+	<p class="success">{% trans "Customer successfuly created." %}</p>
+	<div class="admin-form-buttons">
+		<a href=".">{% trans 'Add another' %}</a>
+	</div>
+	{% else %}
+	{% csrf_token %}
+	<div class="fieldset">
+		<div class="fieldrow">
+			{{ form.username|form_field }}
+			{{ form.password|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.first_name|form_field }}
+			{{ form.last_name|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.email|form_field }}
+			{{ form.phone|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.branch|form_field }}
+		</div>
+	</div>
+	<div class="admin-form-buttons">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<button type="submit">{% trans 'Submit' %}</button>
+	</div>
+	{% endif %}
+</form>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('.admin-form-tabs').tabs();
+	jQuery('.admin-form-buttons button, .admin-form-buttons a').button();
+});
+</script>
+{% endblock %}

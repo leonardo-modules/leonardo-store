@@ -1,0 +1,212 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load satchmo_adminorder_tags %}
+{% load satchmo_order %}
+
+{% load satchmo_currency %}
+{% load satchmo_checkout %}
+{% load satchmo_util %}
+{% load satchmo_tax %}
+{% load normalize_decimal %}
+
+{% load webcms_form_tags %}
+{% load webcms_store_tags %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script type="text/javascript">
+
+(function($) {
+	$(document).ready(function($) {
+		$(".object-tools a, .object-tools button, .admin-form-buttons button").button();
+		$('.admin-form-tabs').tabs();
+	});
+})(jQuery);
+
+</script>
+{% endblock %}
+
+{% block object-tools %}
+<li><a href="#" onclick="window.print(); return false;">{% trans 'Print order' %}</a></li>
+<li><a href="{% url webcms_store_admin_order_list %}">{% trans 'Close order' %}</a></li>
+{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Process Order" %} #{{ object.id }}</h2>
+{% endblock %}
+
+{% block content %}
+
+{% if object.orderstatus_set.all.count == 0 %}
+<div class="error">
+	<p>{% trans "This order has not been sent." %}</p>
+</div>
+{% else %}
+        
+<div class="admin-form-tabs">
+	<div class="span-6">
+		<h3>{% trans "Select information page" %}</h3>
+		<ul>
+			<li><a href="#status">{% trans "Order Status" %}</a></li>
+			<li><a href="#items">{% trans "Items Ordered" %}</a></li>
+			<li><a href="#details">{% trans "Order Details" %}</a></li>
+		</ul>
+	</div>
+	<div class="span-18">
+		<div id="status">
+			<form action="{% url webcms_store_admin_order_process object.id %}?update=status" method="post">
+				{% csrf_token %}
+				<div class="span-13 append-1">
+					<h3>{% trans "Order status history" %}</h3>
+					<table cellspacing="0" class="widefat">
+						<thead>
+							<tr>
+								<th>{% trans "Timestamp" %}</th>
+								<th>{% trans "Status" %}</th>
+								<th>{% trans "Note" %}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for status in object.orderstatus_set.all reversed %}
+							<tr class="{% cycle row1,row2 %}">
+								<th><strong>{{ status.time_stamp|date:"j. F Y H:i" }}</strong></th>
+								<td>{{ status.status|status_label }}</td>
+								<td>{% if status.notes %}{{ status.notes|safe }}{% else %}-{% endif %}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<h3>{% trans "Note on order" %}</h3>
+					<p>{{ object.notes|default:"-" }}</p>
+					{% if notes_form.branch %}
+					<h3>{% trans "Managing branch" %}</h3>
+                    <p>{% webcms_order_branch object %}</p>
+					{% endif %}
+				</div>
+				<div class="span-10 last">
+					<h3>{% trans "Change order status" %}</h3>
+					<div class="fieldset">
+						{{ status_form.status|form_field }}
+						{{ status_form.notes|form_field }}
+					</div>
+					{% if notes_form.branch %}
+					<h3>{% trans "Change managing branch" %}</h3>
+					<div class="fieldset">
+						{{ notes_form.branch|form_field }}
+					</div>
+					{% endif %}
+				</div>
+				<div class="admin-form-buttons span-24">
+					<button type="submit">{% trans 'Save changes' %}</button>
+				</div>
+			</form>
+		</div>
+		<div id="details">
+			<div class="span-12">
+				<h3>{% trans "Contact Information" %}</h3>
+				<p>
+					{% trans "Full name" %}: <strong>{{ object.contact.full_name }}</strong><br />
+					{% trans "E-mail" %}: <strong>{{ object.contact.email }}</strong><br />
+					{% trans "Phone" %}: <strong>{{ object.contact.primary_phone.phone }}</strong>
+				</p>
+
+				{% for company in order.contact.company.all %}
+				<h3>{% trans "Business Information" %}</h3>
+				<p>
+					Obchodní název: <strong>{{ company.name }}</strong><br />
+					IČO: <strong>{{ company.company_id }}</strong><br />
+					DIČ: <strong>{{ company.tax_id|default:"-" }}</strong>
+				</p>
+				{% endfor %}
+
+				<h3>{% trans "Payment Method" %}</h3>
+				<p>
+					{% for payment in object.payments.all %}{% if forloop.first %}{{ payment.payment|payment_label }}{% endif %}{% endfor %}
+				</p>
+
+				{% if object.shipping_method %}
+				<h3>{% trans "Shipping Method" %}</h3>
+				<p>{{ object.shipping_method }}
+				{% if object.shipping_method != object.shipping_description %}
+				<br />{{ object.shipping_description }}
+				{% endif %}
+				</p>
+				{% endif %}
+
+			</div>
+			<div class="span-12 last">
+				<h3>{% trans "Billing Address" %}</h3>
+				<p>
+					{{ object.full_bill_street|linebreaksbr }}<br/>
+					{{ object.bill_postal_code }}, {{ object.bill_city }}<br/>
+					{{ object.bill_country }}
+				</p>
+
+				{% if object.is_shippable %}
+				<h3>{% trans "Shipping Address" %}</h3>
+				<p>
+					{{ object.full_ship_street|linebreaksbr }}<br />
+					{{ object.ship_postal_code }}, {{ object.ship_city }}<br/>
+					{{ object.ship_country }}
+				</p>
+				{% endif %}
+			</div>
+		</div>
+		<div id="items">
+			<div class="span-24">
+				<h3>{% trans "Items Ordered" %}</h3>
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th>{% trans "Item SKU" %}</th>
+							<th>{% trans "Item name" %}</th>
+							<th class="a-right">{% trans "Unit price" %}</th>
+							<th class="a-right">{% trans "Unit VAT" %}</th>
+							<th class="a-center">{% trans "Qty" %}</th>
+							<th class="a-right">{% trans "Total" %} {% trans "exc. VAT" %}</th>
+							<th class="a-right">{% trans "Total VAT" %}</th>
+							<th class="a-right">{% trans "Total" %} {% trans "inc. VAT" %}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in object.orderitem_set.all %}
+						<tr class="{% cycle row1,row2 %}">
+							<th><a href="/admin/shop/product/product/{{ item.product.id }}/">{{ item.product.sku }}</a></th>
+							<td>{{ item }}</td>
+							<td class="a-right">{{ item.unit_price_with_tax|currency }}</td>
+							<td class="a-right">{{ item.unit_tax|currency }}</td>
+							<td class="a-center">{{ item.quantity }}</td>
+							<td class="a-right">{{ item.sub_total|currency }}</td>
+							<td class="a-right">{{ item.tax|currency }}</td>
+							<td class="a-right">{{ item.total_with_tax|currency }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td class="a-right" colspan="7">{% trans "Subtotal" %} {% trans "exc. VAT" %}:</td>
+							<td class="a-right">{{ object.sub_total|currency }}</td>
+						</tr>
+						<tr>
+							<td class="a-right" colspan="7">{% trans "VAT total" %}:</td>
+							<td class="a-right">{{ object.tax|currency }}</td>
+						</tr>
+						<tr>
+							<td class="a-right" colspan="7">{% trans "Subtotal" %} {% trans "inc. VAT" %}:</td>
+							<td class="a-right">{{ object.sub_total_with_tax|currency }}</td>
+						</tr>
+						<tr class="last">
+							<th class="a-right" colspan="7">{% trans "Total" %} {% trans "inc. VAT" %}:</th>
+							<th class="a-right">{{ object.total|currency }}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}

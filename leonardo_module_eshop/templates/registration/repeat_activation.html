@@ -1,0 +1,18 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Repeat Account Activation" %}</strong></li>
+{% endblock %}
+
+{% block page_title %}
+{% trans "Repeat Account Activation" %}
+{% endblock %}
+
+{% block content %}
+<p class="alert">{% trans "This account has already been activated. Please login." %}</p>
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.auth/webcms_store_login %}">« {% trans "Log In" %}</a>
+</div>
+{% endblock %}

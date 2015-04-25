@@ -1,0 +1,43 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block head_title %}
+{% trans "My Account" %} &rsaquo; {% trans "Contact Us" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Contact Us" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a></li>
+<li><strong>{% trans "Contact Us" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+<h3>{% blocktrans count form.errors|length as count %}Please correct the following error:{% plural %}Please correct the following errors:{% endblocktrans %}</h3>
+{% endif %}
+
+<form class="form" method="post" action=".">
+	{% csrf_token %}
+	<div class="fieldset">
+		<div class="fieldrow">
+			{{ form.name|form_field }}
+			{{ form.sender|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.subject|form_field }}
+			{{ form.inquiry|form_field }}
+		</div>
+		{{ form.contents|form_field }}
+	</div>
+	<div class="buttonset">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<a class="f-left link" href="{% url satchmo_account_info %}">{% trans "My Account" %}</a>
+		{% form_button "submit" "Send" %}
+	</div>
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %}
+
+{% load i18n %}
+{% load satchmo_product_admin %}
+
+{% block object-tools %}
+{% if has_add_permission %}
+<li><a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">{% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a></li>
+{% endif %}
+<li><a href="{% url webcms_store_import_category_data %}">{% trans "Import categories" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}

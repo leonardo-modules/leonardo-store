@@ -1,0 +1,35 @@
+{% extends "widget/base.html" %}
+
+{% load webcms_store_tags %}
+
+{% block content %}
+<div class="cycle-container">
+{% for product in widget.list.items.all %}
+	<div class="cycle-{{ forloop.counter }} cycle-item">
+		{% include "product/detail/cell.html" %}
+	</div>
+{% endfor %}
+</div>
+<script type="text/javascript">
+
+function stop_cycle() {
+	$("#{{ widget.fe_identifier }} .cycle-container").cycle('pause'); 
+}
+
+$(document).ready(function() {
+	$("#{{ widget.fe_identifier }} .cycle-container").cycle({
+		fx: 'fade',
+		speed: 'slow',
+//		pause: 1,
+		timeout: 3000,
+		pager: '#{{ widget.fe_identifier }}-controls'
+	});
+
+	$("#{{ widget.fe_identifier }} .cycle-item").bind('click', function() {
+		stop_cycle();
+	});
+
+});
+
+</script>
+{% endblock %}

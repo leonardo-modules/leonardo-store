@@ -1,0 +1,55 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load thumbnail %}
+{% load applicationcontent_tags %}
+{% load satchmo_category %}
+{% load webcms_store_tags %}
+
+{% block current_category %}{{ category.id }}{% endblock %}
+
+{% block extra_meta %}
+{% if category.meta %}{{ category.meta|escape }}{% endif %}
+{% endblock %}
+
+{% block head_title %}
+{% for parent in category.parents %}{{ parent.translated_name }} &rsaquo;{% endfor %} {{ category.translated_name }}
+{% endblock %}
+
+{% block page_title %}
+{{ category.translated_name }}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% for parent in category.parents %}
+<li><a href="{% url webcms.module.store.apps.category/webcms_store_category parent.slug %}">{{ parent.translated_name }}</a></li>
+{% endfor %}
+<li><strong>{{ category.translated_name }}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if category.main_image or category.translated_description %}
+<div class="object-detail category_detail ui-helper-clearfix">
+	{% if category.main_image %}
+	{% thumbnail category.main_image.picture "100x60" format="PNG" as image %}
+	<a class="object-image"><img src="{{ image.url }}" /></a>
+	{% endthumbnail %}
+	{% endif %}
+	{% if category.translated_description %}
+	<div class="object-text">{{ category.translated_description|safe }}</div>
+	{% endif %}
+</div>
+{% endif %}
+
+{% if child_categories %}
+{% include "product/child_categories.html" %}
+{% endif %}
+
+{% product_list 'category' category %}
+
+{% if sale %}
+{% include "product/some_discount_eligible.html" %}
+{% endif %}
+
+{% set_last_url request %}
+{% endblock %}

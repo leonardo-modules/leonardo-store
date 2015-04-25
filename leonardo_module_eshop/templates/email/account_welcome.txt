@@ -1,0 +1,11 @@
+{% load i18n %}{% blocktrans %}Dear {{ first_name }} {{ last_name }},{% endblocktrans %}
+
+{% with shop_config.domain.name as shop_name %}
+{% blocktrans %}Thank you for signing up with {{ shop_name }}.{% endblocktrans %}
+{% endwith %}
+
+{% blocktrans %}Your new username is this email address, and you can login at{% endblocktrans %} http://{{ site_url }}{{ login_url }}
+
+{% trans "Regards" %},
+
+{% trans "Store Management" %}

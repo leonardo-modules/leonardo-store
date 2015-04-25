@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>{% load i18n %}{% load satchmo_cart %}{% load satchmo_currency %}{% load satchmo_util %}{% load satchmo_product %}{% load satchmo_discounts %}{% load normalize_decimal %}{% load thumbnail %}
+<SHOP>
+	{% for object in object_list %}{% if not object.productvariation.parent %}
+	<SHOPITEM>
+		<PRODUCT>{{ object.translated_name|striptags|fix_ampersands }}</PRODUCT>
+		<DESCRIPTION>{{ object.translated_short_description|striptags|fix_ampersands }}</DESCRIPTION>
+		<URL>http://{{ site.domain }}{{ object.get_absolute_url }}</URL>
+		{% if object.productimage_set.count > 0 %}{% thumbnail object.main_image.picture "75x75" as image %}<IMGURL>http://{{ site.domain }}{{ image.url }}</IMGURL>{% endthumbnail %}
+		{% endif %}<PRICE>{{ object|untaxed_sale_price }}</PRICE>
+		<PRICE_VAT>{{ object|taxed_sale_price }}</PRICE_VAT>
+		<CATEGORYTEXT>{% for name, url in object.main_category.get_url_name %}{{ name|fix_ampersands }}{% if not forloop.last %} / {% endif %}{% endfor %}</CATEGORYTEXT>
+	</SHOPITEM>
+	{% endif %}{% endfor %}
+</SHOP>

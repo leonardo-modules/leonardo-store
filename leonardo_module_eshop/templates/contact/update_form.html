@@ -1,0 +1,55 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block extra-head %}
+{% include "contact/_contact_info_form.html" %}
+{% endblock %}
+
+{% block head_title %}
+{% trans "Change Account Information" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Change Account Information" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a></li>
+<li><strong>{% trans "Change Account Information" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+<form class="form" method="post" action="{% url webcms.module.store.apps.accounts/webcms_store_account_update %}">
+	{% csrf_token %}
+	{{ form.next }}
+	<div class="fieldset">
+		<h3>{% trans "Personal Information" %}</h3>
+		<div class="fieldrow">
+			{{ form.first_name|form_field }}
+			{{ form.last_name|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.email|form_field }}
+			{{ form.phone|form_field }}
+		</div>
+		{{ form.newsletter|form_field }}
+	</div>
+	<div class="fieldset">
+		<h3>{% trans "Business Information" %}</h3>
+		{{ form.company_name|form_field }}
+		<div class="fieldrow">
+			{{ form.company_id|form_field }}
+			{{ form.tax_id|form_field }}
+		</div>
+	</div>
+	{% block billing-info %}{% include "contact/_contact_info_form_billing.html" %}{% endblock %}
+	{% block shipping-info %}{% include "contact/_contact_info_form_shipping.html" %}{% endblock %}
+	<div class="buttonset">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<a class="f-left link" href="{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard %}">{% trans "My Account" %}</a>
+		{% form_button "submit" "Save" %}
+	</div>
+</form>
+{% endblock %}

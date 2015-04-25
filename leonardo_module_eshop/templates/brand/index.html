@@ -1,0 +1,47 @@
+{% extends "widget/base.html" %}
+
+{% load thumbnail %}
+{% load i18n %}
+
+{% block head_title %}
+{% trans "Brands" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "Brands" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Brands" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if brands %}
+<div class="ui-helper-clearfix">
+	{% for brand in brands %}{% with brand.translation as object %}
+	<div class="{% cycle 'odd' 'even' %} {% if forloop.counter|divisibleby:'2' %}last{% endif %}">
+		<div class="object-list brand_list ui-helper-clearfix">
+			<a class="object-image" title="{{ product.translated_name }}" href="{% url webcms.module.store.apps.brand/webcms_store_brand object.brand.slug %}">
+				{% if object.picture %}
+				{% thumbnail object.picture "70x70" format="PNG" as image %}
+				<img alt="{{ object.name }}" src="{{ image.url }}" />
+				{% endthumbnail %}
+				{% else %}
+				{% thumbnail request.webcms_options.no_image "70x70" format="PNG" as image %}
+				<img alt="{{ object.name }}" src="{{ image.url }}" />
+				{% endthumbnail %}
+				{% endif %}
+			</a>
+			<h3><a title="{{ object.name }}" href="{% url webcms.module.store.apps.brand/webcms_store_brand object.brand.slug %}">{{ object.name }}</a></h3>
+			<div class="object-text">
+				{{ object.description }}
+			</div>
+		</div>
+	</div>
+	{% if forloop.counter|divisibleby:'2' %}<div class="padded-clear"></div>{% endif %}
+	{% endwith %}{% endfor %}
+</div>
+{% else %}
+<p>{% trans 'No brands are active' %}</p>
+{% endif %}
+{% endblock %}

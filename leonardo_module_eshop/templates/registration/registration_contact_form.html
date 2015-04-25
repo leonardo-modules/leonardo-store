@@ -1,0 +1,80 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block head_title %}
+{% trans "New Registration" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "New Registration" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "New Registration" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+<form class="form" method="post" action=".">
+	{% csrf_token %}
+	<div class="fieldset">
+		{{ form.next }}
+		<input type="hidden" value="on" name="copy_address" id="id_copy_address">
+		<h3>{% trans "Personal Information" %}</h3>
+		<div class="fieldrow">
+			{{ form.first_name|form_field }}
+			{{ form.last_name|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.email|form_field }}
+			{{ form.phone|form_field }}
+		</div>
+		{% if show_newsletter %}
+		{{ form.newsletter|form_field }}
+		{% else %}
+		<input type='hidden' name='newsletter' value="False" />
+		{% endif %}
+	</div>
+	<div class="fieldset">
+		<h3>{% trans "Login Information" %}</h3>
+		{% if allow_nickname %}
+		<div class="fieldrow">
+			{{ form.username|form_field }}
+		</div>
+		{% endif %}
+		<div class="fieldrow">
+			{{ form.password1|form_field }}
+			{{ form.password2|form_field }}
+		</div>
+	</div>
+	<div class="fieldset">
+		<h3>{% trans "Business Information" %}</h3>
+		{{ form.company_name|form_field }}
+		<div class="fieldrow">
+			{{ form.company_id|form_field }}
+			{{ form.tax_id|form_field }}
+		</div>
+	</div>
+	<div class="fieldset">
+		<h3>{% trans "Billing Information" %}</h3>
+		<div class="fieldrow">
+			{{ form.street1|form_field }}
+			{{ form.city|form_field }}
+		</div>
+		<div class="fieldrow">
+			{{ form.postal_code|form_field }}
+			{% if 'country' in required_data %}
+			{{ form.country|form_field }}
+			{% endif %}
+		</div>
+	</div>
+	<div class="buttonset">
+		<p class="required">* {% trans "Required fields" %}</p>
+		<a class="f-left link" href="{% url webcms.module.store.apps.auth/webcms_store_login %}">{% trans "Log In" %}</a>
+		{% form_button "submit" "Create New Account" %}
+	</div>
+</form>
+{% endblock %}
+
+{% trans "Create New Account" %}

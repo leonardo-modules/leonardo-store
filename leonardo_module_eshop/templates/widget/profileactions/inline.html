@@ -1,0 +1,40 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load normalize_decimal %}
+
+{% block content %}
+{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard as account_dashboard %}
+{% url webcms.module.store.apps.accounts/webcms_store_account_update as account_update %}
+{% url webcms.module.store.apps.accounts/webcms_store_password_change as password_change %}
+{% url webcms.module.store.apps.accounts/webcms_store_order_list as order_list %}
+<ul class="horizontal">
+	{% if account_dashboard == request.path_info %}
+	<li><strong>{% trans "My Account" %}</strong></li>
+	{% else %}
+	<li><a href="{{ account_dashboard }}">{% trans "My Account" %}</a></li>
+	{% endif %}
+	{% if account_update == request.path_info %}
+	<li><strong>{% trans "Change Account Information" %}</strong></li>
+	{% else %}
+	<li><a href="{{ account_update }}">{% trans "Change Account Information" %}</a></li>
+	{% endif %}
+	{% if password_change == request.path_info %}
+	<li><strong>{% trans "Change Password" %}</strong></li>
+	{% else %}
+	<li><a href="{{ password_change }}">{% trans "Change Password" %}</a></li>
+	{% endif %}
+	{% if wishlist %}
+	{% if wishlist == request.path_info %}
+	<li><strong>{% trans "Favorite Items" %}</strong></li>
+	{% else %}
+	<li><a href="{{ wishlist }}">{% trans "Favorite Items" %}</a></li>
+	{% endif %}
+	{% endif %}
+	{% if order_list == request.path_info %}
+	<li><strong class="last">{% trans "Order History" %}</strong></li>
+	{% else %}
+	<li><a class="last" href="{{ order_list }}">{% trans "Order History" %}</a></li>
+	{% endif %}
+</ul>
+{% endblock %}

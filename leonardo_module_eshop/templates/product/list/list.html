@@ -1,0 +1,98 @@
+{% load i18n %}
+{% load pagination_tags %}
+{% load webcms_store_tags %}
+
+{% autopaginate object_list config.offset as paginated_object_list %}
+
+{% if type != 'queryset' %}
+<div class="product-filters product-filters-top">
+	{% include "product/list/filters.html" %}
+</div>
+{% endif %}
+
+{% if object_list.count == 0 %}
+<p class="notice">{% trans "No products to display." %}</p>
+{% else %}
+<div class="span-24 ui-helper-clearfix">
+	{% if config.view == 'grid_2' %}
+	<div class="object-grid ui-helper-clearfix">
+		{% for product in paginated_object_list %}
+		<div class="{% cycle 'odd' 'even' %} span-12 {% if forloop.counter|divisibleby:'2' %}last{% endif %}">
+			{% include "product/detail/cell.html" %}
+		</div>
+		{% if forloop.counter|divisibleby:'2' %}<div class="padded-clear"></div>{% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if config.view == 'grid_3' %}
+	<div class="object-grid  ui-helper-clearfix">
+		{% for product in paginated_object_list %}
+		<div class="{% cycle 'odd' 'even' %} span-8 {% if forloop.counter|divisibleby:'3' %}last{% endif %}">
+			{% include "product/detail/cell.html" %}
+		</div>
+		{% if forloop.counter|divisibleby:'3' %}<div class="padded-clear"></div>{% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if config.view == 'grid_4' %}
+	<div class="object-grid ui-helper-clearfix">
+		{% for product in paginated_object_list %}
+		<div class="{% cycle 'odd' 'even' %} span-6 {% if forloop.counter|divisibleby:'4' %}last{% endif %}">
+			{% include "product/detail/cell.html" %}
+		</div>
+		{% if forloop.counter|divisibleby:'4' %}<div class="padded-clear"></div>{% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if config.view == 'full_list' %}
+	{% for product in paginated_object_list %}
+	<div class="{% cycle 'odd' 'even' %} span-24">
+		{% include "product/detail/full_list.html" %}
+	</div>
+	{% endfor %}
+	{% endif %}
+	{% if config.view == 'quick_list' %}
+    <table style="width:100%;">
+        <tbody>
+            {% for product in paginated_object_list %}
+	        <tr class="{% cycle odd,even %}">
+		    {% include "product/detail/quick_list.html" %}
+        	</tr>
+	        {% endfor %}
+        </tbody>
+    </table>
+	{% endif %}
+	{% if config.view == 'quick_table' %}
+	<table>
+		<thead>
+			<th>{% trans 'Name' %}</th>
+			{% if default_view_tax %}
+			<th>{% trans 'Price ecx. VAT' %}</th>
+			<th>{% trans 'Price inc. VAT' %}</th>
+			{% else %}
+			<th>{% trans 'Price' %}</th>
+			{% endif %}
+			<th></th>
+		</thead>
+		<tbody>
+			{% for product in paginated_object_list %}
+			{% include "product/detail/row.html" %}
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+</div>
+{% endif %}
+
+{% with config.controls as controls %}
+{% if not type == 'queryset' %}
+<div class="product-filters product-filters-bot clear">
+	{% include "product/list/filters.html" %}
+</div>
+{% else %}
+<div class="product-filters product-filters-brief product-filters-bot clear">
+	{% include "product/list/filters_brief.html" %}
+</div>
+{% endif %}
+
+{% endwith %}

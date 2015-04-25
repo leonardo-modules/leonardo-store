@@ -1,0 +1,31 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{% if request.user.is_superuser %}
+<table>
+    <thead>
+        <tr>
+            <th>{% trans "Service" %}</th>
+            <th>{% trans "Created" %}</th>
+            <th class="a-center">{% trans "Products" %}</th>
+            <th class="a-right">{% trans "Feed link" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+        {% url webcms.module.store.apps.feeds/webcms_store_feed_detail object.service as webcms_store_feed_detail %}
+        <tr>
+            <td>{{ object.get_service_display }}</td>
+            <td>{{ object.created }}</td>
+            <td class="a-center">{{ object.products }}</td>
+            <td class="a-right"><a href="{{ webcms_store_feed_detail }}" target="_blank" class="link">{% trans "Export data" %}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="warning">{% trans "Only administrators are allowed to view feed list" %}</p>
+{% endif %}
+{% endblock %}

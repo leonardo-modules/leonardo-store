@@ -1,0 +1,33 @@
+<div class="category-categories ui-helper-clearfix">
+	<div class="span-8">
+		<ul class="vertical">
+		{% for subcategory in child_categories %}
+			{% if forloop.counter0|divisibleby:'3' %}
+			{% url webcms.module.store.apps.category/webcms_store_category subcategory.slug as link %}
+			<li {% if request.path == link %}class="active"{% endif %} ><a href="{{ link }}">{{ subcategory.translated_name }}</a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+	<div class="span-8">
+		<ul class="vertical">
+		{% for subcategory in child_categories %}
+			{% if not forloop.counter0|divisibleby:'3' and not forloop.counter|divisibleby:'3' %}
+			{% url webcms.module.store.apps.category/webcms_store_category subcategory.slug as link %}
+			<li {% if request.path == link %}class="active"{% endif %} ><a href="{{ link }}">{{ subcategory.translated_name }}</a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+	<div class="span-8 last">
+		<ul class="vertical">
+		{% for subcategory in child_categories %}
+			{% if forloop.counter|divisibleby:'3' %}
+			{% url webcms.module.store.apps.category/webcms_store_category subcategory.slug as link %}
+			<li {% if request.path == link %}class="active"{% endif %} ><a href="{{ link }}">{{ subcategory.translated_name }}</a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+
+</div>

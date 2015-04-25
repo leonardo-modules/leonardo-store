@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load thumbnail %}
+
+{% if product and new_image %}
+{% comment %}
+<a class='toggle describe-toggle-on' href='#'>{% trans "Show" %}</a>
+<a class='toggle describe-toggle-off' href='#'>{% trans "Hide" %}</a>
+{% endcomment %}
+{% url webcms.module.store.apps.products/webcms_store_product product.slug as object_url %}
+<div class='filename new'><span class='title'>{{ product.translated_name }} ({{ order }}:{% if replace %}{% trans "replace" %}{% else %}{% trans "new" %}{% endif %})</span></div>
+<table class='slidetoggle describe startclosed'>
+	<thead class='media-item-info'>
+		<tr>
+			<td class='A1B1' rowspan='5'>
+				{% thumbnail new_image.picture "150x150" crop="center" format="PNG" as image %}
+				<img class='thumbnail' alt="" src="{{ image.url }}" />
+				{% endthumbnail %}
+			</td>
+			<td><strong>{% trans "Image" %}:</strong> {{ image.name }}</td>
+		</tr>
+		<tr><td><strong>{% trans "Product" %}:</strong> <span>{{ product.translated_name }}</span></td></tr>
+		<tr><td><strong>{% trans "Position" %}:</strong> <span>{{ new_image.sort }}</span></td></tr>
+		<tr><td><strong>{% trans "Dimensions" %}:</strong> <span>{{ new_image.picture.width }}&nbsp;&times;&nbsp;{{ new_image.picture.height }}</span></td></tr>
+	</thead>
+</table>
+{% else %}
+
+<div class='filename new'><span class='title' style="color:red;">{% trans "No product found for file" %}: {{ image.name }}</span></div>
+
+{% endif %}

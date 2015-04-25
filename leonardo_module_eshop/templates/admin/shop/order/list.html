@@ -1,0 +1,135 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load pagination_tags %}
+{% load webcms_store_tags %}
+
+{% block title %}{% trans "Orders" %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script type="text/javascript">
+
+(function($) {
+	$(document).ready(function($) {
+		$("button").button();
+	});
+})(jQuery);
+
+</script>
+{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Orders" %}</h2>
+{% endblock %}
+
+{% block object-tools %}
+<li><a href="{% url webcms_store_admin_order_list_export %}">{% trans "Export Orders" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="span-4">
+	<div id="changelist-filter">
+	<form method="post" action=".">
+	{% csrf_token %}
+	<h3>{% trans "Filter by 'Order status'" %}:</h3>
+	<ul>
+		<li>{{ form.status_new }}&nbsp;&nbsp;<label for="id_status_new">{{ form.status_new.label }}</label></li>
+		<li>{{ form.status_in_process }}&nbsp;&nbsp;<label for="id_status_in_process">{{ form.status_in_process.label }}</label></li>
+		<li>{{ form.status_shipped }}&nbsp;&nbsp;<label for="id_status_shipped"> {{ form.status_shipped.label }}</label></li>
+		<li>{{ form.status_complete }}&nbsp;&nbsp;<label for="id_status_complete"> {{ form.status_complete.label }}</label></li>
+		<li>{{ form.status_cancelled }}&nbsp;&nbsp;<label for="id_status_cancelled">{{ form.status_cancelled.label }}</label></li>
+		<li>{{ form.status_unsent }}&nbsp;&nbsp;<label for="id_status_unsent">{{ form.status_unsent.label }}</label></li>
+	</ul>
+	<h3>{% trans "Filter by 'Date'" %}:</h3>
+	<ul>
+		<li><label for="id_date_start">{{ form.date_start.label }}</label><br />{{ form.date_start }}</li>
+		<li><label for="id_date_end">{{ form.date_end.label }}</label><br />{{ form.date_end }}</li>
+	</ul>
+	{% if form.store %}
+	<h3>{% trans "Filter by 'Branch'" %}:</h3>
+	<p>{{ form.store }}</p>
+	{% endif %}
+	<button type="submit" name="doaction">{% trans "Apply filters" %}</button>
+	</form>
+	</div>
+</div>
+{% autopaginate object_list 100 %}
+<div class="span-20">
+	<div class="tabs-container" id="changelist">
+		{% if object_list.count > 0 %}
+		<div class="admin-form-actions ui-helper-clearfix">
+			<div class="admin-form-pagination ui-helper-clearfix">
+				{% paginate %}
+			</div>
+		</div>
+		<div class="ui-helper-clearfix">
+		<table cellspacing="0">
+			<thead>
+				<tr>
+					<th scope="col" class="manage-column"><a href=".?_set_sorting=id">#</a></th>
+					<th scope="col" class="manage-column"><a href=".?_set_sorting=contact__last_name">{% trans "Customer" %}</a></th>
+					<th scope="col" class="manage-column">{% trans "Order total" %}</th>
+					<th scope="col" class="manage-column"><a href=".?_set_sorting=time_stamp">{% trans "Order time" %}</a></th>
+					<th scope="col" class="manage-column">{% trans "Last change" %}</a></th>
+					{% if show_branch %}
+                    <th scope="col" class="manage-column">{% trans "Branch" %}</th>
+                    {% endif %}
+					<th scope="col" class="manage-column">{% trans "Status" %}</th>
+					<th scope="col" class="manage-column" style="width:150px; text-align:right">{% trans "Actions" %}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for object in object_list %}
+				<tr class="{% cycle row1,row2 %}">
+					<th><a href="{% url webcms_store_admin_order_process object.id %}" title="{% trans 'Process order' %} #{{ object.id }}">{{ object.id }}</a></th>
+					<td><a href="{% url webcms_admin:contact_contact_change object.contact.id %}" target="_blank">{{ object.contact.full_name }}</a></td>
+					<td>{{ object.total|currency }}</td>
+					<td class="nowrap">{{ object.time_stamp|date:"j. M Y H:i" }}</td>
+					<td class="nowrap">
+						{% if object.status == "" %}-
+						{% else %}
+						{% if object.orderstatus_set.count > 1 %}
+						{% for stat in object.orderstatus_set.all %}
+						{% if forloop.last %}{{ stat.time_stamp|date:"j. M Y H:i" }}{% endif %}
+						{% endfor %}
+						{% else %}
+						-
+						{% endif %}
+						{% endif %}
+					</td>
+					{% if show_branch %}
+                    <td scope="col" class="manage-column">{% webcms_order_branch object %}</td>
+                    {% endif %}
+					<td>
+						{% if object.status == "" %}<div style="color: red;">{% trans "Unsent" %}</div>
+						{% else %}{{ object.get_status_display }} {% if object.orderstatus_set.count > 1 %}({{ object.orderstatus_set.count }}){% endif %}
+						{% endif %}
+					</td>
+					<td style="text-align:right;">
+						<a href="{% url webcms_store_admin_order_process object.id %}" title="{% trans 'Process order' %} #{{ object.id }}">{% trans "Process" %}</a>
+						{% if request.user.is_superuser %}
+						| <a href="{% url webcms_admin:shop_order_change object.id %}" title="{% trans 'Change order' %} #{{ object.id }}">{% trans "Change" %}</a>
+						{% endif  %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+		<div class="admin-form-actions">
+			<div class="admin-form-pagination">
+				{% paginate %}
+			</div>
+		</div>
+
+		{% else %}
+		<p class="error">{% trans "No items found!" %}</p>
+		{% endif %}
+
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% load satchmo_currency %}
+{% load satchmo_checkout %}
+{% load satchmo_util %}
+{% load normalize_decimal %}
+{% load i18n %}
+
+{% if default_view_tax %}{% load satchmo_tax %}{% endif %}
+
+<div class="span-24 ui-helper-clearfix form">
+	<div class="span-{% if order.shipping_method %}8{% else %}12{% endif %}">
+		<h3>{% trans 'Contact Information' %}</h3>
+		<p>{{ order.contact.full_name }}<br />
+		{{ order.contact.email }}<br />
+		{{ order.contact.primary_phone.phone }}</p>
+		<h3>{% trans "Payment Method" %}</h3>
+		{% for payment in order.payments.all %}{% if forloop.first %}{{ payment.payment|payment_label }}{% endif %}{% endfor %}
+		{% order_payment_summary order %}
+		{% if order.shipping_method %}
+	</div>
+	<div class="span-{% if order.shipping_method %}8{% else %}12{% endif %}">
+		<h3>{% trans 'Billing Information'%}</h3>
+		{{ order.full_bill_street|linebreaksbr }}<br />
+		{{ order.bill_postal_code }} {{ order.bill_city }}<br />
+		{% if order.bill_state %}
+		{{ order.bill_state }}<br />
+		{% endif %}
+		{{ order.bill_country_name|title }}<br />
+		{% endif %}
+	</div>
+	{% if order.shipping_method %}
+	<div class="span-8 last">
+		<h3>{% trans "Shipping Method" %}</h3>
+		{{ order.shipping_description }}<br />
+		{% if order.shipping_method != order.shipping_description %}{{ order.shipping_method }}<br />{% endif %}
+		<h3>{% trans "Shipping Address" %}</h3>
+		{{ order.full_ship_street }}<br />
+		{{ order.ship_postal_code }} {{ order.ship_city }}<br />
+		{% if order.ship_state %}
+		{{ order.ship_state }}<br />
+		{% endif %}
+		{{ order.ship_country_name|title }}<br />
+	</div>
+	{% endif %}
+</div>
+
+<h3>{% trans "Items Ordered" %}</h3>
+<table>
+	<thead>
+		<tr>
+			<th>{% trans "Name" %}</th>
+			<th>{% trans "Unit price" %}</th>
+			<th class="a-right">{% trans "Unit price inc. VAT" %}</th>
+			<th class="a-right">{% trans "Line total inc. VAT" %}</th>
+		</td>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Subtotal" %}</td>
+			<td class="a-right">{% if default_view_tax %}{{ order.sub_total_with_tax|currency }}{% else %}{{ order.sub_total|currency }}{% endif %}</td>
+		</tr>
+		{% if order.discount %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Discount" %}</td>
+			<td class="a-right">{{ order.item_discount|currency }}</td>
+		</tr>
+		{% endif %}
+		{% if order.is_shippable %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Shipping" %}</td>
+			<td class="a-right">{% if default_view_tax %}{{ order.shipping_with_tax|currency }}{% else %}{{order.shipping_sub_total|currency }}{% endif %}</td>
+		</tr>
+		{% endif %}
+		{% if order.tax %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Tax" %}</td>
+			<td class="a-right">{{ order.tax|currency }}</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Total" %}</td>
+			<td class="a-right">{{ order.total|currency }}</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		{% for item in order.orderitem_set.all %}
+		<tr class="{% cycle normal,alt %}">
+			<td>{{ item }} </td>
+			<td>{{ item.quantity|normalize_decimal }}</td>
+			<td class="a-right">{{ item.unit_price|currency }}</td>
+			{% if item.discount %}
+			<td class="a-right">{{ item.discount|currency }}</td>
+			{% endif %}
+			<td class="a-right">{{ item.sub_total|currency }}</td>
+		{% endfor %}
+	</tbody>
+</table>

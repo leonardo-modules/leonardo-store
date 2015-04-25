@@ -1,0 +1,7 @@
+{% extends "widget/base.html" %}
+
+{% load webcms_store_tags %}
+
+{% block content %}
+{% product_list 'queryset' widget.list.items.all 'quick_list' widget.pagination 'none' %}
+{% endblock %}

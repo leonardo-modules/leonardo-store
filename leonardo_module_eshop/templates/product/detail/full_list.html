@@ -1,0 +1,73 @@
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+{% load webcms_form_tags %}
+
+<div class="object-list product-list ui-helper-clearfix">
+	<a class="object-image" title="{{ product.translated_name }}" href="{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">
+		{% if product.productimage_set.count > 0 %}
+		{% thumbnail product.main_image.picture "150x150" crop="top" format="PNG" as image %}
+		<img alt="{{ product.translated_name }}" src="{{ image.url }}" />
+		{% endthumbnail %}
+		{% else %}
+		{% thumbnail request.webcms_options.no_image "150x150" crop="center" format="PNG" as image %}
+		<img alt="{{ product.translated_name }}" src="{{ image.url }}" />
+		{% endthumbnail %}
+		{% endif %}
+		&nbsp;
+	</a>
+	<h3><a title="{{ product.translated_name }}" href="{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">{{ product.translated_name }}</a></h3>
+	<div class="object-special">
+		{% if product.ext.special_new %}
+		<div class="special-new">{% trans "new product" %}</div>
+		{% endif %}
+		{% if product.ext.special_tip %}
+		<div class="special-tip">{% trans "our tip" %}</div>
+		{% endif %}
+		{% if product.ext.special_action %}
+		<div class="special-action">{% trans "special action" %}</div>
+		{% endif %}
+	</div>
+	<div class="object-text">
+		<p>{{ product.translated_short_description|safe }}</p>
+		{% url webcms.module.store.apps.wishlist/webcms_store_wishlist_add product.id as webcms_store_wishlist_add %}
+		{% if webcms_store_wishlist_add %}
+		<ul class="add-to-links">
+			<li><a class="link-wishlist" href=".">{% trans "Add to Wishlist" %}</a></li>
+		</ul>
+		{% endif %}
+	</div>
+	<div class="product-price" style="float:none; text-align:left;">
+		{% if default_view_tax %}
+		{% if product.ext.common_price and product.ext.common_price != product.unit_price %}
+		<div class="common-price">
+			{% trans "common price" %}: <span class="price">{{ product.ext.common_price|currency }}</span>
+		</div>
+		<div class="regular-price price-inc-tax">
+			{% trans "our price" %}: <span class="price">{{ product|sale_price|currency }}</span>
+		</div>
+		{% else %}
+		<div class="regular-price price-inc-tax">
+			{% trans "our price" %}: <span class="price">{{ product|sale_price|currency }}</span>
+		</div>
+		{% endif %}
+		{% else %}
+		<span class="regular-price">
+			{% trans "our price" %}: <span class="price">{{ product|sale_price|currency }}</span>
+		</span>
+		{% endif %}
+	</div>
+	<div class="object-buttons">
+		<form action="{% url webcms.module.store.apps.cart/webcms_store_cart_item_add product.id %}" method="post" class="form">
+			{% csrf_token %}
+			<div>
+				{% if product.get_subtypes.0 == 'ConfigurableProduct' %}
+				{% form_button "submit" "Product Detail" %}
+				{% else %}
+				{% form_button "submit" "Add to Cart" %}
+				{% endif %}
+			</div>
+		</form>
+	</div>
+</div>

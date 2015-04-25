@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block billing-info %}
+<div class="fieldset">
+	<h3>{% trans "Billing Information" %}</h3>
+	<div class="fieldrow">
+		{{ form.addressee|form_field }}
+		{{ form.street1|form_field }}
+	</div>
+	<div class="fieldrow">
+		{{ form.city|form_field }}
+		{{ form.postal_code|form_field }}
+	</div>
+	<div class="fieldrow">
+		{{ form.state|form_field }}
+		{{ form.country|form_field }}
+	</div>
+	{{ form.copy_address|form_field }}
+</div>
+{% endblock %}

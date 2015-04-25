@@ -1,0 +1,84 @@
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_checkout %}
+{% load satchmo_util %}
+{% load normalize_decimal %}
+
+<div class="span-24 ui-helper-clearfix">
+	<div class="span-8">
+		<h3>{% trans 'Status' %}</h3>
+		<p>{% trans 'Order #' %}: {{ order.id }}</p>
+		{% for status in order.orderstatus_set.all %}
+		<p>
+			{{status.time_stamp|date:"F jS Y H:i" }}: {{ status.status|status_label }}
+			{% if status.notes %}<br /><i>{{ status.notes }}</i>{% endif %}
+		</p>
+		{% endfor %}
+	</div>
+	<div class="span-8">
+		<h3>{% trans 'Billing address'%}</h3>
+		{% order_payment_summary order paylink %}
+	</div>
+	<div class="span-8 last">
+		{% if order.is_shippable %}
+		{% if order.shipping_method %}
+		<h3>{% trans "Shipping method" %}</h3>
+		{{ order.shipping_description }}<br/>
+		{% ifnotequal order.shipping_method order.shipping_description %}{{ order.shipping_method }}<br/>{% endifnotequal %}
+		{% endif %}
+		<h4>{% trans "Shipping to" %}</h4>
+		{{ order.full_ship_street }}<br/>
+		{{ order.ship_city }}<br/>
+		{{ order.ship_state }}<br/>
+		{{ order.ship_postal_code }}<br/>
+		{{ order.ship_country_name|title }}<br/>
+		{% endif %}
+	</div>
+</div>
+<h3>{% trans "Items Ordered" %}</h3>
+<table>
+	<thead>
+		<tr>
+			<th>{% trans "Name" %}</th>
+			<th>{% trans "Unit price" %}</th>
+			<th class="a-right">{% trans "Unit price inc. VAT" %}</th>
+			<th class="a-right">{% trans "Line total inc. VAT" %}</th>
+		</td>
+	</thead>
+	<tfoot>
+		{% if order.discount %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Discount" %}</td>
+			<td class="a-right">{{ order.discount|currency }}</td>
+		</tr>
+		{% endif %}
+		{% if order.is_shippable %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Shipping" %}</td>
+			<td class="a-right">{{ order.shipping_sub_total|currency }}</td>
+		</tr>
+		{% endif %}
+		{% if order.tax %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Tax" %}</td>
+			<td class="a-right">{{ order.tax|currency }}</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td colspan="3" class="a-right">{% trans "Total" %}</td>
+			<td class="a-right">{{ order.total|currency }}</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		{% for item in order.orderitem_set.all %}
+		<tr class="{% cycle normal,alt %}">
+			<td>{{ item }} </td>
+			<td>{{ item.quantity|normalize_decimal }}</td>
+			<td class="a-right">{{ item.unit_price|currency }}</td>
+			{% if item.discount %}
+			<td class="a-right">{{ item.discount|currency }}</td>
+			{% endif %}
+			<td class="a-right">{{ item.sub_total|currency }}</td>
+		{% endfor %}
+	</tbody>
+</table>

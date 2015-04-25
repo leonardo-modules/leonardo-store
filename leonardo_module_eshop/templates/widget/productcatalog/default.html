@@ -1,0 +1,66 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{% if widget.list == 'all' %}
+<div class="catalog catalog-{{ widget.list }}">
+	<ul class="catalog-tabs">
+		<li><a href="#{{ widget.fe_identifier }}_category">{% trans "Categories" %}</a></li>
+		<li><a href="#{{ widget.fe_identifier }}_brand">{% trans "Brands" %}</a></li>
+	</ul>
+	<div id="{{ widget.fe_identifier }}_category">
+		{% include "widget/productcatalog/product_categories.html" %}
+	</div>
+	<div id="{{ widget.fe_identifier }}_brand">
+		{% include "widget/productcatalog/product_brands.html" %}
+	</div>
+</div>
+{% endif %}
+{% if widget.list == 'all_manuf' %}
+<div class="catalog catalog-{{ widget.list }}">
+	<ul class="catalog-tabs">
+		<li><a href="#{{ widget.fe_identifier }}_category">{% trans "Categories" %}</a></li>
+		<li><a href="#{{ widget.fe_identifier }}_manuf">{% trans "Manufacturers" %}</a></li>
+	</ul>
+	<div id="{{ widget.fe_identifier }}_category">
+		{% include "widget/productcatalog/product_categories.html" %}
+	</div>
+	<div id="{{ widget.fe_identifier }}_manuf">
+		{% include "widget/productcatalog/product_manufacturers.html" %}
+	</div>
+</div>
+{% endif %}
+
+{% if widget.list == 'category' %}
+{% include "widget/productcatalog/product_categories.html" %}
+{% endif %} 
+{% if widget.list == 'brand' %}
+{% include "widget/productcatalog/product_brands.html" %}
+{% endif %} 
+{% if widget.list == 'manuf' %}
+{% include "widget/productcatalog/product_manufacturers.html" %}
+{% endif %} 
+
+<script type="text/javascript">
+/* <![CDATA[ */
+$(document).ready(function() {
+	{% if widget.list == 'all' %}
+	{% if brand_current %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs({selected: 1 });
+	{% else %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs();
+	{% endif %}
+	{% endif %}
+	{% if widget.list == 'all_manuf' %}
+	{% if manufacturer_current %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs({selected: 1 });
+	{% else %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs();
+	{% endif %}
+	{% endif %}
+
+});
+/* ]]> */
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_tax %}
+{% load satchmo_discounts %}
+{% load normalize_decimal %}
+{% load thumbnail %}
+
+{% block content %}
+{% url webcms.module.store.apps.cart/webcms_store_cart as store_cart %}
+{% if cart_count == 0 %}
+<p>{% trans "You have no items in your shopping cart." %}</p>
+{% else %}
+<p>{% if cart.numItems > 1 %}{% trans "There are" %}{% else %}{% trans "There is" %}{% endif %} <a href="{{ store_cart }}">{% if cart.numItems > 1 %}{{ cart.numItems|normalize_decimal }} {% trans "items" %}{% else %}1 {% trans "item" %}{% endif %}</a> {% trans "in your cart" %}.</p>
+{% if widget.show_items %}
+{% for item in cart.cartitem_set.all %}
+<div class="{% cycle 'odd' 'even' %} ui-helper-clearfix {% if forloop.last %}last{% endif %}">
+	<div class="object-list">
+		<a class="object-image" title="{{ item.product.translated_name }}" href="{% url webcms.module.store.apps.products/webcms_store_product item.product.slug %}">
+			{% if item.product.productimage_set.count > 0 %}
+			{% thumbnail item.product.main_image.picture "40x40" crop="top" format="PNG" as image %}
+			<img alt="{{ item.product.translated_name }}" src="{{ image.url }}" />
+			{% endthumbnail %}
+			{% else %}
+			{% thumbnail request.webcms_options.no_image "40x40" crop="center" format="PNG" as image %}
+			<img alt="{{ item.product.translated_name }}" src="{{ image.url }}" />
+			{% endthumbnail %}
+			{% endif %}
+		</a>
+		<div class="object-text">
+			<a class="ui-icon ui-icon-close btn-remove" onclick="return confirm('{% trans "Are you sure you would like to remove this item from the shopping cart?" %}');" title="{% trans "Remove This Item" %}" href="{% url webcms.module.store.apps.cart/webcms_store_cart_item_remove item.id %}">{% trans "Remove This Item" %}</a>
+			<p><a href="{% url webcms.module.store.apps.products/webcms_store_product item.product.slug %}">{{ item.product.translated_name }}</a><br />
+			{{ item.quantity|normalize_decimal }}&times; {% trans "for" %} <span class="price">{{ item|taxed_discount_line_total:sale|currency }}</span>
+			</p>
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endif %}
+<p><span class="label">{% trans "Cart Subtotal" %}:</span> <span class="price">{{ cart.total|currency }}</span></p>
+{% url webcms.module.store.apps.payment/webcms_store_checkout_step1 as checkout %}
+{% if checkout %}
+<div class="buttonset">
+	<a href='{{ checkout }}' class="button" title="{% trans "Checkout" %}"><span><span>{% trans "Checkout" %}</span></span></a>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

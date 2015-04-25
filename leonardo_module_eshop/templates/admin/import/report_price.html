@@ -1,0 +1,63 @@
+{% load i18n %}
+{% if report.data or report.errors %}
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Item count" %}</th>
+			<th>{% trans "Error count" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ report.rows }}</td>
+			<td class="{% if report.errors|length > 0 %}error{% else %}success{% endif %}">{{ report.errors|length }}</td>
+		</tr>
+	</thead>
+	</tbody>
+</table>
+
+{% if report.errors > 0 %}
+<h3>{% trans "Errors Summary" %}</h3>
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Row" %}</th>
+			<th>{% trans "Error detail" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in report.errors %}
+		{% if object.data %}
+		<tr>
+			<td>{{ object.row }}</td>
+			<td>{{ object.data }}</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+<h3>{% trans "Imported prices" %}</h3>
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>#</th>
+			<th>{% trans "Product" %}</th>
+			<th>{% trans "Pricing Tier" %}</th>
+			<th>{% trans "Price" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for object in report.data %}
+		<tr class="{% cycle alternate,normal %}">
+			<th class='{% if object.status == "update" %}info{% endif %}'>{{ object.row }}</th>
+			<td>{{ object.data.product.sku }}</td>
+			<td>{{ object.data.pricingtier.id }}</td>
+			<td>{{ object.data.price }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p class="error">{{ report }}</p>
+{% endif %}

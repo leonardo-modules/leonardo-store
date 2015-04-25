@@ -1,0 +1,17 @@
+{% extends "shop/checkout/base_confirm.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+
+{% block errorheader %}{% trans "The following error was returned while trying to process your card. Please correct and resubmit" %}{% endblock %}
+
+{% block payment_display %}
+<h3>{% trans "Payment" %}</h3>
+{% with order.credit_card.credit_type as credit_card_type %}
+{% with order.credit_card.display_cc as credit_card_number %}
+{% with order.balance|currency as order_total %}
+<p>{% blocktrans %}Your {{ credit_card_type }} card ending in {{ credit_card_number }} will be charged {{ order_total }}.{% endblocktrans %}</p>
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endblock %}

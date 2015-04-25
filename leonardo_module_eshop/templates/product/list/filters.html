@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load pagination_tags %}
+
+<div class="pager ui-helper-clearfix">
+	<div class="span-15">
+		{% paginate %}
+	</div>
+	<div class="span-9 a-right last">
+		<label>{% trans "Items per page" %}: </label>
+		{% for offset in config.choices.offset %}
+		{% if offset == config.offset %}
+		<strong>{{ offset }}</strong>
+		{% else %}
+		<a href="{% url webcms.module.store.apps.category/webcms_store_category_setup %}?key=offset&amp;value={{ offset }}">{{ offset }}</a>
+		{% endif %}
+		{% if not forloop.last %} | {% endif %}
+		{% endfor %}
+	</div>
+</div>
+
+{% if config.choices.view|length > 1 or config.choices.sort|length > 1 %}
+<div class="sorter ui-helper-clearfix">
+	{% if config.choices.view|length > 1 %}
+	<div class="span-{% if config.choices.sort|length > 1 %}14{% else %}24{% endif %}">
+		<label>{% trans "View as" %}: </label>
+		{% for view in config.choices.view %}
+		{% if view == config.view %}
+		<strong>{% trans view %}</strong>
+		{% else %}
+		<a href="{% url webcms.module.store.apps.category/webcms_store_category_setup %}?key=view&amp;value={{ view }}">{% trans view %}</a>
+		{% endif %}
+		{% if not forloop.last %} | {% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if config.choices.sort|length > 1 %}
+	<div class="span-{% if config.choices.wiew|length > 1 %}10{% else %}24{% endif %} a-right last">
+		<label>{% trans "Sort by" %}: </label>
+		{% for sort in config.choices.sort %}
+		{% if sort == config.sort %}
+		<strong>{% trans sort %}</strong>
+		{% else %}
+		<a href="{% url webcms.module.store.apps.category/webcms_store_category_setup %}?key=sort&amp;value={{ sort }}">{% trans sort %}</a>
+		{% endif %}
+		{% if not forloop.last %} | {% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
+</div>
+{% endif %}

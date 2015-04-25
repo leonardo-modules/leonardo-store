@@ -1,0 +1,89 @@
+{% load i18n %}
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Item count" %}</th>
+			<th>{% trans "Error count" %}</th>
+			<th>{% trans "Column count" %}</th>
+			<th>{% trans "Imported attributes" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ report.rows }}</td>
+			<td class="{% if report.errors > 0 %}error{% else %}success{% endif %}">{{ report.errors }}</td>
+			<td>{{ report.columns }}</td>
+			<td>
+				{% for key, value in report.parsed_data.0.data_in.items %}{{ key }}, {% endfor %}
+				{% for key, value in report.parsed_data.0.data_out.items %}{{ key }}{% if not forloop.last %}, {% endif %}{% endfor %}
+			</td>
+		</tr>
+	</thead>
+	</tbody>
+</table>
+
+{% if report.errors > 0 %}
+<h3>{% trans "Errors Summary" %}</h3>
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Row" %}</th>
+			<th>{% trans "Error detail" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in report.parsed_data %}
+		{% if object.error %}
+		<tr>
+			<td>{{ object.row }}</td>
+			<td>
+				{% for error in object.error_report %}
+				{{ error }}<br />
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+<h3>{% trans "Imported products" %}</h3>
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>#</th>
+			<th>{% trans "SKU" %}</th>
+			<th>{% trans "Name" %}</th>
+			<th>{% trans "Price" %}</th>
+			<th>{% trans "Tax" %}</th>
+			<th>{% trans "Category" %}</th>
+			<th>{% trans "Active" %}</th>
+			<th>{% trans "Featured" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for object in report.parsed_data %}
+		<tr class="{% cycle alternate,normal %}">
+			{% if object.error %}
+			<th class='error'>{{ object.row }}</th>
+			<th class="error" colspan="100">
+			{% for error in object.error_report %}
+			{{ error }}<br />
+			{% endfor %}
+			</th>
+			{% else %}
+			<th class='{% if object.status == "create" %}success{% endif %}{% if object.status == "update" %}info{% endif %}{% if object.status == "delete" %}notice{% endif %}'>{{ object.row }}</th>
+			<td>{{ object.product.sku }}</td>
+			<td>{{ object.product.name }}</td>
+			<td>{{ object.product.unit_price }}</td>
+			<td>{{ object.product.taxClass }}</td>
+			<td>{{ object.product.category.all.0.name }}</td>
+			<td>{{ object.product.active|yesno:"Y,N" }}</td>
+			<td>{{ object.product.featured|yesno:"Y,N" }}</td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+

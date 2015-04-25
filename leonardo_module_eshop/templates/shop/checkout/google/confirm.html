@@ -1,0 +1,34 @@
+{% extends "shop/checkout/base_confirm.html" %}
+
+{% load i18n %}
+{% comment %}
+{% load satchmo_googlecheckout %}
+{% endcomment %}
+{% load webcms_form_tags %}
+
+{% block payment_step %}<a href="{% url GOOGLE_satchmo_checkout-step2 %}">{% trans "Payment" %}</a>{% endblock %}
+
+{% block payment_display %}
+<h3>{% trans "Payment" %}</h3>
+<p>{% trans "Your payment will be processed through Google Checkout." %}</p>
+{% endblock %}
+
+{% block payment_form %}
+{% if order.paid_in_full %}
+<form class="form" method="post" action="{% url GOOGLE_satchmo_checkout_free-confirm %}">
+	{% csrf_token %}
+	<div class="buttonset">
+		{% form_button "submit" "Confirm Order" %}
+	</div>
+</form>
+{% else %}
+<form class="form" name="google_form" action="{{ post_url }}" method="post">
+	{% csrf_token %}
+	<div class="buttonset">
+		<input type="hidden" name="cart" value="{{ google_cart }}" />
+		<input type="hidden" name="signature" value="{{ google_signature }}" />
+		<input type="image" name="Google Checkout" src="{% google_checkout_image_url MEDIUM %}" alt='{% trans "Fast checkout through Google" %}' />
+	</div>
+</form>
+{% endif %}
+{% endblock %}

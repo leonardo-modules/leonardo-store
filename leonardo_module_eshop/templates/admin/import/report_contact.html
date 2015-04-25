@@ -1,0 +1,24 @@
+{% load i18n %}
+<p>Imported: {{ data|length }}</p>
+<p>New users: {{ report.count }}</p>
+<p>{{ errors }}</p>
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "ID" %}</th>
+			<th>{% trans "First Name" %}</th>
+			<th>{% trans "Last Name" %}</th>
+			<th>{% trans "E-mail" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in report %}
+		<tr class="{% cycle alternate,normal %}">
+			<td>{{ object.username }}</td>
+			<td>{{ object.first_name }}</td>
+			<td>{{ object.last_name }}</td>
+			<td>{{ object.email }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

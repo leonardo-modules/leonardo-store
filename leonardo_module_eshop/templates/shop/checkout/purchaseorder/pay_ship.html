@@ -1,0 +1,11 @@
+{% extends "shop/checkout/base_pay_ship.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block payment_table %}
+<div class="fieldset">
+	<h3>{% trans "Payment Information" %}</h3>
+	{{ form.po_number|form_field }}
+</div>
+{% endblock %}

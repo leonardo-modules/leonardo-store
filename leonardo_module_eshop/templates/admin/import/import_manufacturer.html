@@ -1,0 +1,60 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n %}
+{% load webcms_form_tags %}
+
+{% block object-tools %}
+<li><a href="{% url webcms_admin:manufacturer_manufacturer_changelist %}">{% trans "Manufacturers" %}</a></li>
+<li><a href="{% url webcms_admin:dashboard %}">{% trans "Project dashboard" %}</a></li>
+{% endblock %}
+
+{% block title %}{% trans "Manufacturer Import" %}{% endblock %}
+
+{% block content_title %}
+<h2>{% trans "Manufacturer Import" %}</h2>
+{% endblock %}
+
+{% block content %}
+<div class="admin-form-tabs">
+	<div class="span-6">
+		<h3>{% trans "Select import page" %}</h3>
+		<ul>
+			{% if report %}
+			<li><a href="#report">{% trans "Import Report" %}</a></li>
+			{% endif %}
+			<li><a href="#data_brand">{% trans "Manufacturer Import" %}</a></li>
+		</ul>
+	</div>
+	<div class="span-18 last">
+		<div class="tabs-container">
+			{% if report %}
+			<div id="report">
+				<h2>{% trans "Import Report" %}</h2>
+				{{ report }}
+			</div>
+			{% endif %}
+			<div id="data_brand">
+				<h2>{% trans "Manufacturer Import" %}</h2>
+				<form method="post" action="." enctype="multipart/form-data" class="form">
+					{% csrf_token %}
+					<div class="fieldset">
+						<input id="id_type" type="hidden" value="manufacturer" name="type" />
+						{{ form.format|form_field }}
+						{{ form.file|form_field }}
+					</div>
+					<div class="admin-form-buttons">
+						<p class="required">* {% trans "Required fields" %}</p>
+						<button type="submit">{% trans 'Start the import' %}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('.admin-form-tabs').tabs();
+	jQuery('.admin-form-buttons button').button();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "email/base.html" %}
+
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+
+{% block title %}
+{% trans "New Order" %} #{{ order.id }}
+{% endblock %}
+
+{% block content %}
+<p>{% trans "A new order has been submitted." %} {% trans "You can process the order at" %} <a href="http://new.platforma.cz/webcms-shop/order/process/{{ order.id }}/">{% trans "Administration Application" %}</a>.</p>
+{% include "shop/email/_order_detail_table.html" %}
+{% endblock %}

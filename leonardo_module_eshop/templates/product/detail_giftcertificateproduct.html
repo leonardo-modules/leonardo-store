@@ -1,0 +1,30 @@
+{% extends "product/product.html" %}
+
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_price %}
+{% load satchmo_currency %}
+{% load satchmo_category %}
+{% load satchmo_discounts %}
+{% load satchmo_util %}
+{% load webcms_form_tags %}
+
+{% block productdetail %}
+<div class="product_detail_price">
+	{% trans "Price" %} {% if default_view_tax %} {% trans 'incl. tax' %}{% endif %}:
+	{% if sale %}<strike id="fullprice" class="price">{{ product|discount_price:""|currency }}</strike>{% endif %}
+	<span class="price">{{ product|discount_price:sale|currency }}</span>
+</div>
+<div class="product_detail_buy_gift">
+	{% trans "Quantity" %}:
+	<input type="hidden" name="productname" id="productname" value="{{product.slug}}" />
+	<input type="text" size="5" name="quantity" id="quantity" value="1" class="priced" />
+	<br />
+	{% trans 'Recipient Email (optional):' %} <input type="text" maxlength="100" name="custom_email" /><br/>
+	{% trans 'Message (optional):' %}<br/>
+	<textarea name="custom_message" rows="10" cols="40"></textarea>
+	<div class="buttonset">
+		{% form_button "submit" "Add to Cart" %}
+	</div>
+</div>
+{% endblock %}

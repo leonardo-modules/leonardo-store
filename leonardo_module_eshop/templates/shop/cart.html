@@ -1,0 +1,91 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load satchmo_cart %}
+{% load satchmo_currency %}
+{% load satchmo_util %}
+{% load satchmo_product %}
+{% load satchmo_discounts %}
+{% load normalize_decimal %}
+{% load webcms_store_tags %}
+
+{% block head_title %}
+{% trans "My Cart" %}
+{% endblock %}
+
+{% block page_title %}
+{% trans "My Cart" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "My Cart" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if error_message %}
+<p class="error">{{ error_message }}</p>
+{% endif %}
+{% if cart|length %}
+<form class="form" action="{% url webcms.module.store.apps.cart/webcms_store_cart_update cart.id %}" method="post">
+	{% csrf_token %}
+	<table>
+		<thead>
+			<tr>
+				<th>{% trans "Item" %}</th>
+				<th colspan="2">{% trans "Quantity" %}</th>
+				{% if sale %}
+				<th>{% trans "Regular Price" %}</th>
+				<th>{% trans "Sale Price" %}
+				{% else %}
+				<th class="a-right">{% trans "Price" %}</th>
+				{% endif %}
+				<th class="a-right">{% if default_view_tax %}{% trans "Total inc. VAT" %}{% else %}{% trans "Total" %}{% endif %}</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="{% if sale %}5{% else %}4{% endif %}" class="a-right">{% trans "Cart total" %}:</td>
+				<td class="a-right">{{ cart|discount_cart_total:sale|currency }}</td>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for cartitem in cart %}
+			<tr class="{% cycle normal,alt %}">
+				<td><a href="{% url webcms.module.store.apps.products/webcms_store_product cartitem.product.slug %}">{{ cartitem.description }}</a></td>
+				<td>
+					<input class="cart-qty" type="hidden" name="products" value="{{ cartitem.id }}" />
+					<input type="text" name="q_{{ cartitem.id }}" id="id_q_{{ cartitem.id }}" value="{{ cartitem.quantity|normalize_decimal }}" />
+				</td>
+				<td>
+					<a class="ui-icon ui-icon-close" href="{% url webcms.module.store.apps.cart/webcms_store_cart_item_remove cartitem.id %}">{% trans 'Remove' %}</a>
+				</td>
+				{% if sale %}
+				<td>{{ cartitem.product.unit_price|currency }}</td>
+				{% endif %}
+				<td class="a-right">{{ cartitem.unit_price|currency }}</td>
+				<td class="a-right">{{ cartitem|discount_line_total:sale|currency }}</td>
+			</tr>
+			{% cartitem_custom_details cartitem %}
+			{% cartitem_subscription_details cartitem %}
+			{% endfor %}
+		</tbody>
+	</table>
+	{% if sale %}
+	{% include "product/some_discount_eligible.html" %}
+	{% endif %}
+	<div class="buttonset">
+		<a class="f-left link" href="{% get_last_url request %}">« {% trans "Continue Shopping" %}</a>
+		{% url webcms.module.store.apps.payment/webcms_store_checkout_step1 as webcms_store_checkout_step1 %}
+		{% if webcms_store_checkout_step1 %}
+		<a class="button f-right" href="{{ webcms_store_checkout_step1 }}"><span><span>{% trans "Check out" %}</span></span></a>
+		{% endif %}
+		<button class="button f-right" type="submit"><span><span>{% trans "Update cart" %}</span></span></button>
+	</div>
+</form>
+{% else %}
+<p class="alert">{% trans "Your cart is empty." %}</p>
+<div class="buttonset">
+	<a class="link f-left" href="{% get_last_url request %}">{% trans "Continue Shopping" %}</a>
+</div>
+{% endif %}
+{% endblock %}

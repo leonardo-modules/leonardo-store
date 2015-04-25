@@ -1,0 +1,18 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Checkout" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Checkout" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+<p class="alert">{% trans "Your cart is empty. Please add some items to your cart, then complete the checkout process." %}</p>
+<div class="buttonset">
+	<a class="link" href="{{ request.session.last_url }}">{% trans "Continue Shopping" %} &raquo;</a>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "widget/base.html" %}
+
+{% load i18n %}
+{% load thumbnail %}
+{% load satchmo_util %}
+
+{% block content %}
+<div class="object-list">
+{% for category in categorylist %}
+	{% if category.main_image %}
+	{% thumbnail category.main_image.picture 85x85 as image %}
+	<a class="object-image" href="{% url webcms.module.store.apps.category/webcms_store_category category.slug %}">
+		<img src="{{ image }}" width="{{ image.width }}" height="{{ image.height }}" />
+	</a>
+	{% endthumbnail %}
+	{% endif %}
+	<h3><a href="{% url webcms.module.store.apps.category/webcms_store_category category.slug %}">{{ category.translated_name }}</a></h3>
+{% endfor %}
+</div>
+{% endblock %}

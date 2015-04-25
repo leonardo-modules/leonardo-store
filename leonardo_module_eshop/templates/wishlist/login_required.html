@@ -1,0 +1,20 @@
+{% extends "widget/base.html" %}
+{% load i18n satchmo_category %}
+
+{% block breadcrumbs %}
+<li><strong>{% trans "Wishlist" %}</strong></li>
+{% endblock %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<p class="warning">{% blocktrans %}You are authenticated but need to set up your contact information.{% endblocktrans %}</p>
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.accounts/webcms_store_account_update %}">{% trans "Setup Contact Information" %}</a>
+</div>
+{% else %}
+<p class="warning">{% blocktrans %}Sorry, you must be logged in to access your wishlist.{% endblocktrans %}</p>
+<div class="buttonset">
+	<a class="link" href="{% url webcms.module.store.apps.auth/webcms_store_login %}">{% trans "Log In" %}</a>
+</div>
+{% endif %}
+{% endblock %}

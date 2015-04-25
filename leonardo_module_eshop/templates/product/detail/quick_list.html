@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load thumbnail %}
+
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+
+{% load webcms_form_tags %}
+<td><a title="{{ product.translated_name }}" href="{% url webcms.module.store.apps.products/webcms_store_product product.slug %}">{{ product.translated_name }}</a></td>
+{% if default_view_tax %}
+<td><span class="price">{{ product.unit_price|currency }}</span></td>
+<td><span class="price">{{ product|sale_price|currency }}</span></td>
+{% else %}
+<td><span class="price">{{ product|sale_price|currency }}</span></td>
+{% endif %}
+<td>{{ product.ext.order_unit }}</td>
+<td class="a-right">
+<form action="{% url webcms.module.store.apps.cart/webcms_store_cart_item_add product.id %}" method="post" class="form">
+    {% csrf_token %}
+    <div class="object-buttons">
+        {% if product.get_subtypes.0 == 'ConfigurableProduct' %}
+        <button class="button" type="submit"><span><span>{% trans "Detail" %}</span></span></button>
+        {% else %}
+        <button class="button" type="submit"><span><span>{% trans "Buy" %}</span></span></button>
+        {% endif %}
+    </div>
+</form>
+</td>

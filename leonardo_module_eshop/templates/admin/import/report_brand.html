@@ -1,0 +1,25 @@
+{% load i18n %}
+<table>
+	<thead>
+		<tr class="ui-widget-header">
+			<th>{% trans "Brand ID" %}</th>
+			<th>{% trans "Brand Name" %}</th>
+			<th>{% trans "Brand Slug" %}</th>
+			<th>{% trans "Active" %}</th>
+			<th>{% trans "Ordering" %}</th>
+			<th>Akce</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in report %}
+		<tr class="{% cycle alternate,normal %}">
+			<td>{{ object.object.id }}</td>
+			<td>{{ object.object.translation.name }}</td>
+			<td>{{ object.object.slug }}</td>
+			<td>{{ object.object.active }}</td>
+			<td>{{ object.object.ordering }}</td>
+			<td>{{ object.flag }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

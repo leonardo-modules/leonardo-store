@@ -1,0 +1,91 @@
+{% extends "product/product.html" %}
+
+{% load i18n %}
+{% load satchmo_price %}
+{% load satchmo_util %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+{% load satchmo_tax %}
+{% load webcms_form_tags %}
+
+{% block productdetail %}
+<form id="options" class="form" action="{% url webcms.module.store.apps.cart/webcms_store_cart_item_smart_add %}" method="post">
+	{% csrf_token %}
+
+	<div class="product_detail_base_attrs">
+		<ul>
+			{% if product.ext.delivery %}
+			<li>{% trans "Availability" %}: <strong>{{ product.ext.get_delivery_display }}</strong></li>
+			{% endif %}
+			{% if product.sku %}
+			<li>{% trans "Product Code" %}: <strong>{{ product.sku }}</strong></li>
+			{% endif %}
+			<li>{% trans "Product Brand" %}: {% for brand in product.brand_set.all %}
+				{% url webcms.module.store.apps.brand/webcms_store_brand brand.slug as webcms_store_brand %}
+				<strong><a href="{{ webcms_store_brand }}">{{ brand }}</a></strong>{% endfor %}
+			</li>
+		</ul>
+	</div>
+
+	<div class="product_detail_actions">
+		<ul>
+			<li><a id="product_recommend" href="{% url webcms.module.store.apps.products/webcms_store_product_recommend product.slug %}">{% trans "Recommend product" %}</a></li>
+			{% url webcms.module.store.apps.wishlist/webcms_store_wishlist_add product.id as webcms_store_wishlist_add %}
+			{% if webcms_store_wishlist_add %}
+			<li><a id="product_favourite" href="{{ webcms_store_wishlist_add }}">{% trans "Add to wishlist" %}</a></li>
+			{% endif %}
+			<li><a id="product_print" href="#">{% trans "Print product" %}</a></li>
+		</ul>
+	</div>
+
+	{% if product.translated_short_description %}
+	<h3>{% trans "Quick Overview" %}</h3>
+	{{ product.translated_short_description }}
+	{% endif %}
+
+	{% if options %}
+	<div class="fieldset product_detail_options">
+		{% for option_group in options %}
+		<div class="field">
+			<label for="{{option_group.id}}">{{ option_group.name }}<em class="required">*</em></label>
+			<div class="widget">
+				<select name="{{ option_group.id }}" id="{{option_group.id}}" class="priced">
+					{% for choice in option_group.items %}
+					<option value="{{ choice.value }}" {% if choice.selected %}selected="selected"{% endif %}>{{ choice.translated_name }} {% if choice.price_change %}{% option_price choice %}{% endif %}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	<div class="product_detail_buy">
+		<div class="product_detail_price">
+			{% trans "Price" %} {% if default_view_tax %} {% trans 'incl. tax' %}{% endif %}:
+			<span class="price" id="price">{{ product|discount_price:sale|currency }}</span>
+		</div>
+		<div class="product_detail_quantity">
+			{% trans "Quantity" %}:
+			<input type="hidden" name="productname" id="productname" value="{{product.slug}}" />
+			<input type="text" size="5" name="quantity" id="quantity" value="1" class="priced" />
+		</div>
+		{% form_button "submit" "Add to Cart" %}
+	</div>
+</form>
+<script type="text/javascript" src="/media/lib/satchmo/0.9.2/js/satchmo_product.js"></script>
+<script type="text/javascript">
+//satchmo = new Object();
+satchmo.default_view_tax = {% if default_view_tax %}true{% else %}false{% endif %};
+satchmo.variations = {{ details|as_json }};
+satchmo.set_option_ids([{% for option_group in options %}{{ option_group.id }}{% if not forloop.last %},{% endif %}{% endfor %}]);
+
+$(function() {
+	console.log(satchmo.variations);
+	satchmo.update_price();
+	$('.priced').change(function() {
+		satchmo.update_price();
+	});
+});
+</script>
+{% endblock %}

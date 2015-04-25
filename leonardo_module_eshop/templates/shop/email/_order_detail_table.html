@@ -1,0 +1,93 @@
+{% load i18n %}
+{% load satchmo_currency %}
+{% load satchmo_discounts %}
+{% load satchmo_order %}
+{% load satchmo_checkout %}
+{% load normalize_decimal %}
+
+<h3>{% trans 'Contact Information' %}</h3>
+<p>{{ order.contact.full_name }}<br />
+{{ order.contact.email }}<br />
+{{ order.contact.primary_phone.phone }}</p>
+<h3>{% trans "Payment Method" %}</h3>
+{% for payment in order.payments.all %}{% if forloop.first %}{{ payment.payment|payment_label }}{% endif %}{% endfor %}
+{% order_payment_summary order %}
+
+<h3>{% trans 'Billing Information' %}</h3>
+<p>{{ order.full_bill_street|linebreaksbr }}<br />
+{{ order.bill_postal_code }} {{ order.bill_city }}<br />
+{% if order.bill_state %}
+{{ order.bill_state }}<br />
+{% endif %}
+{{ order.bill_country_name|title }}</p>
+
+<h3>{% trans "Shipping Method" %}</h3>
+<p>{{ order.shipping_description }}
+{% if order.shipping_method != order.shipping_description %}<br />{{ order.shipping_method }}{% endif %}</p>
+
+<h3>{% trans "Shipping Address" %}</h3>
+<p>{{ order.full_ship_street }}<br />
+{{ order.ship_postal_code }} {{ order.ship_city }}<br />
+{% if order.ship_state %}
+{{ order.ship_state }}<br />
+{% endif %}
+{{ order.ship_country_name|title }}</p>
+
+{% if order.notes %}
+<h3>{% trans "Order Notes" %}</h3>
+<p>{{ order.notes }}</p>
+{% endif %}
+
+<h3>{% trans "Items Ordered" %}</h3>
+<table width="100%">
+	<tr>
+		<th style="text-align:left;border-top:2px solid #ccc;border-bottom:2px solid #ccc;">{% trans "SKU" %}</th>
+		<th style="width:50%;text-align:left;border-top:2px solid #ccc;border-bottom:2px solid #ccc;">{% trans "Item" %}</th>
+		<th style="border-top:2px solid #ccc;border-bottom:2px solid #ccc;">{% trans "Qty" %}</th>
+		<th style="border-top:2px solid #ccc;border-bottom:2px solid #ccc;">{% trans "Unit" %}</th>
+		<th style="text-align:left;border-top:2px solid #ccc;border-bottom:2px solid #ccc;">{% trans "Subtotal" %}</th>
+	</tr>
+	{% for item in order.orderitem_set.all %}
+	<tr>
+		<td>{{ item.product.sku }}</td>
+		<td>{{ item }}</td>
+		<td>{{ item.quantity|normalize_decimal}}</td>
+		<td style="text-align:right;">{{ item.product|discount_price:sale|currency }}</td>
+		<td style="text-align:right;">{{ item|discount_line_total:sale|currency }}</td>
+	</tr>
+	{% endfor %}
+	{% if order.discount %}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th style="text-align:right;">{% trans "Discount" %}:</th>
+		<td style="text-align:right;">{{ order.discount|currency }}</td>
+	</tr>
+	{% endif %}
+	{% if order.is_shippable %}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th style="text-align:right;">{% trans "Shipping" %}:</th>
+		<td style="text-align:right;">{{ order.shipping_sub_total|currency }}</td>
+	</tr>
+	{% endif %}
+	{% if order.tax %}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th style="text-align:right;">{% trans "Tax" %}:</th>
+		<td style="text-align:right;">{{ order.tax|currency }}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th style="text-align:right;">{% trans "Total" %}:</th>
+		<td style="text-align:right;">{{ order.total|currency }}</td>
+	</tr>
+</table>
