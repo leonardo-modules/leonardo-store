@@ -9,6 +9,8 @@ docs/build/*
 # C extensions
 *.so
 
+.eggs*
+
 # Distribution / packaging
 .Python
 env/
