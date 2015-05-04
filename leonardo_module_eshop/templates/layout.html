@@ -1,4 +1,4 @@
-{% extends 'base/page/eshop.html' %}
+
 {% load compress %}
 {% load promotion_tags %}
 
@@ -32,7 +32,6 @@
                         <h1>{% block headertext %}{% endblock %}</h1>
                     </div>
                 {% endblock %}
-                {% include "partials/alert_messages.html" %}
                 {% block subnavigation %}{% endblock %}
                 <div class="content">
                     {% block subheader %}{% endblock subheader %}

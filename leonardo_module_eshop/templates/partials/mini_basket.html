@@ -1,6 +1,7 @@
 {% load currency_filters %}
 {% load i18n %}
 
+{% comment %}
 <div class="basket-mini pull-right hidden-phone">
     <strong>{% trans "Basket total:" %}</strong>
     {% if request.basket.is_tax_known %}
@@ -19,3 +20,4 @@
         </ul>
     </span>
 </div>
+{% endcomment %}

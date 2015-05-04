@@ -133,7 +133,7 @@
                 <div class="sub-header">
                     <h2>{% trans "Totals" %}</h2>
                 </div>
-                {% include 'basket/partials/basket_totals.html' with editable=1 %}
+                {% include 'basket/partials/basket_totals.html' with editable=1 basket=request.basket %}
             </div>
         {% endblock baskettotals %}
     </div>

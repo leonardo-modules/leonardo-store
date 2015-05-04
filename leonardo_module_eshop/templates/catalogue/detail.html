@@ -1,4 +1,5 @@
-{% extends "layout.html" %}
+
+{% extends feincms_page.theme.template %}
 
 {% load history_tags %}
 {% load currency_filters %}
@@ -9,13 +10,6 @@
 {% load i18n %}
 {% load purchase_info_tags %}
 
-{% block title %}
-    {{ product.title }} | {{ block.super }}
-{% endblock %}
-
-{% block description %}
-    {{ product.description|default:""|striptags }}
-{% endblock %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
@@ -47,7 +41,7 @@
 {% block header %}
 {% endblock header %}
 
-{% block content %}
+{% block body_main %}
 
 <article class="product_page"><!-- Start of product page -->
 
@@ -64,16 +58,17 @@
             {% comment %}
             This is a but clunky here.  Better to have some kind of JS-driven dashboard menu that 
             pops out when clicked.  A bit like the Django-Debug-Toolbar button
-            {% endcomment %}
             {% if user.is_authenticated and user.is_staff %}
                 <a class="pull-right hidden-phone" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
             {% endif %}
+            {% endcomment %}
             <h1>{{ product.get_title }}</h1>
 
             {% block product_stock_record %}
                 {% include "catalogue/partials/stock_record.html" with verbose=1 %}
             {% endblock %}
 
+            {% comment %}
             {% iffeature "reviews" %}
                 {% include "catalogue/reviews/partials/review_stars.html" %}
             {% endiffeature %}
@@ -83,6 +78,7 @@
             {% block product_basket_form %}
                 {% include "catalogue/partials/add_to_basket_form.html" %}
             {% endblock %}
+            {% endcomment %}
         </div><!-- /span6 -->
         {% endblock %}
 
@@ -144,6 +140,7 @@
     </table>
     {% endblock %}
 
+    {% comment %}
     {% iffeature "reviews" %}
         {% block product_review %}
         <section>
@@ -177,6 +174,7 @@
         </section>
         {% endblock product_review %}
     {% endiffeature %}
+    {% endcomment %}
 
     {% with recommended_products=product.recommended_products.all|slice:":6" %}
         {% if recommended_products %}
@@ -196,8 +194,4 @@
     {% recently_viewed_products %}
 
 </article><!-- End of product page -->
-{% endblock content %}
-
-{% block extrascripts %}
-    {{ block.super }}
-{% endblock %}
+{% endblock body_main %}
