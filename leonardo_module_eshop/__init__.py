@@ -22,13 +22,15 @@ class Default(object):
 
     @property
     def apps(self):
+        oscar_apps = get_eshop_apps()
+        oscar_apps.remove('oscar.apps.search')
         return [
             'leonardo_module_eshop',
             'oscarapi',
             'whoosh',
             'oscar.apps.customer',
             'oscar.apps.catalogue',
-        ] + get_eshop_apps()
+        ] + oscar_apps
 
     @property
     def auth_backends(self):
