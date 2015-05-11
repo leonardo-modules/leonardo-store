@@ -25,11 +25,9 @@ class Default(object):
 
     optgroup = ('Eshop')
 
-    @property
-    def middlewares(self):
-        return [
-            'oscar.apps.basket.middleware.BasketMiddleware',
-        ]
+    middlewares = [
+        'oscar.apps.basket.middleware.BasketMiddleware',
+    ]
 
     @property
     def apps(self):
@@ -43,34 +41,39 @@ class Default(object):
             'oscar.apps.catalogue',
         ] + oscar_apps
 
-    @property
-    def auth_backends(self):
-        return ['oscar.apps.customer.auth_backends.EmailBackend']
+    auth_backends = [
+        'oscar.apps.customer.auth_backends.EmailBackend'
+    ]
 
-    @property
-    def ctp(self):
-        return [
-            #'oscar.apps.search.context_processors.search_form',
-            'oscar.apps.promotions.context_processors.promotions',
-            'oscar.apps.checkout.context_processors.checkout',
-            'oscar.apps.customer.notifications.context_processors.notifications',
-            'oscar.core.context_processors.metadata',
-        ]
+    context_processors = [
+        #'oscar.apps.search.context_processors.search_form',
+        'oscar.apps.promotions.context_processors.promotions',
+        'oscar.apps.checkout.context_processors.checkout',
+        'oscar.apps.customer.notifications.context_processors.notifications',
+        'oscar.core.context_processors.metadata',
+    ]
 
-    @property
-    def plugins(self):
-        return [
-            ('leonardo_module_eshop.apps.eshop', _('Eshop'), ),
-            ('leonardo_module_eshop.apps.basket', _('Shopping Cart'), ),
-            ('leonardo_module_eshop.apps.checkout', _('Eshop Checkout'), ),
-            ('leonardo_module_eshop.apps.customer', _('Customers'), ),
-            ('leonardo_module_eshop.apps.catalog', _('Eshop Catalog'),),
-            ('leonardo_module_eshop.apps.api', _('Eshop API'), ),
-        ]
+    plugins = [
+        ('leonardo_module_eshop.apps.eshop', _('Eshop'), ),
+        ('leonardo_module_eshop.apps.basket', _('Shopping Cart'), ),
+        ('leonardo_module_eshop.apps.checkout', _('Eshop Checkout'), ),
+        ('leonardo_module_eshop.apps.customer', _('Customers'), ),
+        ('leonardo_module_eshop.apps.catalog', _('Eshop Catalog'),),
+        ('leonardo_module_eshop.apps.api', _('Eshop API'), ),
+    ]
 
     widgets = [
         QuickCartWidget
     ]
+
+    config = {
+        'OSCAR_INITIAL_ORDER_STATUS': ('Pending', _('Order Initial status')),
+        'OSCAR_INITIAL_LINE_STATUS': ('123456789', _('Line Initial status')),
+        'OSCAR_IMAGE_FOLDER': ('eshop', _('Eshop Image Directory')),
+        'OSCAR_DELETE_IMAGE_FILES': (True, _('Delete Image Files')),
+        'OSCAR_PROMOTION_FOLDER': ('promotions', _('Promotions Directory')),
+    }
+
 
 class EshopConfig(AppConfig, Default):
     name = 'leonardo_module_eshop'
