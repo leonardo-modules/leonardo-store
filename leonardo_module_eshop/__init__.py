@@ -8,11 +8,22 @@ from .widget import *
 default_app_config = 'leonardo_module_eshop.EshopConfig'
 
 
+try:
+    # rename original oscar search
+    from oscar.apps.search import config
+    config.SearchConfig.label = 'oscar_search'
+except Exception:
+    pass
+
+
+class OscarSearchConfig(AppConfig):
+    name = 'oscar.apps.search'
+    verbose_name = "oscar_search"
+
+
 class Default(object):
 
     optgroup = ('Eshop')
-
-    #urls_conf = 'oscar.urls'
 
     @property
     def middlewares(self):
@@ -23,7 +34,7 @@ class Default(object):
     @property
     def apps(self):
         oscar_apps = get_eshop_apps()
-        oscar_apps.remove('oscar.apps.search')
+
         return [
             'leonardo_module_eshop',
             'oscarapi',
@@ -64,6 +75,5 @@ class Default(object):
 class EshopConfig(AppConfig, Default):
     name = 'leonardo_module_eshop'
     verbose_name = "Eshop"
-
 
 default = Default()
