@@ -1,13 +1,9 @@
 include MANIFEST.in
 include README.rst
-recursive-include leonardo_module_eshop/static *
-recursive-include leonardo_module_eshop/locale *
-recursive-include leonardo_module_eshop/templates *
+recursive-include leonardo_store/static *
+recursive-include leonardo_store/locale *
+recursive-include leonardo_store/templates *
 
-recursive-include eshop_paypal/static *
-recursive-include eshop_paypal/locale *
-recursive-include eshop_paypal/templates *
-
-recursive-include eshop_stores/static *
-recursive-include eshop_stores/locale *
-recursive-include eshop_stores/templates *
+recursive-include store_paypal/static *
+recursive-include store_paypal/locale *
+recursive-include store_paypal/templates *
