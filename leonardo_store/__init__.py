@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .widget import *
 
-default_app_config = 'leonardo_module_eshop.EshopConfig'
+default_app_config = 'leonardo_store.Config'
 
 
 try:
@@ -23,7 +23,7 @@ class OscarSearchConfig(AppConfig):
 
 class Default(object):
 
-    optgroup = ('Eshop')
+    optgroup = ('Store')
 
     middlewares = [
         'oscar.apps.basket.middleware.BasketMiddleware',
@@ -34,7 +34,7 @@ class Default(object):
         oscar_apps = get_eshop_apps()
 
         return [
-            'leonardo_module_eshop',
+            'leonardo_store',
             'oscarapi',
             'whoosh',
             'oscar.apps.customer',
@@ -46,7 +46,6 @@ class Default(object):
     ]
 
     context_processors = [
-        #'oscar.apps.search.context_processors.search_form',
         'oscar.apps.promotions.context_processors.promotions',
         'oscar.apps.checkout.context_processors.checkout',
         'oscar.apps.customer.notifications.context_processors.notifications',
@@ -54,12 +53,12 @@ class Default(object):
     ]
 
     plugins = [
-        ('leonardo_module_eshop.apps.eshop', _('Eshop'), ),
-        ('leonardo_module_eshop.apps.basket', _('Shopping Cart'), ),
-        ('leonardo_module_eshop.apps.checkout', _('Eshop Checkout'), ),
-        ('leonardo_module_eshop.apps.customer', _('Customers'), ),
-        ('leonardo_module_eshop.apps.catalog', _('Eshop Catalog'),),
-        ('leonardo_module_eshop.apps.api', _('Eshop API'), ),
+        ('leonardo_store.apps.eshop', _('Store'), ),
+        ('leonardo_store.apps.basket', _('Shopping Cart'), ),
+        ('leonardo_store.apps.checkout', _('Store Checkout'), ),
+        ('leonardo_store.apps.customer', _('Customers'), ),
+        ('leonardo_store.apps.catalog', _('Store Catalog'),),
+        ('leonardo_store.apps.api', _('Store API'), ),
     ]
 
     widgets = [
@@ -74,9 +73,13 @@ class Default(object):
         'OSCAR_PROMOTION_FOLDER': ('promotions', _('Promotions Directory')),
     }
 
+    absolute_url_overrides = {
+        'catalogue.product': 'leonardo_store.overrides.oscar_product_url_app',
+    }
 
-class EshopConfig(AppConfig, Default):
-    name = 'leonardo_module_eshop'
-    verbose_name = "Eshop"
+
+class Config(AppConfig, Default):
+    name = 'leonardo_store'
+    verbose_name = "Store"
 
 default = Default()

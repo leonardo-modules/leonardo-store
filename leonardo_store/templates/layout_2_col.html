@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% load promotion_tags %}
+
+{% comment %}
+Keep the same header and footer as the standard layout template but override the 
+main content area to split it into a sidebar and a content block
+{% endcomment %}
+{% block content_wrapper %}
+<div class="container-fluid page">
+    <div class="page_inner">
+        <div class="row-fluid">
+            {% block content %}{% endblock %}
+        </div>
+
+        </div><!-- /row-fluid -->
+    </div><!-- /page_inner -->
+</div><!-- /container-fluid -->
+{% endblock %}
