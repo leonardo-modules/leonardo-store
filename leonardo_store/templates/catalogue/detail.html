@@ -48,13 +48,13 @@
     <div class="row-fluid">
 
         {% block product_gallery %}
-        <div class="span6">
+        <div class="col-lg-6 col-md-6 col-xs-12">
             {% include "catalogue/partials/gallery.html" %}
         </div>
         {% endblock %}
 
         {% block product_main %}
-        <div class="span6 product_main">
+        <div class="col-lg-6 col-md-6 col-xs-12 product_main">
             {% comment %}
             This is a but clunky here.  Better to have some kind of JS-driven dashboard menu that 
             pops out when clicked.  A bit like the Django-Debug-Toolbar button
@@ -183,7 +183,7 @@
             </div>
             <ul class="row-fluid">
                 {% for product in recommended_products %}
-                <li class="span2 {% if forloop.counter0|divisibleby:"6" %}no-margin{% endif %}">
+                <li class="col-lg-2 col-md-3 col-xs-6 {% if forloop.counter0|divisibleby:"6" %}no-margin{% endif %}">
                     {% render_product product %}
                 </li>
                 {% endfor %}
