@@ -3,7 +3,3 @@ include README.rst
 recursive-include leonardo_store/static *
 recursive-include leonardo_store/locale *
 recursive-include leonardo_store/templates *
-
-recursive-include store_paypal/static *
-recursive-include store_paypal/locale *
-recursive-include store_paypal/templates *

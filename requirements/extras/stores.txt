@@ -1,1 +1,0 @@
-django-oscar-stores==0.8
