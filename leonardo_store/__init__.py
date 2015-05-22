@@ -75,7 +75,12 @@ class Default(object):
 
     absolute_url_overrides = {
         'catalogue.product': 'leonardo_store.overrides.oscar_product_url_app',
+        'catalogue.category': 'leonardo_store.overrides.category',
     }
+
+    navigation_extensions = [
+        'leonardo_store.navigation_extensions.categories'
+    ]
 
 
 class Config(AppConfig, Default):
