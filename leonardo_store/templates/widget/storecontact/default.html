@@ -1,31 +1,17 @@
-{% extends "widget/base.html" %}
+{% extends widget.get_base_template %}
 
-{% load webcms_tags %}
 {% load i18n %}
 
 {% block content %}
-{% for key in widget.show_details %}
-{% if key == 'name' %}
-<h3>{{ shop.store_name }}</h3>
-{% endif %}
 
-{% if key == 'description' %}
-{{ shop.store_description }}
-{% endif %}
-{% endfor %}
+<h3>{{ widget.name }}</h3>
+
+<p>{{ widget.description|safe }}<p>
 
 <p>
-{% for key in widget.show_details %}
-{% if key == 'e-mail' %}
-{% trans "E-mail" %}: <strong>{{ shop.store_email }}</strong><br />
-{% endif %}
-{% if key == 'phone' %}
-{% trans "Phone" %}: <strong>{{ shop.phone }}</strong><br />
-{% endif %}
-{% if key == 'address' %}
-{% trans "Address" %}: <strong>{{ shop.street1 }}<br />
-{{ shop.postal_code }} {{ shop.city }}</strong><br />
-{% endif %}
-{% endfor %}
+{% trans "E-mail" %}: <strong>{{ widget.email }}</strong><br />
+{% trans "Phone" %}: <strong>{{ widget.phone }}</strong><br />
+{% trans "Address" %}: <strong>{{ widget.address|safe }}<br />
 </p>
+
 {% endblock %}

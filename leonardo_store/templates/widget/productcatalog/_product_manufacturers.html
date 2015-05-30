@@ -1,0 +1,7 @@
+<ul class="vertical">
+{% for root in manufacturer_list %}
+	<li {% if manufacturer_current.id == root.id %}class="active"{% endif %}>
+		<a {% if forloop.last %}class="last"{% endif %} href="{{ root.get_absolute_url }}">{{ root.name|capfirst }}</a>
+	</li>
+{% endfor %}
+</ul>

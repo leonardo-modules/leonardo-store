@@ -1,7 +1,14 @@
-{% extends "widget/base.html" %}
-
-{% load webcms_store_tags %}
+{% extends widget.get_base_template %}
+{% load product_tags %}
 
 {% block content %}
-{% product_list 'queryset' widget.list.items.all 'grid_2' widget.pagination 'none' %}
+<section>
+    <div>
+        <ol class="row-fluid">
+            {% for product in widget.list.productlistitem_set.all %}
+                <li class="col-lg-6 col-md-6 col-xs-6 {% if forloop.counter0|divisibleby:"4" %}no-margin{% endif %}">{{ product.extra_label|default:product }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
 {% endblock %}

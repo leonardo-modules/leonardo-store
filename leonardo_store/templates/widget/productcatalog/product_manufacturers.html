@@ -1,8 +1,0 @@
-<ul class="vertical">
-{% for root in manufacturer_list %}
-	{% url webcms.module.store.apps.manufacturer/webcms_store_manufacturer_detail root.slug as manufacturer_url %}
-	<li {% if manufacturer_current.id == root.id %}class="active"{% endif %}>
-		<a {% if forloop.last %}class="last"{% endif %} href="{{ manufacturer_url }}">{{ root.translation.name|capfirst }}</a>
-	</li>
-{% endfor %}
-</ul>

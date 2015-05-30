@@ -53,16 +53,21 @@ class Default(object):
     ]
 
     plugins = [
-        ('leonardo_store.apps.eshop', _('Store'), ),
         ('leonardo_store.apps.basket', _('Shopping Cart'), ),
         ('leonardo_store.apps.checkout', _('Store Checkout'), ),
         ('leonardo_store.apps.customer', _('Customers'), ),
-        ('leonardo_store.apps.catalog', _('Store Catalog'),),
+        ('leonardo_store.apps.catalogue', _('Store Catalog'),),
         ('leonardo_store.apps.api', _('Store API'), ),
     ]
 
     widgets = [
-        QuickCartWidget
+        QuickCartWidget,
+        ProductCatalogWidget,
+        ProductListWidget,
+        ProfileActionsWidget,
+        StoreContactWidget,
+        StoreActionsWidget,
+        SpecialProductsWidget
     ]
 
     config = {

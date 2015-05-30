@@ -3,8 +3,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from webcms.models import Widget
-from webcms.module.store.models import ProductList
+from leonardo.module.web.models import Widget
+from leonardo_store.models import ProductList
+
 
 class ProductListWidget(Widget):
     list = models.ForeignKey(ProductList, verbose_name=_("product list"))
