@@ -29,13 +29,26 @@ class Default(object):
         'oscar.apps.basket.middleware.BasketMiddleware',
     ]
 
+    def is_oscarapi_installed(self):
+        try:
+            import oscarapi
+        except ImportError:
+            pass
+        else:
+            return True
+        return False
+
     @property
     def apps(self):
         oscar_apps = get_eshop_apps()
+        apps = []
 
-        return [
+        # if is there oscarpi include it
+        if self.is_oscarapi_installed():
+            apps = ['oscarapi']
+
+        return apps + [
             'leonardo_store',
-            'oscarapi',
             'whoosh',
             'oscar.apps.customer',
             'oscar.apps.catalogue',
@@ -52,13 +65,19 @@ class Default(object):
         'oscar.core.context_processors.metadata',
     ]
 
-    plugins = [
-        ('leonardo_store.apps.basket', _('Shopping Cart'), ),
-        ('leonardo_store.apps.checkout', _('Store Checkout'), ),
-        ('leonardo_store.apps.customer', _('Customers'), ),
-        ('leonardo_store.apps.catalogue', _('Store Catalog'),),
-        ('leonardo_store.apps.api', _('Store API'), ),
-    ]
+    @property
+    def plugins(self):
+        _plugins = []
+
+        if self.is_oscarapi_installed():
+            _plugins.append(('leonardo_store.apps.api', _('Store API'), ),)
+
+        return _plugins + [
+            ('leonardo_store.apps.basket', _('Shopping Cart'), ),
+            ('leonardo_store.apps.checkout', _('Store Checkout'), ),
+            ('leonardo_store.apps.customer', _('Customers'), ),
+            ('leonardo_store.apps.catalogue', _('Store Catalog'),),
+        ]
 
     widgets = [
         QuickCartWidget,

@@ -35,6 +35,14 @@ Load new template to db
 
     python manage.py sync_all
 
+API
+===
+
+.. code-block:: bash
+
+    pip install leonardo-module-eshop[api]
+
+
 Payments
 ========
 
