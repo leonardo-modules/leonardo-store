@@ -1,21 +1,15 @@
-{% extends "widget/base.html" %}
+{% extends widget.get_base_template %}
 
 {% load i18n %}
-{% load normalize_decimal %}
 
 {% block content %}
-{% url webcms.module.store.apps.accounts/webcms_store_account_dashboard as account_dashboard %}
-{% url webcms.module.store.apps.accounts/webcms_store_account_update as account_update %}
-{% url webcms.module.store.apps.accounts/webcms_store_password_change as password_change %}
-{% url webcms.module.store.apps.accounts/webcms_store_order_list as order_list %}
-{% url webcms.module.store.apps.wishlist/webcms_store_wishlist as wishlist %}
 <ul class="horizontal">
-	<li><a class="button" href="{{ account_dashboard }}"><span><span>{% trans "My Account" %}</span></span></a></li>
-	<li><a class="button"href="{{ account_update }}"><span><span>{% trans "Change Account Information" %}</span></span></a></li>
-	<li><a class="button" href="{{ password_change }}"><span><span>{% trans "Change Password" %}</span></span></a></li>
+	<li><a class="button" href="{% url 'customers:profile-view' %}"><span><span>{% trans "My Account" %}</span></span></a></li>
+	<li><a class="button"href="{% url 'customer:change-profile' %}"><span><span>{% trans "Change Account Information" %}</span></span></a></li>
+	<li><a class="button" href="{% url 'customer:change-password' %}"><span><span>{% trans "Change Password" %}</span></span></a></li>
 	{% if wishlist %}
-	<li><a class="button" href="{{ wishlist }}"><span><span>{% trans "Favorite Items" %}</span></span></a></li>
+	<li><a class="button" href="{% url 'customer:wishlists-list' %}"><span><span>{% trans "Favorite Items" %}</span></span></a></li>
 	{% endif %}
-	<li><a class="button" href="{{ order_list }}"><span><span>{% trans "Order History" %}</span></span></a></li>
+	<li><a class="button" href="{% url 'customer:order-list' %}"><span><span>{% trans "Order History" %}</span></span></a></li>
 </ul>
 {% endblock %}
