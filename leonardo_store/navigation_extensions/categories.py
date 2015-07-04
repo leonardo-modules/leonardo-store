@@ -23,9 +23,7 @@ class StoreCategoriesNavigationExtension(NavigationExtension):
         for category in categories:
             yield PagePretender(
                 title=category.name,
-                url='%scategory/%s/' % (
-                    page.get_absolute_url(),
-                    category.slug),
+                url=category.get_absolute_url(),
                 tree_id=page.tree_id,
                 level=page.level + 1,
                 language=getattr(page, 'language', settings.LANGUAGE_CODE),
