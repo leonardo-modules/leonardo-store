@@ -72,13 +72,13 @@
             {% iffeature "reviews" %}
                 {% include "catalogue/reviews/partials/review_stars.html" %}
             {% endiffeature %}
+            {% endcomment %}
 
             <hr/>
 
             {% block product_basket_form %}
                 {% include "catalogue/partials/add_to_basket_form.html" %}
             {% endblock %}
-            {% endcomment %}
         </div><!-- /span6 -->
         {% endblock %}
 

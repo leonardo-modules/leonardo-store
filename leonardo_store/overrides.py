@@ -13,3 +13,11 @@ def category(self):
         'category',
         'leonardo_store.apps.catalogue',
         kwargs={'category_slug': self.slug, 'pk': self.pk})
+
+
+def wishlist(self):
+    from leonardo.module.web.widget.application.reverse import app_reverse
+    return app_reverse(
+        'wishlists-detail',
+        'leonardo_store.apps.customer',
+        kwargs={'key': self.key})
