@@ -23,3 +23,6 @@ HAYSTACK_CONNECTIONS = {
 }
 
 OSCAR_HOMEPAGE = "/"
+
+# insecure
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

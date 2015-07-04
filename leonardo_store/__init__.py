@@ -52,6 +52,7 @@ class Default(object):
             'whoosh',
             'oscar.apps.customer',
             'oscar.apps.catalogue',
+            'leonardo_import_export',
         ] + oscar_apps
 
     auth_backends = [
