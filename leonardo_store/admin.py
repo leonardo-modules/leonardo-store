@@ -12,6 +12,7 @@ from .resources import *
 
 Product = get_model('catalogue', 'Product')
 Category = get_model('catalogue', 'Category')
+ProductCategory = get_model('catalogue', 'ProductCategory')
 UserAddress = get_model('address', 'UserAddress')
 Order = get_model('order', 'Order')
 Partner = get_model('partner', 'Partner')
@@ -31,6 +32,13 @@ class CategoryAdmin(ImportExportModelAdmin, OscarCategoryAdmin):
 
 admin.site.unregister(Category)
 admin.site.register(Category, CategoryAdmin)
+
+
+class ProductCategoryAdmin(ImportExportModelAdmin):
+    resource_class = ProductCategoryResource
+
+admin.site.unregister(ProductCategory)
+admin.site.register(ProductCategory, ProductCategoryAdmin)
 
 
 from oscar.apps.address.admin import UserAddressAdmin  # noqa
