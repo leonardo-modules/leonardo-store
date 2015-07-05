@@ -18,3 +18,4 @@ class ProductResource(resources.ModelResource):
         fields = (
             'id', 'upc', 'parent', 'title', 'slug',
             'description', 'rating', 'is_discountable')
+        import_id_fields = ('upc', 'id')
