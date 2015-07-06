@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 class ProductList(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("name"), blank=True, null=True)
     items = models.ManyToManyField(
-        'catalogue.Product', verbose_name=_("items"), blank=True, null=True, through='ProductListItem')
+        'catalogue.Product', verbose_name=_("items"), blank=True, through='ProductListItem')
 
     def __unicode__(self):
         return self.name
