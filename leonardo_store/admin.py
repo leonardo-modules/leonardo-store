@@ -7,6 +7,7 @@ from oscar.apps.catalogue.admin import ProductAdmin as OscarProductAdmin
 from oscar.apps.catalogue.admin import CategoryAdmin as OscarCategoryAdmin
 from oscar.core.loading import get_model
 from django.contrib import messages
+from leonardo.module.media.models import Image
 
 from .models import *
 from .resources import *
