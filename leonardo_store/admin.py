@@ -6,11 +6,13 @@ from leonardo_import_export.admin import ImportExportModelAdmin
 from oscar.apps.catalogue.admin import ProductAdmin as OscarProductAdmin
 from oscar.apps.catalogue.admin import CategoryAdmin as OscarCategoryAdmin
 from oscar.core.loading import get_model
+from django.contrib import messages
 
 from .models import *
 from .resources import *
 
 Product = get_model('catalogue', 'Product')
+ProductImage = get_model('catalogue', 'ProductImage')
 Category = get_model('catalogue', 'Category')
 ProductCategory = get_model('catalogue', 'ProductCategory')
 UserAddress = get_model('address', 'UserAddress')
@@ -25,10 +27,65 @@ class ProductAdmin(OscarProductAdmin, ImportExportModelAdmin):
 admin.site.unregister(Product)
 admin.site.register(Product, ProductAdmin)
 
+from django.conf.urls import patterns, url
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+
+
+class ProductImageAdmin(ImportExportModelAdmin):
+    resource_class = ProductImageResource
+    change_list_template = 'admin/change_list_with_scan.html'
+
+    def get_urls(self):
+        urls = super(ProductImageAdmin, self).get_urls()
+        info = self.get_model_info()
+        my_urls = patterns(
+            '',
+            url(r'^scan/$',
+                self.admin_site.admin_view(self.scan_action),
+                name='%s_%s_scan_images' % info),
+        )
+        return my_urls + urls
+
+    def scan_action(self, request, *args, **kwargs):
+        '''
+        Perform the product image scan
+        '''
+
+        for product in Product.objects.all():
+            images = Image.objects.filter(
+                Q(name__icontains=product.upc) |
+                Q(original_filename__icontains=product.upc))
+
+            for i, image in enumerate(images):
+                product_image = ProductImage(
+                    product=product)
+                product_image.original.save(
+                    image.original_filename,
+                    image.file, save=False)
+                product_image.display_order = i
+                try:
+                    product_image.save()
+                except:
+                    product_image.original.save(
+                        image.original_filename,
+                        image.file, save=False)
+
+        success_message = _('Scan finished')
+        messages.success(request, success_message)
+
+        url = reverse('admin:%s_%s_changelist' % self.get_model_info(),
+                      current_app=self.admin_site.name)
+        return HttpResponseRedirect(url)
+
+admin.site.unregister(ProductImage)
+admin.site.register(ProductImage, ProductImageAdmin)
+
 
 class CategoryAdmin(ImportExportModelAdmin, OscarCategoryAdmin):
     resource_class = CategoryResource
-    list_display = ('name', 'path')
+    list_display = ('name', 'path', 'slug')
 
 admin.site.unregister(Category)
 admin.site.register(Category, CategoryAdmin)
