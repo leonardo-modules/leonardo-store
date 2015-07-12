@@ -13,13 +13,18 @@ Installation
 
 .. code-block:: bash
 
-    pip install leonardo_module_store
+    pip install leonardo-store
+
+.. code-block:: bash
+
+    pip install leonardo-store[cod,api,paypal]
 
 or as leonardo bundle
 
 .. code-block:: bash
 
     pip install django-leonardo["store"]
+
 
 Add ``leonardo_store`` to leonardo APPS list, in the ``local_settings.py``::
 
