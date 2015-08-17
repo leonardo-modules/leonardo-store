@@ -84,7 +84,7 @@ admin.site.unregister(ProductImage)
 admin.site.register(ProductImage, ProductImageAdmin)
 
 
-class CategoryAdmin(ImportExportModelAdmin, OscarCategoryAdmin):
+class CategoryAdmin(OscarCategoryAdmin, ImportExportModelAdmin):
     resource_class = CategoryResource
     list_display = ('name', 'path', 'slug')
 
