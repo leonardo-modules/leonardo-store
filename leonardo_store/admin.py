@@ -1,13 +1,20 @@
 
-from django.contrib import admin
+from django.conf.urls import patterns, url
+from django.contrib import admin, messages
 from django.contrib.admin.options import InlineModelAdmin, ModelAdmin
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
-from leonardo_import_export.admin import ImportExportModelAdmin
-from oscar.apps.catalogue.admin import ProductAdmin as OscarProductAdmin
-from oscar.apps.catalogue.admin import CategoryAdmin as OscarCategoryAdmin
-from oscar.core.loading import get_model
-from django.contrib import messages
 from leonardo.module.media.models import Image
+from leonardo_import_export.admin import ImportExportModelAdmin
+from oscar.apps.address.admin import UserAddressAdmin  # noqa
+from oscar.apps.catalogue.admin import CategoryAdmin as OscarCategoryAdmin
+from oscar.apps.catalogue.admin import ProductAdmin as OscarProductAdmin
+from oscar.apps.order.admin import OrderAdmin  # noqa
+from oscar.apps.partner.admin import *
+from oscar.core.loading import get_model
+from treebeard.forms import movenodeform_factory
 
 from .models import *
 from .resources import *
@@ -28,10 +35,6 @@ class ProductAdmin(OscarProductAdmin, ImportExportModelAdmin):
 admin.site.unregister(Product)
 admin.site.register(Product, ProductAdmin)
 
-from django.conf.urls import patterns, url
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
-from django.db.models import Q
 
 
 class ProductImageAdmin(ImportExportModelAdmin):
@@ -87,6 +90,7 @@ admin.site.register(ProductImage, ProductImageAdmin)
 class CategoryAdmin(OscarCategoryAdmin, ImportExportModelAdmin):
     resource_class = CategoryResource
     list_display = ('name', 'path', 'slug')
+    form = movenodeform_factory(Category)
 
 admin.site.unregister(Category)
 admin.site.register(Category, CategoryAdmin)
@@ -99,7 +103,6 @@ admin.site.unregister(ProductCategory)
 admin.site.register(ProductCategory, ProductCategoryAdmin)
 
 
-from oscar.apps.address.admin import UserAddressAdmin  # noqa
 
 
 class UserAddressAdmin(ImportExportModelAdmin):
@@ -109,7 +112,6 @@ admin.site.unregister(UserAddress)
 admin.site.register(UserAddress, UserAddressAdmin)
 
 
-from oscar.apps.order.admin import OrderAdmin  # noqa
 
 
 class OrderAdmin(ImportExportModelAdmin):
@@ -118,7 +120,6 @@ class OrderAdmin(ImportExportModelAdmin):
 admin.site.unregister(Order)
 admin.site.register(Order, OrderAdmin)
 
-from oscar.apps.partner.admin import *
 
 
 class PartnerAdmin(ImportExportModelAdmin):
