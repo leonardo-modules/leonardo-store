@@ -48,7 +48,7 @@ class ProductCatalogWidget(Widget):
             category_current = None
 
         Category = get_class('catalogue.categories', 'Category')
-        category_list = Category.objects.filter(depth=0)
+        category_list = Category.objects.filter(depth=1)
 
         path_to_root = []
         if category_current:
