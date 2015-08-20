@@ -29,12 +29,19 @@ Partner = get_model('partner', 'Partner')
 StockRecord = get_model('partner', 'StockRecord')
 
 
+class ProductImageInline(admin.TabularInline):
+
+    model = ProductImage
+    extra = 1
+
+
 class ProductAdmin(OscarProductAdmin, ImportExportModelAdmin):
     resource_class = ProductResource
 
+    inlines = OscarProductAdmin.inlines + [ProductImageInline, ]
+
 admin.site.unregister(Product)
 admin.site.register(Product, ProductAdmin)
-
 
 
 class ProductImageAdmin(ImportExportModelAdmin):
@@ -103,8 +110,6 @@ admin.site.unregister(ProductCategory)
 admin.site.register(ProductCategory, ProductCategoryAdmin)
 
 
-
-
 class UserAddressAdmin(ImportExportModelAdmin):
     resource_class = UserAddressResource
 
@@ -112,14 +117,11 @@ admin.site.unregister(UserAddress)
 admin.site.register(UserAddress, UserAddressAdmin)
 
 
-
-
 class OrderAdmin(ImportExportModelAdmin):
     resource_class = OrderResource
 
 admin.site.unregister(Order)
 admin.site.register(Order, OrderAdmin)
-
 
 
 class PartnerAdmin(ImportExportModelAdmin):
