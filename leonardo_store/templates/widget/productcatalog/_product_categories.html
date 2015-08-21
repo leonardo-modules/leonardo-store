@@ -1,3 +1,31 @@
+{% load category_tags %}
+
+{% category_tree as tree_categories %}
+{% if tree_categories %}
+<ul class="nav nav-list">
+    {% for tree_category, info in tree_categories %}
+        <li>
+        {% if tree_category.pk == category.pk %}
+            <strong>{{ tree_category.name }}</strong>
+        {% else %}
+            <a href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
+        {% endif %}
+
+        {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+        {% for n in info.num_to_close %}
+            </ul></li>
+        {% endfor %}
+    {% endfor %}
+</ul>
+{% endif %}
+{% if has_facets %}
+{% for field, data in facet_data.items %}
+    {% if data.results %}
+        {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+    {% endif %}
+{% endfor %}
+{% endif %}
+
 <ul class="vertical">
 {% for root in category_list %}
 {% if root.id == level_0.id %}
