@@ -3,6 +3,10 @@
 {% load currency_filters %}
 {% load staticfiles %}
 
+{% load applicationcontent_tags %}
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Order history' %}{% endblock %}{% endfragment %}
+
+
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>

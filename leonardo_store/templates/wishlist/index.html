@@ -1,13 +1,13 @@
-{% extends "widget/base.html" %}
+{% extends widget.get_base_template %}
 
 {% load i18n %}
 {% load thumbnail %}
 {% load satchmo_category %}
 {% load webcms_store_tags %}
 
-{% block navbar %}
-<li>{% trans "Wishlist" %}</li>
-{% endblock %}
+{% load applicationcontent_tags %}
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Wishlist' %}{% endblock %}{% endfragment %}
+
 
 {% block content %}
 {% if wishlist_message %}

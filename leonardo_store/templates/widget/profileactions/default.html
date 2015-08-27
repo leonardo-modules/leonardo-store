@@ -1,38 +1,31 @@
 {% extends widget.get_base_template %}
 
 {% load i18n %}
-{% load normalize_decimal %}
 
 {% block content %}
-<ul class="vertical">
-	{% if account_dashboard == request.path_info %}
-	<li><strong>{% trans "My Account" %}</strong></li>
-	{% else %}
-	<li><a href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a></li>
-	{% endif %}
-	{% if account_update == request.path_info %}
-	<li><strong>{% trans "Change Account Information" %}</strong></li>
-	{% else %}
-	<li><a href="{% url 'customer:change-profile' %}">{% trans "Change Account Information" %}</a></li>
-	{% endif %}
-	{% if password_change == request.path_info %}
-	<li><strong>{% trans "Change Password" %}</strong></li>
-	{% else %}
-	<li><a href="{% url 'customer:change-password' %}">{% trans "Change Password" %}</a></li>
-	{% endif %}
-	{% if wishlist %}
-	{% if wishlist == request.path_info %}
-	<li><strong>{% trans "Favorite Items" %}</strong></li>
-	{% else %}
-	<li><a href="{% url 'customer:wishlists-list' %}">{% trans "Favorite Items" %}</a></li>
-	{% endif %}
-	{% endif %}
-	{% if order_list == request.path_info %}
-	<li><strong>{% trans "Order History" %}</strong></li>
-	{% else %}
-	<li><a href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a></li>
-	{% endif %}
-	{% if contact == request.path_info %}
-	<li><strong class="last">{% trans "Contact Us" %}</strong></li>
+<ul class="nav nav-pills nav-stacked">
+{% block standard_tabs %}
+    <li{% if active_tab == 'profile' %} class="active"{% endif %}>
+        <a href="{% url 'customer:profile-view' %}">{% trans "Profile" %}</a>
+    </li>
+    <li{% if active_tab == 'orders' %} class="active"{% endif %}>
+        <a href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a>
+    </li>
+    <li{% if active_tab == 'addresses' %} class="active"{% endif %}>
+        <a href="{% url 'customer:address-list' %}">{% trans "Address Book" %}</a>
+    </li>
+    <li{% if active_tab == 'emails' %} class="active"{% endif %}>
+        <a href="{% url 'customer:email-list' %}">{% trans "Email History" %}</a>
+    </li>
+    <li{% if active_tab == 'alerts' %} class="active"{% endif %}>
+        <a href="{% url 'customer:alerts-list' %}">{% trans "Product Alerts" %}</a>
+    </li>
+    <li{% if active_tab == 'notifications' %} class="active"{% endif %}>
+        <a href="{% url 'customer:notifications-inbox' %}">{% trans "Notifications" %}</a>
+    </li>
+    <li{% if active_tab == 'wishlists' %} class="active"{% endif %}>
+        <a href="{% url 'customer:wishlists-list' %}">{% trans "Wish Lists" %}</a>
+    </li>
+{% endblock %}
 </ul>
 {% endblock %}

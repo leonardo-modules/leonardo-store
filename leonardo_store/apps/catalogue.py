@@ -9,7 +9,7 @@ from feincms.views.decorators import standalone
 from oscar.apps.catalogue import views
 
 # mark to standalone
-views.ProductDetailView.get = standalone(views.ProductDetailView.get)
+#views.ProductDetailView.get = standalone(views.ProductDetailView.get)
 
 
 urlpatterns = patterns('',

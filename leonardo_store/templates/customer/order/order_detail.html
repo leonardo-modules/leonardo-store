@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load reviews_tags %}
 
+{% load applicationcontent_tags %}
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Order history' %}{% endblock %}{% endfragment %}
+
+
 {% block extra_breadcrumbs %}
     <li>
         <a href="{% url 'customer:order-list' %}">{% trans 'Order history' %}</a>

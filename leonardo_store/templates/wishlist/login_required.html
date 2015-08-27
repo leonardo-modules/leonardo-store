@@ -1,11 +1,12 @@
-{% extends "widget/base.html" %}
+{% extends widget.get_base_template %}
 {% load i18n satchmo_category %}
-
-{% block breadcrumbs %}
-<li><strong>{% trans "Wishlist" %}</strong></li>
-{% endblock %}
+{% load applicationcontent_tags %}
 
 {% block content %}
+
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Wishlist' %}{% endblock %}{% endfragment %}
+
+
 {% if request.user.is_authenticated %}
 <p class="warning">{% blocktrans %}You are authenticated but need to set up your contact information.{% endblocktrans %}</p>
 <div class="buttonset">

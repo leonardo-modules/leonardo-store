@@ -1,6 +1,9 @@
 {% extends "customer/baseaccountpage.html" %}
 
 {% load i18n %}
+{% load applicationcontent_tags %}
+
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Profile' %}{% endblock %}{% endfragment %}
 
 {% block tabcontent %}
     <table class="table table-striped table-bordered">

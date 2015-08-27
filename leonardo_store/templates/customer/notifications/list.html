@@ -1,5 +1,9 @@
 {% extends "customer/baseaccountpage.html" %}
 {% load i18n %}
+{% load applicationcontent_tags %}
+
+{% fragment request "_page_title" %}{% block page_title %}{% trans 'Notifications' %}{% endblock %}{% endfragment %}
+
 
 {% block tabcontent %}
 

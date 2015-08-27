@@ -1,4 +1,6 @@
-{% extends "layout.html" %}
+{% extends widget.get_base_template %}
+
+{% load applicationcontent_tags %}
 {% load thumbnail %}
 {% load i18n %}
 
@@ -8,7 +10,7 @@
 {% endblock content %}
 
 {% block onbodyload %}
-    {{ block.super }}
+	{{ block.super }}
     {# We pass in the URL to send AJAX requests to #}
     var options = {
         'basketURL': '{% url 'basket:summary' %}'

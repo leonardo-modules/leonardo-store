@@ -78,6 +78,7 @@ class Default(object):
             ('leonardo_store.apps.checkout', _('Store Checkout'), ),
             ('leonardo_store.apps.customer', _('Customers'), ),
             ('leonardo_store.apps.catalogue', _('Store Catalog'),),
+            ('leonardo_store.apps.partner', _('Partners'),),
         ]
 
     widgets = [
@@ -102,6 +103,7 @@ class Default(object):
         'catalogue.product': 'leonardo_store.overrides.oscar_product_url_app',
         'catalogue.category': 'leonardo_store.overrides.category',
         'wishlists.wishlist': 'leonardo_store.overrides.wishlist',
+        'partner.partner': 'leonardo_store.overrides.partner',
     }
 
     navigation_extensions = [

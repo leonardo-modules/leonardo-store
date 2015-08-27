@@ -1,34 +1,26 @@
 {% extends "catalogue/browse.html" %}
 
 {% load i18n %}
+{% load applicationcontent_tags %}
 
-{% block title %}
-    {{ category.name }} | {{ block.super }}
-{% endblock %}
+{% block content %}
 
-{% block description %}
-    {{ category.description|default:""|striptags }}
-{% endblock %}
-
-{% block headertext %}{{ category.name }}{% endblock %}
-
+{% fragment request "_breadcrumbs" %}
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
-            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
-            <span class="divider">/</span>
+            <a href="{{ widget.parent.get_absolute_url }}">{% trans "Home" %}</a>
         </li>
         {% for category in category.get_ancestors %}
             <li>
                 <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                <span class="divider">/</span>
             </li>
         {% endfor %}
         <li class="active">{{ category.name }}</li>
     </ul>
-{% endblock breadcrumbs %}
-
-{% block content %}
+{% endblock %}
+{% endfragment %}
+    {% fragment request "_page_title" %}{% block page_title %}{{ category.name }}{% endblock %}{% endfragment %}
     {% if category.description %}
         <div class="row-fluid">
             <div class="span9"><p>{{ category.description|safe }}</p></div>
