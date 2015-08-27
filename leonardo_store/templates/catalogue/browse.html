@@ -7,27 +7,6 @@
 {% load i18n %}
 
 {% block content %}
-    {% category_tree as tree_categories %}
-    {% if tree_categories %}
-        <h4>{% trans "Show results for" %}</h4>
-        <div class="side_categories">
-            <ul class="nav nav-list">
-                {% for tree_category, info in tree_categories %}
-                    <li>
-                    {% if tree_category.pk == category.pk %}
-                        <strong>{{ tree_category.name }}</strong>
-                    {% else %}
-                        <a href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
-                    {% endif %}
-
-                    {% if info.has_children %}<ul>{% else %}</li>{% endif %}
-                    {% for n in info.num_to_close %}
-                        </ul></li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
     {% if has_facets %}
         <h4>{% trans "Refine by" %}</h4>
         <div class="side_categories">
