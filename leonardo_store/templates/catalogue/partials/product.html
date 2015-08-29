@@ -5,38 +5,36 @@
 {% load staticfiles %}
 
 {% block product %}
-{% block product_image %}
-    <div class="image_container">
-        {% with image=product.primary_image %}
-            {% thumbnail image.original "x155" upscale=False as thumb %}
-            <a href="{{ product.get_absolute_url }}"><img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail"></a>
-            {% endthumbnail %}
-        {% endwith %}
-    </div>
-{% endblock %}
+<div class="thumbnail">
+  {% with image=product.primary_image %}
+  {% thumbnail image.original "x155" upscale=False as thumb %}
+  <a href="{{ product.get_absolute_url }}">
+    <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
+  </a>
+  {% endthumbnail %}
+  {% endwith %}
+  <div class="caption">
+    <h4 class="pull-right">
+      {% include "catalogue/partials/stock_record.html" %}
+      {% if not product.is_parent %}
+      {% include "catalogue/partials/add_to_basket_form_compact.html" %}
+      {% endif %}
+    </h4>
+    <h4><a href="{{ product.get_absolute_url }}">{{ product.get_title|truncatewords:4 }}</a></h4>
+    <p>...</p>
+  </div>
 
-{% block product_review %}
-    {% iffeature "reviews" %}
-        <p class="star-rating {{ product.rating|as_stars }}">
-            <i class="icon-star"></i>
-            <i class="icon-star"></i>
-            <i class="icon-star"></i>
-            <i class="icon-star"></i>
-            <i class="icon-star"></i>
-        </p>
-    {% endiffeature %}
-{% endblock %}
+  {% iffeature "reviews" %}
+  <div class="ratings">
+    <p class="star-rating {{ product.rating|as_stars }}">
+      <i class="icon-star"></i>
+      <i class="icon-star"></i>
+      <i class="icon-star"></i>
+      <i class="icon-star"></i>
+      <i class="icon-star"></i>
+    </p>
+  </div>
+  {% endiffeature %}
 
-{% block product_title %}
-    <h3><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}">{{ product.get_title|truncatewords:4 }}</a></h3>
-{% endblock %}
-
-{% block product_price %}
-    <div class="product_price">
-        {% include "catalogue/partials/stock_record.html" %}
-        {% if not product.is_parent %}
-            {% include "catalogue/partials/add_to_basket_form_compact.html" %}
-        {% endif %}
-    </div>
-{% endblock %}
+</div>
 {% endblock %}

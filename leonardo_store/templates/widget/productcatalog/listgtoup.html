@@ -1,0 +1,65 @@
+{% extends widget.get_base_template %}
+
+{% load i18n %}
+{% load category_tags %}
+
+
+{% block content %}
+{% category_tree as tree_categories %}
+{% if widget.list == 'all_manuf' %}
+<div class="catalog catalog-{{ widget.list }}">
+	<ul class="catalog-tabs">
+		<li><a href="#{{ widget.fe_identifier }}_category">{% trans "Categories" %}</a></li>
+		<li><a href="#{{ widget.fe_identifier }}_manuf">{% trans "Manufacturers" %}</a></li>
+	</ul>
+	<div id="{{ widget.fe_identifier }}_category">
+{% if tree_categories %}
+<div class="list-group">
+{% for tree_category, info in tree_categories %}
+{% if tree_category.pk == category.pk %}
+<strong class="list-group-item">{{ tree_category.name }}</strong>
+{% else %}
+<a class="list-group-item" href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
+{% endif %}
+{% endfor %}
+</div>
+{% endif %}
+	</div>
+	<div id="{{ widget.fe_identifier }}_manuf">
+		{% include "widget/productcatalog/_product_manufacturers.html" %}
+	</div>
+</div>
+{% endif %}
+
+{% if widget.list == 'category' %}
+{% if tree_categories %}
+<div class="list-group">
+{% for tree_category, info in tree_categories %}
+{% if tree_category.pk == category.pk %}
+<strong class="list-group-item">{{ tree_category.name }}</strong>
+{% else %}
+<a class="list-group-item" href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
+{% endif %}
+{% endfor %}
+</div>
+{% endif %}
+{% endif %} 
+{% if widget.list == 'manuf' %}
+{% include "widget/productcatalog/_product_manufacturers.html" %}
+{% endif %} 
+
+<script type="text/javascript">
+/* <![CDATA[ */
+$(document).ready(function() {
+	{% if widget.list == 'all_manuf' %}
+	{% if manufacturer_current %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs({selected: 1 });
+	{% else %}
+	$("#{{ widget.fe_identifier }} .catalog").tabs();
+	{% endif %}
+	{% endif %}
+
+});
+/* ]]> */
+</script>
+{% endblock %}

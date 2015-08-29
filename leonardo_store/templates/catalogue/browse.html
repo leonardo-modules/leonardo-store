@@ -7,63 +7,63 @@
 {% load i18n %}
 
 {% block content %}
-    {% if has_facets %}
-        <h4>{% trans "Refine by" %}</h4>
-        <div class="side_categories">
-            {% for field, data in facet_data.items %}
-                {% if data.results %}
-                    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-                {% endif %}
-            {% endfor %}
-        </div>
+{% if has_facets %}
+<h4>{% trans "Refine by" %}</h4>
+<div class="side_categories">
+{% for field, data in facet_data.items %}
+    {% if data.results %}
+    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
     {% endif %}
+{% endfor %}
+</div>
+{% endif %}
 
-    <form method="get" class="form-horizontal">
-        {# Render other search params in a hidden block #}
-        <div style="display:none">
-            {% for value in selected_facets %}
-                <input name="selected_facets" value="{{ value }}" />
-            {% endfor %}
-            {{ form.q }}
-        </div>
+{% comment %}
+<form method="get" class="form-horizontal">
+{# Render other search params in a hidden block #}
+<div style="display:none">
+{% for value in selected_facets %}
+    <input name="selected_facets" value="{{ value }}" />
+{% endfor %}
+{{ form.q }}
+</div>
 
-        {% if paginator.count %}
-            {% if paginator.num_pages > 1 %}
-                {% blocktrans with start=page_obj.start_index end=page_obj.end_index num_results=paginator.count %}
-                    <strong>{{ num_results }}</strong> results - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
-                {% endblocktrans %}
-            {% else %}
-                {% blocktrans count num_results=paginator.count %}
-                    <strong>1</strong> result.
-                {% plural %}
-                    <strong>{{ num_results }}</strong> results.
-                {% endblocktrans %}
-            {% endif %}
-            {% if form %}
-                <div class="pull-right">
-                    {% include "partials/form_field.html" with field=form.sort_by %}
-                </div>
-            {% endif %}
-        {% else %}
-            <p>
-                {% trans "<strong>0</strong> results." %}
-            </p>
-        {% endif %}
-    </form>
+{% if paginator.count %}
+{% if paginator.num_pages > 1 %}
+    {% blocktrans with start=page_obj.start_index end=page_obj.end_index num_results=paginator.count %}
+        <strong>{{ num_results }}</strong> results - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
+    {% endblocktrans %}
+{% else %}
+    {% blocktrans count num_results=paginator.count %}
+        <strong>1</strong> result.
+    {% plural %}
+        <strong>{{ num_results }}</strong> results.
+    {% endblocktrans %}
+{% endif %}
+{% if form %}
+    <div class="pull-right">
+        {% include "partials/form_field.html" with field=form.sort_by %}
+    </div>
+{% endif %}
+{% else %}
+<p>
+    {% trans "<strong>0</strong> results." %}
+</p>
+{% endif %}
+</form>
+{% endcomment %}
 
-    {% if products %}
-        <section>
-            <div>
-                <ol class="row-fluid">
-                    {% for product in products %}
-                        <li class="col-lg-3 col-md-4 col-xs-6 {% if forloop.counter0|divisibleby:"4" %}no-margin{% endif %}">{% render_product product %}</li>
-                    {% endfor %}
-                </ol>
-                {% include "partials/pagination.html" %}
-            </div>
-        </section>
-    {% else %}
-        <p class="nonefound">{% trans "No products found." %}</p>
-    {% endif %}
+{% if products %}
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-3 col-md-4 col-xs-6 {% if forloop.counter0|divisibleby:"4" %}no-margin{% endif %}">
+        {% render_product product %}
+    </div>
+    {% endfor %}
+    {% include "partials/pagination.html" %}
+</div>
+{% else %}
+<p class="nonefound">{% trans "No products found." %}</p>
+{% endif %}
 
 {% endblock content %}

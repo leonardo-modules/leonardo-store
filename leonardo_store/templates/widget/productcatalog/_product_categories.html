@@ -10,7 +10,6 @@
         {% else %}
             <a href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
         {% endif %}
-
         {% if info.has_children %}<ul>{% else %}</li>{% endif %}
         {% for n in info.num_to_close %}
             </ul></li>
@@ -20,33 +19,8 @@
 {% endif %}
 {% if has_facets %}
 {% for field, data in facet_data.items %}
-    {% if data.results %}
-        {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-    {% endif %}
-{% endfor %}
-{% endif %}
-
-<ul class="vertical">
-{% for root in category_list %}
-{% if root.id == level_0.id %}
-<li class="{% if root.id  == category_current.id %}active{% else %}subactive{% endif %}">
-	<a href="{{ root.get_absolute_url }}">{{ root.translated_name|capfirst }}</a>
-	{% for level_1_category in root.child.all %}
-	{% if forloop.first %}<ul>{% endif %}
-	{% if level_1_category.id == level_2.id %}
-		{% if level_1_category.is_active %}
-		<li class="{% if level_1_category.id  == category_current.id %}active{% else %}subactive{% endif %}"><a href="{{ level_1_category.get_absolute_url }}">{{ level_1_category.name|capfirst }}</a></li>
-		{% endif %}
-	{% else %}
-		{% if level_1_category.is_active %}
-		<li><a href="{{ level_1_category.get_absolute_url }}">{{ level_1_category.name|capfirst }}</a></li>
-		{% endif %}
-	{% endif %}
-	{% if forloop.last %}</ul>{% endif %}
-	{% endfor %}
-</li>
-{% else %}
-<li><a {% if forloop.last %}class="last"{% endif %} href="{{ root.get_absolute_url }}">{{ root.name|capfirst }}</a></li>
+{% if data.results %}
+{% include 'search/partials/facet.html' with name=data.name items=data.results %}
 {% endif %}
 {% endfor %}
-</ul>
+{% endif %}
