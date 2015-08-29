@@ -1,18 +1,17 @@
-{% extends "widget/base.html" %}
+{% extends widget.get_base_template %}
 
 {% load i18n %}
 
 {% block content %}
-<ul class="{% if widget.inline %}horizontal{% else %}vertical{% endif %}">
-	<li><a class="button" href="{% url 'customers:profile-view' %}"><span><span>{% trans "My Account" %}</span></span></a></li>
-	<li><a class="button" href="{% url 'basket:summary' %}"><span><span>{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</span></span></a></li>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a></li>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'basket:summary' %}">{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</a>
 	{% if cart.numItems > 0 %}
-	<li><a class="button" href="{% url 'checkout:index' %}"><span><span>{% trans "Check Out" %}</span></span></a></li>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'checkout:index' %}">{% trans "Check Out" %}</a>
 	{% endif %}
 	{% if request.user.is_authenticated %}
-	<li><a class="button" href="{% url 'logout' %}"><span><span>{% trans "Log Out" %}</span></span></a></li>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
 	{% else %}
-	<li><a class="button" href="{% url 'login' %}"><span><span>{% trans "Log In" %}</span></span></a></li>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'login' %}">{% trans "Log In" %}</a>
 	{% endif %}
 </ul>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends widget.get_base_template %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="list-group">
+  <a class="list-group-item" href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a>
+  <a class="list-group-item" href="{% url 'basket:summary' %}">{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</a>
+  {% if cart.numItems > 0 %}
+  <a class="list-group-item" href="{% url 'checkout:index' %}">{% trans "Check Out" %}</a>
+  {% endif %}
+  {% if request.user.is_authenticated %}
+  <a class="list-group-item" class="last" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
+  {% else %}
+  <a class="list-group-item" class="last" href="{% url 'login' %}">{% trans "Log In" %}</a>
+  {% endif %}
+</div>
+{% endblock %}

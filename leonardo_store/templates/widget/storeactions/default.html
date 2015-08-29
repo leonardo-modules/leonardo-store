@@ -3,16 +3,16 @@
 {% load i18n %}
 
 {% block content %}
-<ul class="{% if widget.inline %}horizontal{% else %}vertical{% endif %}">
-	<li><a href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a></li>
-	<li><a href="{% url 'basket:summary' %}">{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</a></li>
-	{% if cart.numItems > 0 %}
-	<li><a href="{% url 'checkout:index' %}">{% trans "Check Out" %}</a></li>
-	{% endif %}
-	{% if request.user.is_authenticated %}
-	<li><a class="last" href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
-	{% else %}
-	<li><a class="last" href="{% url 'login' %}">{% trans "Log In" %}</a></li>
-	{% endif %}
+<ul class="nav {% if widget.inline %}navbar-nav{% else %}nav-list{% endif %}">
+  <li><a href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a></li>
+  <li><a href="{% url 'basket:summary' %}">{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</a></li>
+  {% if cart.numItems > 0 %}
+  <li><a href="{% url 'checkout:index' %}">{% trans "Check Out" %}</a></li>
+  {% endif %}
+  {% if request.user.is_authenticated %}
+  <li><a class="last" href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
+  {% else %}
+  <li><a class="last" href="{% url 'login' %}">{% trans "Log In" %}</a></li>
+  {% endif %}
 </ul>
 {% endblock %}
