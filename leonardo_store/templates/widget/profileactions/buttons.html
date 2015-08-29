@@ -3,13 +3,9 @@
 {% load i18n %}
 
 {% block content %}
-<ul class="horizontal">
-	<li><a class="button" href="{% url 'customers:profile-view' %}"><span><span>{% trans "My Account" %}</span></span></a></li>
-	<li><a class="button"href="{% url 'customer:change-profile' %}"><span><span>{% trans "Change Account Information" %}</span></span></a></li>
-	<li><a class="button" href="{% url 'customer:change-password' %}"><span><span>{% trans "Change Password" %}</span></span></a></li>
-	{% if wishlist %}
-	<li><a class="button" href="{% url 'customer:wishlists-list' %}"><span><span>{% trans "Favorite Items" %}</span></span></a></li>
-	{% endif %}
-	<li><a class="button" href="{% url 'customer:order-list' %}"><span><span>{% trans "Order History" %}</span></span></a></li>
-</ul>
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a>
+{% if wishlist %}
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'customer:wishlists-list' %}">{% trans "Favorite Items" %}</a>
+{% endif %}
+<a class="btn btn-primary{% if not widget.inline %} btn-block{% endif %}" href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a>
 {% endblock %}

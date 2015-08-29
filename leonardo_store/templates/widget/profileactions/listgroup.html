@@ -1,0 +1,15 @@
+{% extends widget.get_base_template %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="list-group">
+  <a class="list-group-item" href="{% url 'customer:profile-view' %}">{% trans "Profile" %}</a>
+  <a class="list-group-item" href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a>
+  <a class="list-group-item" href="{% url 'customer:address-list' %}">{% trans "Address Book" %}</a>
+  <a class="list-group-item" href="{% url 'customer:email-list' %}">{% trans "Email History" %}</a>
+  <a class="list-group-item" href="{% url 'customer:alerts-list' %}">{% trans "Product Alerts" %}</a>
+  <a class="list-group-item" href="{% url 'customer:notifications-inbox' %}">{% trans "Notifications" %}</a>
+  <a class="list-group-item" href="{% url 'customer:wishlists-list' %}">{% trans "Wish Lists" %}</a>
+</div>
+{% endblock %}
