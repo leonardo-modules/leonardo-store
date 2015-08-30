@@ -5,15 +5,20 @@
 {% load i18n %}
 
 {% block content %}
-    {# Use a partial template so that AJAX can be used to re-render basket #}
-    {% include 'basket/partials/basket_content.html' %}
-{% endblock content %}
+{# Use a partial template so that AJAX can be used to re-render basket #}
+{% include 'basket/partials/basket_content.html' %}
+<script type="text/javascript">
 
-{% block onbodyload %}
-	{{ block.super }}
-    {# We pass in the URL to send AJAX requests to #}
-    var options = {
-        'basketURL': '{% url 'basket:summary' %}'
-    };
-    oscar.basket.init(options);
-{% endblock %}
+$(document).ready(function() {
+  {% block onbodyload %}
+  {{ block.super }}
+  {# We pass in the URL to send AJAX requests to #}
+  var options = {
+    'basketURL': '{% url 'basket:summary' %}'
+  };
+  oscar.basket.init(options);
+  {% endblock %}
+});
+
+</script>
+{% endblock content %}

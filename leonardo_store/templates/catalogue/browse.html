@@ -63,7 +63,7 @@
     {% include "partials/pagination.html" %}
 </div>
 {% else %}
-<p class="nonefound">{% trans "No products found." %}</p>
+<div role="alert" class="alert alert-info">{% trans "No products found." %}</div>
 {% endif %}
 
 {% endblock content %}
