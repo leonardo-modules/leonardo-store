@@ -71,14 +71,14 @@ class Default(object):
         _plugins = []
 
         if self.is_oscarapi_installed():
-            _plugins.append(('leonardo_store.apps.api', _('Store API'), ),)
+            _plugins.append(('leonardo_store.apps.api', _('Store: API'), ),)
 
         return _plugins + [
-            ('leonardo_store.apps.basket', _('Shopping Cart'), ),
-            ('leonardo_store.apps.checkout', _('Store Checkout'), ),
-            ('leonardo_store.apps.customer', _('Customers'), ),
-            ('leonardo_store.apps.catalogue', _('Store Catalog'),),
-            ('leonardo_store.apps.partner', _('Partners'),),
+            ('leonardo_store.apps.basket', _('Store: Shopping Cart'), ),
+            ('leonardo_store.apps.checkout', _('Store: Checkout'), ),
+            ('leonardo_store.apps.customer', _('Store: Customer Profile'), ),
+            ('leonardo_store.apps.catalogue', _('Store: Product Catalog'),),
+            ('leonardo_store.apps.partner', _('Store: Partners'),),
         ]
 
     widgets = [
