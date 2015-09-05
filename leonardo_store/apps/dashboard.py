@@ -2,7 +2,7 @@
 from django.conf.urls import include, patterns, url
 
 
-from oscar.apps.catalogue.app import application
+from oscar.apps.dashboard.app import application
 
 
 urlpatterns = patterns('',

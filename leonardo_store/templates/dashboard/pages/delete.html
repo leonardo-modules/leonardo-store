@@ -12,11 +12,9 @@
     <ul class="breadcrumb">
         <li>
             <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
-            <span class="divider">/</span>
         </li>
         <li>
             <a href="{% url 'dashboard:page-list' %}">{% trans "Pages" %}</a>
-            <span class="divider">/</span>
         </li>
         <li class="active">{% blocktrans with title=object.title %}Delete page '{{ title }}'?{% endblocktrans %}</li>
     </ul>
@@ -35,7 +33,7 @@
         {{ form }}
         <p>{% blocktrans with title=object.title %}Delete page <strong>{{ title }}</strong> - are you sure?{% endblocktrans %}</p>
         <div class="form-actions">
-            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+            <button type="submit" class="btn btn-danger" data-loading-text="{% trans 'Deleting...' %}">{% trans "Delete" %}</button>
             {% trans "or" %} <a href="{% url 'dashboard:page-list' %}">{% trans "cancel" %}</a>.
         </div>
     </form>

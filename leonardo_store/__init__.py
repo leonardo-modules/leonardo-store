@@ -53,6 +53,8 @@ class Default(object):
             'oscar.apps.customer',
             'oscar.apps.catalogue',
             'leonardo_import_export',
+            'django.contrib.flatpages',
+            'widget_tweaks',
         ] + oscar_apps
 
     auth_backends = [
@@ -79,6 +81,7 @@ class Default(object):
             ('leonardo_store.apps.customer', _('Store: Customer Profile'), ),
             ('leonardo_store.apps.catalogue', _('Store: Product Catalog'),),
             ('leonardo_store.apps.partner', _('Store: Partners'),),
+            ('leonardo_store.apps.dashboard', _('Store: Dashboard'),),
         ]
 
     widgets = [

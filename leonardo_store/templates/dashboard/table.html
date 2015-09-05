@@ -6,7 +6,10 @@
 <caption>
     {% block table.caption %}
         <h3 class="pull-left">
-            <i class="icon-{{ queryset_icon|default:"sitemap" }} icon-large"></i>{{ queryset_description }}
+            {% if table.icon %}
+              <i class="icon-{{ table.icon }} icon-large"></i>
+            {% endif %}
+            {{ table.get_caption_display }}
         </h3>
     {% endblock %}
 </caption>
@@ -25,6 +28,6 @@
 
 {% block pagination %}
 {% with page_obj=table.page paginator=table.paginator %}
-    {% include "partials/pagination.html" %}
+    {% include "dashboard/partials/pagination.html" %}
 {% endwith %}
 {% endblock pagination %}

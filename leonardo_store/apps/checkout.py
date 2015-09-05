@@ -1,16 +1,16 @@
 
 from django.conf.urls import include, patterns
 from django.shortcuts import redirect
-from feincms.views.decorators import standalone
+#from leonardo.apps import standalone
 from leonardo.module.web.widget.application.reverse import (app_reverse,
                                                             app_reverse_lazy)
 from oscar.apps.checkout import mixins, views
 from oscar.apps.checkout.app import application
 from oscar.core.loading import get_model
 
-views.ShippingAddressView.get = standalone(views.ShippingAddressView.get)
-views.PaymentDetailsView.get = standalone(views.PaymentDetailsView.get)
-views.ThankYouView.get = standalone(views.ThankYouView.get)
+#views.ShippingAddressView.get = standalone(views.ShippingAddressView.get)
+#views.PaymentDetailsView.get = standalone(views.PaymentDetailsView.get)
+#views.ThankYouView.get = standalone(views.ThankYouView.get)
 
 
 def shipping_address(self):
