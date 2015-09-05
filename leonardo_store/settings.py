@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from oscar.defaults import *
 import os
@@ -26,3 +27,25 @@ OSCAR_HOMEPAGE = "/"
 
 # insecure
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+OSCAR_DEFAULT_CURRENCY = 'EUR'
+
+OSCAR_CURRENCY_FORMAT = "#,##0.00 ¤"
+
+
+def lazy_profile_redirect():
+    '''lazy redirect'''
+    from leonardo.module.web.widget.application.reverse import app_reverse_lazy
+    return app_reverse_lazy(
+        'profile-view', 'leonardo_store.apps.customer')
+
+OSCAR_ACCOUNTS_REDIRECT_URL = lazy_profile_redirect()
+
+
+def lazy_home_redirect():
+    '''lazy redirect'''
+    from leonardo.module.web.widget.application.reverse import app_reverse_lazy
+    return app_reverse_lazy(
+        'index', 'leonardo_store.apps.catalogue')
+
+OSCAR_HOMEPAGE = lazy_home_redirect()
