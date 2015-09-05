@@ -118,4 +118,12 @@ class Config(AppConfig, Default):
     name = 'leonardo_store'
     verbose_name = "Store"
 
+    def ready(self):
+
+        # monkey patch of OSCAR_HOMEPAGE
+        # i don't know why is not value propagated in standard proces
+        from django.conf import settings
+        from .settings import OSCAR_HOMEPAGE
+        settings.OSCAR_HOMEPAGE = OSCAR_HOMEPAGE
+
 default = Default()
