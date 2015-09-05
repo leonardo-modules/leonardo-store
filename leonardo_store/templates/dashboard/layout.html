@@ -30,7 +30,7 @@
     {% trans "Dashboard" %} | {{ block.super }}
 {% endblock %}
 
-{% block layout %}
+{% block content %}
     {% block navbar %}
     <nav class="navbar navbar-static-top navbar-inverse navbar-accounts">
         <div class="container-fluid">
@@ -117,9 +117,7 @@
             </div>
             {% endblock %}
             <div class="page-content">
-                {% block content %}
-                    {% block dashboard_content %}{% endblock dashboard_content %}
-                {% endblock content %}
+                {% block dashboard_content %}{% endblock dashboard_content %}
             </div>
         </div>
     </div><!-- /container -->
