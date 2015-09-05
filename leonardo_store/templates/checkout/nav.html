@@ -6,16 +6,16 @@
             {% spaceless %}
                 <li class="step1 {% if step == 1 %}active{% else %}{% if step == 2 %}previous{% else %}{% if step > 1 %}visited{% else %}disabled{% endif %}{% endif %}{% endif %} span3">
                     {% if step == 2 or step == 3 or step == 4 %}
-                        <a href="{% url 'checkout:shipping-address' %}">
-                            <i class="visible-phone icon-chevron-left"></i>
-                            <span>
-                                {% trans "1. Shipping address" %}
-                            </span>
-                        </a>
-                    {% else %}
-                        <span class="navbar-text">
-                            {%  trans "1. Shipping address" %}
+                    <a href="{% url 'checkout:shipping-address' %}">
+                        <i class="visible-phone icon-chevron-left"></i>
+                        <span>
+                            {% trans "1. Shipping address" %}
                         </span>
+                    </a>
+                    {% else %}
+                    <span class="navbar-text">
+                        {%  trans "1. Shipping address" %}
+                    </span>
                     {% endif %}
                 </li>
 

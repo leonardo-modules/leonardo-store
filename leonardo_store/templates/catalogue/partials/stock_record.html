@@ -15,6 +15,7 @@
 {% else %}
     <p class="price_color">&nbsp;</p>
 {% endif %}
+{% comment %}
 <p class="{{ session.availability.code }} availability">
     <i class="icon-{% if session.availability.is_available_to_buy %}ok{% else %}remove{% endif %}"></i>
     {% if verbose %}
@@ -23,3 +24,4 @@
         {{ session.availability.short_message }}
     {% endif %}
 </p>
+{% endcomment %}

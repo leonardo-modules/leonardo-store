@@ -1,3 +1,4 @@
+
 {% load reviews_tags %}
 {% load thumbnail %}
 {% load i18n %}
@@ -16,7 +17,9 @@
   <div class="caption">
     <h4 class="pull-right">
       {% include "catalogue/partials/stock_record.html" %}
-      {% if not product.is_parent %}
+      {% if product.is_parent %}
+      <a class="btn btn-primary" href="{{ product.get_absolute_url }}">{% trans "Product detail" %}</a>
+      {% else %}
       {% include "catalogue/partials/add_to_basket_form_compact.html" %}
       {% endif %}
     </h4>
