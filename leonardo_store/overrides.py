@@ -23,6 +23,14 @@ def partner(self):
         kwargs={'code': self.code})
 
 
+def offer(self):
+    from leonardo.module.web.widget.application.reverse import app_reverse
+    return app_reverse(
+        'detail',
+        'leonardo_store.apps.offer',
+        kwargs={'slug': self.slug})
+
+
 def wishlist(self):
     from leonardo.module.web.widget.application.reverse import app_reverse
     return app_reverse(

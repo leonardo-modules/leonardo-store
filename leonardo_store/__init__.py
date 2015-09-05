@@ -107,6 +107,7 @@ class Default(object):
         'catalogue.category': 'leonardo_store.overrides.category',
         'wishlists.wishlist': 'leonardo_store.overrides.wishlist',
         'partner.partner': 'leonardo_store.overrides.partner',
+        'offer.offer': 'leonardo_store.overrides.offer',
     }
 
     navigation_extensions = [
