@@ -88,6 +88,11 @@
                         {% trans "Change" %}
                     </a>
                     <h3>{% trans "Payment" %}</h3>
+                    <p>{{ payment_method.name }}
+                        {% if payment_method.description %}
+                            - {{ payment_method.description|safe }}
+                        {% endif %}
+                    </p>
                     <a href="{% url 'checkout:payment-details' %}">{% trans "Payment details to go here" %}</a>
                 </div>
             </div>

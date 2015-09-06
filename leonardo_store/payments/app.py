@@ -7,6 +7,11 @@ from .views import LeonardoPaymentMethodView
 
 class CustomPaymentDetailsView(PaymentDetailsView):
 
+    def get_payment_method(self):
+
+        method_code = self.checkout_session.payment_method()
+        return Repository().get_method(method_code)
+
     def get(self, request, *args, **kwargs):
         '''get used payment method from session and redirect
 
@@ -14,14 +19,18 @@ class CustomPaymentDetailsView(PaymentDetailsView):
 
         '''
 
-        method_code = self.checkout_session.payment_method()
+        if self.checkout_session._get('payment', 'in_detail'):
 
-        if method_code and self.checkout_session._get('payment', 'in_detail'):
+            payment_method = self.get_payment_method()
 
-            paymet_method = Repository().get_method(method_code)
-
-            return paymet_method.view.as_view()(request, **kwargs)
+            return payment_method.view.as_view()(request, **kwargs)
 
         self.checkout_session._set('payment', 'in_detail', True)
 
         return LeonardoPaymentMethodView.as_view()(request, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CustomPaymentDetailsView, self).get_context_data(
+            *args, **kwargs)
+        context['payment_method'] = self.get_payment_method()
+        return context
