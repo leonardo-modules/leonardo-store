@@ -128,4 +128,8 @@ class Config(AppConfig, Default):
         from .settings import OSCAR_HOMEPAGE
         settings.OSCAR_HOMEPAGE = OSCAR_HOMEPAGE
 
+        # set model repository
+        from leonardo_store.shipping.utils import set_model_repository
+        set_model_repository()
+
 default = Default()
