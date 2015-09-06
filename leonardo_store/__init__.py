@@ -134,4 +134,8 @@ class Config(AppConfig, Default):
         from leonardo_store.shipping.utils import set_model_repository
         set_model_repository()
 
+        # override checkout
+        from leonardo_store.payments import override_checkout
+        override_checkout()
+
 default = Default()
