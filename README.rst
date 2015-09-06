@@ -45,31 +45,47 @@ API
 
 .. code-block:: bash
 
-    pip install leonardo-module-eshop[api]
+    pip install leonardo-store[api]
 
 
 Payments
 ========
 
-Oscar has several backends, but in this time is fully integrated only Paypal.
+Leonardo Store has simple Plugable Payment System for Django Oscar which is basically inspired from shipping method.
 
+Inherit from ``leonardo_store.payments.PaymentMethod`` and define your Payment Method details.
+
+call ``override_checkout`` from ``leonardo_store.payments.utils`` for example in ``app.ready`` method.
+
+Thats all, your Payment Method will be available in payment method view
 
 Paypal
 ------
 
-https://github.com/django-oscar/django-oscar-paypal
+.. code-block:: bash
+
+    pip install leonardo-store[paypal]
+
+Cash on Delivery
+----------------
 
 .. code-block:: bash
 
-    pip install leonardo-module-eshop[paypal]
+    pip install leonardo-store[cod]
 
-Add ``eshop_stores`` to leonardo APPS list, in the ``local_settings.py``::
 
-    APPS = [
-        ...
-        'eshop_paypal',
-        ...
-    ]
+Bank Transfer
+-------------
+
+.. code-block:: bash
+
+    pip install leonardo-store[banktransfer]
+
+
+Shipping
+========
+
+Leonardo Store uses ``leonardo_store.shipping.repository.ModelRepository`` as default Shipping provider. This Repository gets all ``WeightBased`` ship methods and provides it. For shipping discount uses offers which affects Basket.
 
 Read More
 =========
