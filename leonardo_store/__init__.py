@@ -55,6 +55,7 @@ class Default(object):
             'leonardo_import_export',
             'django.contrib.flatpages',
             'widget_tweaks',
+            'brand',
         ] + oscar_apps
 
     auth_backends = [

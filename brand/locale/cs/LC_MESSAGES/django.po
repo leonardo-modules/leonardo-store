@@ -1,0 +1,197 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-06 14:10+0000\n"
+"PO-Revision-Date: 2015-09-06 14:15+0000\n"
+"Last-Translator:   <root@admin.cz>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Translated-Using: django-rosetta 0.7.6\n"
+
+#: dashboard/forms.py:16
+msgid "Brand name"
+msgstr "Jméno značky"
+
+#: dashboard/views.py:43
+#, python-format
+msgid "Brands matching \"%s\""
+msgstr ""
+
+#: dashboard/views.py:45 settings.py:15
+#: templates/brand/dashboard/brand_list.html:19
+#: templates/brand/dashboard/brand_update.html:23
+#: templates/brand/detail.html:23 templates/brand/list.html:26
+msgid "Brands"
+msgstr "Značky"
+
+#: dashboard/views.py:68 templates/brand/dashboard/brand_list.html:29
+msgid "Create new brand"
+msgstr "Vytvořit novou značku"
+
+#: models/__init__.py:20
+msgid "name"
+msgstr "název"
+
+#: models/__init__.py:21
+msgid "description"
+msgstr "popis"
+
+#: models/__init__.py:24
+msgid "Translation"
+msgstr "Překlad"
+
+#: models/__init__.py:25
+msgid "Translations"
+msgstr "Překlady"
+
+#: models/abstract_models.py:9 templates/brand/dashboard/brand_list.html:57
+msgid "Name"
+msgstr "Název"
+
+#: models/abstract_models.py:10
+msgid "Slug"
+msgstr "Slug"
+
+#: models/abstract_models.py:11
+msgid "Description"
+msgstr "Popis"
+
+#: models/abstract_models.py:12
+msgid "Formula"
+msgstr "Recept"
+
+#: models/abstract_models.py:13 templates/brand/detail.html:42
+msgid "Country"
+msgstr "Země"
+
+#: settings.py:7 settings.py:11
+msgid "Trademarks"
+msgstr "Ochranné známky"
+
+#: templates/brand/dashboard/brand_delete.html:8
+#: templates/brand/dashboard/brand_list.html:14
+#: templates/brand/dashboard/brand_update.html:19
+msgid "Dashboard"
+msgstr "Přístrojová deska"
+
+#: templates/brand/dashboard/brand_delete.html:12
+msgid "Stores"
+msgstr "Obchody"
+
+#: templates/brand/dashboard/brand_delete.html:19
+#: templates/brand/dashboard/brand_delete.html:24
+msgid "Delete brand?"
+msgstr "Odstranit značku?"
+
+#: templates/brand/dashboard/brand_delete.html:30
+#, python-format
+msgid ""
+"\n"
+"    <p>Delete brand <strong>%(trademark_name)s</strong> - are you sure?</p>\n"
+"    "
+msgstr ""
+
+#: templates/brand/dashboard/brand_delete.html:34
+#: templates/brand/dashboard/brand_list.html:84
+msgid "Delete"
+msgstr "Smazat"
+
+#: templates/brand/dashboard/brand_delete.html:35
+#: templates/brand/dashboard/brand_update.html:61
+msgid "or"
+msgstr "nebo"
+
+#: templates/brand/dashboard/brand_delete.html:36
+msgid "cancel"
+msgstr "zrušit"
+
+#: templates/brand/dashboard/brand_list.html:8
+msgid "Brand management"
+msgstr "Řízení značky"
+
+#: templates/brand/dashboard/brand_list.html:30
+msgid "Brand Management"
+msgstr "Řízení značky"
+
+#: templates/brand/dashboard/brand_list.html:36
+msgid "Search Brands"
+msgstr "Hledat Značky"
+
+#: templates/brand/dashboard/brand_list.html:41
+msgid "Search"
+msgstr "Vyhledávání"
+
+#: templates/brand/dashboard/brand_list.html:43
+msgid "Reset"
+msgstr "Obnovit"
+
+#: templates/brand/dashboard/brand_list.html:58
+msgid "Formula of price"
+msgstr "Vzorec z ceny"
+
+#: templates/brand/dashboard/brand_list.html:59
+msgid "Product amount"
+msgstr "Částka Product"
+
+#: templates/brand/dashboard/brand_list.html:69
+msgid "No"
+msgstr "Žádný"
+
+#: templates/brand/dashboard/brand_list.html:75
+msgid "View on site"
+msgstr "Prohlédnout si na stránce"
+
+#: templates/brand/dashboard/brand_list.html:81
+msgid "Edit"
+msgstr "Edit"
+
+#: templates/brand/dashboard/brand_list.html:97
+msgid "No brands found."
+msgstr "Nebyly nalezeny žádné značky."
+
+#: templates/brand/dashboard/brand_update.html:36
+msgid ""
+"Your submitted data did not validate - please correct the below errors and "
+"resubmit."
+msgstr ""
+"Vaše předložené údaje nejsou validní - prosím opravte níže uvedené chyby a "
+"znovu."
+
+#: templates/brand/dashboard/brand_update.html:51
+msgid "Trademark details"
+msgstr "Podrobnosti ochranných známek"
+
+#: templates/brand/dashboard/brand_update.html:60
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: templates/brand/dashboard/brand_update.html:62
+msgid "Save"
+msgstr "Save"
+
+#: templates/brand/detail.html:19 templates/brand/list.html:22
+msgid "Home"
+msgstr "Domů"
+
+#: templates/brand/detail.html:27
+msgid "View all brands"
+msgstr "Zobrazit všechny značky"
+
+#: templates/brand/list.html:44
+msgid "All brands"
+msgstr "Všechny značky"
+
+#: templates/brand/list.html:56
+msgid "No brand data available."
+msgstr "Žádné údaje nejsou k dispozici značky."
