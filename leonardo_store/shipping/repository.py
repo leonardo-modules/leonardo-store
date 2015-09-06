@@ -1,6 +1,7 @@
 
 from django.conf import settings
 from oscar.apps.shipping import repository
+from oscar.apps.shipping.models import WeightBased
 
 
 class ModelRepository(repository.Repository):
@@ -8,14 +9,17 @@ class ModelRepository(repository.Repository):
     '''Uses WeightBased shipping methods
     '''
 
+    @property
+    def methods(self):
+        return WeightBased.objects.all()
+
     def get_available_shipping_methods(
             self, basket, shipping_addr=None, **kwargs):
         """
         Return a list of all applicable shipping method instances for a given
         basket, address etc. This method is intended to be overridden.
         """
-        from oscar.apps.shipping.models import WeightBased
-        return WeightBased.objects.all()
+        return self.methods
 
     def get_default_shipping_method(self, basket, shipping_addr=None,
                                     **kwargs):
