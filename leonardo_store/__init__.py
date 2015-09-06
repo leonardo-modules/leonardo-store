@@ -101,6 +101,7 @@ class Default(object):
         'OSCAR_IMAGE_FOLDER': ('eshop', _('Eshop Image Directory')),
         'OSCAR_DELETE_IMAGE_FILES': (True, _('Delete Image Files')),
         'OSCAR_PROMOTION_FOLDER': ('promotions', _('Promotions Directory')),
+        'OSCAR_SHIPPING_DEFAULT_METHOD': ('first', _('Default Shipping Name')),
     }
 
     absolute_url_overrides = {
