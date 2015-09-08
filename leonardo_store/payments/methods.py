@@ -22,19 +22,3 @@ class PaymentMethod(object):
             raise Exception('Payment Method must have defined view')
 
         super(PaymentMethod, self).__init__(*args, **kwargs)
-
-
-class PaypalPaymentMethod(PaymentMethod):
-
-    code = 'paypal'
-    name = _('Paypal')
-    description = _('Paypal Gateway')
-
-    view = 'Hovno'
-
-
-class BankTransferPaymentMethod(PaymentMethod):
-    code = 'banktransfer'
-    name = _('Bank Transfer')
-    description = _('Bank Transfer')
-    view = 'Hovno'

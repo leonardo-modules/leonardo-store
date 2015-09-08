@@ -138,4 +138,8 @@ class Config(AppConfig, Default):
         from leonardo_store.payments import override_checkout
         override_checkout()
 
+        # override catalogue
+        from leonardo_store.catalogue.utils import override_catalogue
+        override_catalogue()
+
 default = Default()

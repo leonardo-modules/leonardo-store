@@ -7,6 +7,7 @@
 {% load i18n %}
 
 {% block content %}
+
 {% if has_facets %}
 <h4>{% trans "Refine by" %}</h4>
 <div class="side_categories">
@@ -18,40 +19,21 @@
 </div>
 {% endif %}
 
-{% comment %}
 <form method="get" class="form-horizontal">
-{# Render other search params in a hidden block #}
-<div style="display:none">
+<div >
 {% for value in selected_facets %}
     <input name="selected_facets" value="{{ value }}" />
 {% endfor %}
 {{ form.q }}
 </div>
 
-{% if paginator.count %}
-{% if paginator.num_pages > 1 %}
-    {% blocktrans with start=page_obj.start_index end=page_obj.end_index num_results=paginator.count %}
-        <strong>{{ num_results }}</strong> results - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
-    {% endblocktrans %}
-{% else %}
-    {% blocktrans count num_results=paginator.count %}
-        <strong>1</strong> result.
-    {% plural %}
-        <strong>{{ num_results }}</strong> results.
-    {% endblocktrans %}
-{% endif %}
 {% if form %}
     <div class="pull-right">
-        {% include "partials/form_field.html" with field=form.sort_by %}
+        {% include "partials/form_field.html" with field=form.order_by %}
     </div>
 {% endif %}
-{% else %}
-<p>
-    {% trans "<strong>0</strong> results." %}
-</p>
-{% endif %}
+
 </form>
-{% endcomment %}
 
 {% if products %}
 <div class="row">
@@ -65,5 +47,15 @@
 {% else %}
 <div role="alert" class="alert alert-info">{% trans "No products found." %}</div>
 {% endif %}
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#id_order_by').change(
+            function(){
+                 $(this).closest('form').trigger('submit');
+            });
+    });
+
+</script>
 
 {% endblock content %}
