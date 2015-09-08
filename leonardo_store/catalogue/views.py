@@ -62,7 +62,7 @@ class CatalogueView(TemplateView):
         ctx['summary'] = _("All products")
 
         strategy = get_strategy(self.request)
-        data = self.get_data()
+        ctx[self.context_object_name] = data = self.get_data()
 
         '''
         - ``price``: a pricing policy object.
@@ -87,5 +87,6 @@ class CatalogueView(TemplateView):
                                   getattr(strategy.fetch_for_product(p), by, None),
                                   reverse=reverse)
 
-        ctx[self.context_object_name] = products
+                ctx[self.context_object_name] = products
+
         return ctx
