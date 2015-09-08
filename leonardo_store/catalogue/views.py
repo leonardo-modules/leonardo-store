@@ -74,8 +74,8 @@ class CatalogueView(TemplateView):
 
         if form.is_valid():
             order_by = form.cleaned_data.get('order_by', None)
-            reverse = False
             if order_by:
+                reverse = False
                 parsed = order_by.split('-')
                 if len(parsed) > 1:
                     reverse = True
@@ -83,9 +83,9 @@ class CatalogueView(TemplateView):
                 else:
                     by = parsed[0]
 
-        products = sorted(data, key=lambda p:
-                          getattr(strategy.fetch_for_product(p), by, None),
-                          reverse=reverse)
+                products = sorted(data, key=lambda p:
+                                  getattr(strategy.fetch_for_product(p), by, None),
+                                  reverse=reverse)
 
         ctx[self.context_object_name] = products
         return ctx
