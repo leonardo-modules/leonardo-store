@@ -1,4 +1,55 @@
-from import_export.resources import *
+
+import functools
+import logging
+import sys
+import traceback
+from copy import deepcopy
+
+import tablib
+from diff_match_patch import diff_match_patch
+from django import VERSION
+from django.conf import settings
+from django.db.models.fields import FieldDoesNotExist
+from django.db.models.query import QuerySet
+from django.db.transaction import TransactionManagementError
+from django.utils import six
+from django.utils.safestring import mark_safe
+from import_export import widgets
+
+from import_export.fields import Field
+from import_export.instance_loaders import ModelInstanceLoader
+from import_export.results import Error, Result, RowResult
+
+try:
+    from django.db.transaction import atomic, savepoint, savepoint_rollback, savepoint_commit  # noqa
+except ImportError:
+    from .django_compat import atomic, savepoint, savepoint_rollback, savepoint_commit  # noqa
+
+
+if VERSION < (1, 8):
+    from django.db.models.related import RelatedObject
+    ForeignObjectRel = RelatedObject
+else:
+    from django.db.models.fields.related import ForeignObjectRel
+    RelatedObject = None
+
+try:
+    from django.utils.encoding import force_text
+except ImportError:
+    from django.utils.encoding import force_unicode as force_text
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from django.utils.datastructures import SortedDict as OrderedDict
+
+try:  # Python 2.7+
+    from logging import NullHandler
+except ImportError:
+    class NullHandler(logging.Handler):
+
+        def emit(self, record):
+            pass
 
 
 @atomic()
@@ -80,7 +131,7 @@ def import_data(self, dataset, dry_run=False, raise_errors=False,
             if not isinstance(e, TransactionManagementError):
                 logging.exception(e)
             tb_info = traceback.format_exc(2)
-            row_result.errors.append(Error(e, tb_info, row))
+            row_result.errors.append(Error(e, tb_info))
             if raise_errors:
                 if use_transactions:
                     savepoint_rollback(sp1)
