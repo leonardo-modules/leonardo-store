@@ -1,55 +1,77 @@
-{% load form_tags %}
+{% load form_helpers %}
 
-{% if field.is_hidden %}
-    {{ field }}
-{% else %}
-    {% comment %}
-        Make the field widget type available to templates so we can mark-up
-        checkboxes differently to other widgets.
-    {% endcomment %}
-    {% annotate_form_field field %}
-
-    {% block control_group %}
-        <div class="control-group {% if field.errors %}error{% endif %}">
-
-            {% block label %}
-                {% if not nolabel and field.widget_type != 'CheckboxInput' %}
-                    <label for="{{ field.auto_id }}" class="control-label{% if field.field.required %} required{% endif %}">
-                        {{ field.label|safe }}
-                        {% if field.field.required %} <span>*</span>{% endif %}
-                    </label>
-                {% endif %}
-            {% endblock %}
-
-            {% block controls %}
-                <div class="controls">
-                    {% block widget %}
-                        {% if field.widget_type == 'CheckboxInput' %}
-                            <label for="{{ field.auto_id }}" class="checkbox {% if field.field.required %}required{% endif %}">
-                                {{ field.label|safe }}{% if field.field.required %} <span>*</span>{% endif %}
-                                {{ field }}
-                            </label>
-                        {% else %}
-                            {{ field }}
-                        {% endif %}
-                    {% endblock %}
-
-                    {% block errors %}
-                        {% for error in field.errors %}
-                            <span class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
-                        {% endfor %}
-                    {% endblock %}
-
-                    {% block help_text %}
-                        {% if field.help_text %}
-                            <span class='help-block'>
-                                {# We allow HTML within form help fields #}
-                                {{ field.help_text|safe }}
-                            </span>
-                        {% endif %}
-                    {% endblock %}
-                </div>
-            {% endblock %}
+<div class="form-group{% if field.errors %} has-error{% endif %} {{ field.css_classes }}">
+  {% if field|is_checkbox %}
+    <div class="{{ classes.single_value }}">
+      <div class="checkbox">
+        {% if field.auto_id %}
+          <label
+            {% if field.field.required and form.required_css_class %}
+            class="{{ form.required_css_class }}"
+            {% endif %}>
+            {{ field }}
+            <span>{{ field.label }}</span>
+            {% if field.help_text %}
+            <span class="help-icon" data-toggle="tooltip"
+              data-placement="top" title="{{ field.help_text|safe }}">
+              <span class="fa fa-question-circle"></span>
+            </span>
+          {% endif %}
+          </label>
+        {% endif %}
+        {% for error in field.errors %}
+          <span class="help-block alert alert-danger {{ form.error_css_class }}">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% elif field|is_radio %}
+    {% if field.auto_id %}
+      <label class="control-label {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}">{{ field.label }}</label>
+      {% if field.help_text %}
+        <span class="help-icon" data-toggle="tooltip" data-placement="top" title="{{ field.help_text|safe }}"><span class="fa fa-question-circle"></span></span>
+      {% endif %}
+    {% endif %}
+    <div class="{{ classes.value }}">
+      {% for choice in field %}
+        <div class="radio">
+          <label>
+            {{ choice.tag }}
+            {{ choice.choice_label }}
+          </label>
         </div>
-    {% endblock %}
-{% endif %}
+      {% endfor %}
+
+      {% for error in field.errors %}
+        <span class="help-block alert alert-danger {{ form.error_css_class }}">{{ error }}</span>
+      {% endfor %}
+
+    </div>
+  {% else %}
+    {% if field.auto_id %}
+      <label class="control-label {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label }}</label>
+      {% if field.help_text %}
+        <span class="help-icon" data-toggle="tooltip" data-placement="top" title="{{ field.help_text|safe }}"><span class="fa fa-question-circle"></span></span>
+      {% endif %}
+    {% endif %}
+
+    <div class="{{ classes.value }} {{ field|wrapper_classes }}">
+      {% with add_item_link=field|add_item_url %}
+      {% if add_item_link %}
+        <div class='input-group'>
+          {{ field|add_bootstrap_class }}
+          <span class="input-group-btn">
+            <a href="{{ add_item_link }}" data-add-to-field="{{ field.auto_id }}" class='btn btn-default ajax-add ajax-modal'>
+              <span class="fa fa-plus"></span>
+            </a>
+          </span>
+        </div>
+      {% else %}
+        {{ field|add_bootstrap_class }}
+      {% endif %}
+      {% endwith %}
+      {% for error in field.errors %}
+        <span class="help-block alert alert-danger {{ form.error_css_class }}">{{ error }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
