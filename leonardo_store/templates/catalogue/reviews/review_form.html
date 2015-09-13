@@ -35,9 +35,11 @@
                 </div>
 
                 {% include 'partials/form_field.html' with field=form.body %}
+
+                {% if not user.is_authenticated %}
                 {% include 'partials/form_field.html' with field=form.name %}
                 {% include 'partials/form_field.html' with field=form.email %}
-
+                {% endif %}
 
                 <button type="submit" class="btn btn-primary btn-large">{% trans "Save review" %}</button>
                 {% trans "or" %}
