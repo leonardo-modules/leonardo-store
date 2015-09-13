@@ -27,6 +27,14 @@ UserAddress = get_model('address', 'UserAddress')
 Order = get_model('order', 'Order')
 Partner = get_model('partner', 'Partner')
 StockRecord = get_model('partner', 'StockRecord')
+Order = get_model('order', 'Order')
+OrderNote = get_model('order', 'OrderNote')
+
+
+class OrderNoteInline(admin.TabularInline):
+
+    model = OrderNote
+    extra = 1
 
 
 class ProductImageInline(admin.TabularInline):
@@ -119,6 +127,8 @@ admin.site.register(UserAddress, UserAddressAdmin)
 
 class OrderAdmin(ImportExportModelAdmin):
     resource_class = OrderResource
+
+    inlines = [OrderNoteInline]
 
 admin.site.unregister(Order)
 admin.site.register(Order, OrderAdmin)
