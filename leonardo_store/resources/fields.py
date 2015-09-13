@@ -56,13 +56,6 @@ class CategoryField(fields.Field):
                           'category': category})
 
 
-STOCK_RECORD_FIELDS = ('id', 'product', 'product__title', 'partner',
-                       'partner__name', 'product__categories',
-                       'partner_sku', 'price_currency', 'price_excl_tax',
-                       'price_retail',  'cost_price', 'num_in_stock',
-                       'num_allocated', 'low_stock_threshold')
-
-
 class ProductMixin(object):
 
     def get_product(self, data):
