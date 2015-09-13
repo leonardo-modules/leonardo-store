@@ -31,6 +31,19 @@ def offer(self):
         kwargs={'slug': self.slug})
 
 
+def review(self):
+    from leonardo.module.web.widget.application.reverse import app_reverse
+    kwargs = {
+        'product_slug': self.product.slug,
+        'product_pk': self.product.id,
+        'pk': self.id
+    }
+    return app_reverse(
+        'reviews-detail',
+        'leonardo_store.apps.catalogue',
+        kwargs=kwargs)
+
+
 def wishlist(self):
     from leonardo.module.web.widget.application.reverse import app_reverse
     return app_reverse(

@@ -107,6 +107,7 @@ class Default(object):
 
     absolute_url_overrides = {
         'catalogue.product': 'leonardo_store.overrides.oscar_product_url_app',
+        'reviews.productreview': 'leonardo_store.overrides.review',
         'catalogue.category': 'leonardo_store.overrides.category',
         'wishlists.wishlist': 'leonardo_store.overrides.wishlist',
         'partner.partner': 'leonardo_store.overrides.partner',
