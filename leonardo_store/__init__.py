@@ -117,6 +117,10 @@ class Default(object):
         'leonardo_store.navigation_extensions.categories'
     ]
 
+    css_files = [
+        'oscar/css/store.css',
+    ]
+
 
 class Config(AppConfig, Default):
     name = 'leonardo_store'
