@@ -3,13 +3,18 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style type="text/css">
+        @font-face {
+            font-family: DejaVuSans;
+            src: url('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
+        }
+
         @page {
             size: a4 portrait;
             margin: 1cm;
             margin-left:2cm;
             margin-right:2cm;
+            font-family: DejaVuSans;
 
             /* header of the document with top red line
              * logo and address on the left and shipping
@@ -202,11 +207,13 @@
         }
         .turn-page-title h1 {
             font-size: 2em;
+            font-family: DejaVuSans;
         }
 
         table {
             border-spacing: 0;
             border-collapse: collapse;
+            font-family: DejaVuSans;
         }
         #footerRight td,th {
             text-align: left;
@@ -217,6 +224,9 @@
         .page-number {
             text-align: right;
         }
+        html, body { 
+            font-family: DejaVuSans;
+        } 
         </style>
     </head>
     <body>
