@@ -4,9 +4,11 @@ from django.shortcuts import redirect
 #from leonardo.apps import standalone
 from leonardo.module.web.widget.application.reverse import (app_reverse,
                                                             app_reverse_lazy)
+from leonardo_store.payments.invoice.views import OrderPdfView
 from oscar.apps.checkout import mixins, views
 from oscar.apps.checkout.app import application
 from oscar.core.loading import get_model
+
 
 #views.ShippingAddressView.get = standalone(views.ShippingAddressView.get)
 #views.PaymentDetailsView.get = standalone(views.PaymentDetailsView.get)
@@ -48,7 +50,7 @@ Country = get_model('address', 'Country')
 def get_initial(self):
     initial = self.checkout_session.new_shipping_address_fields()
     if initial:
-        #if 'country' not in initial or not isinstance(initial['country'], Country):
+        # if 'country' not in initial or not isinstance(initial['country'], Country):
         # Convert the primary key stored in the session into a Country
         # instance
         try:
@@ -73,4 +75,6 @@ views.PaymentMethodView.get_success_response = payment_detail
 
 urlpatterns = patterns('',
                        (r'^', include(application.get_urls()),),
+                       (r'^orders/(?P<id>.*)/pdf/$', OrderPdfView.as_view(),
+                        {}, 'order_pdf'),
                        )

@@ -1,0 +1,196 @@
+{% extends "dashboard/orders/pdf/base.html" %}
+{% load currency_filters %}
+
+{% block shipping-address-label %}
+{% with address=order.shipping_address %}
+    {% if address.title %}{{ address.title }}{% endif %}
+    {% if address.first_name %}{{ address.first_name }}{% endif %}
+    {% if address.last_name %}{{ address.last_name }}<br />{% endif %}
+    <br />
+    {{ address.line1 }}<br />
+
+    {% if address.line2 %}
+    {{ address.line2 }}<br />
+    {% endif %}
+
+    {% if address.line3 %}
+    {{ address.line3 }}<br />
+    {% endif %}
+
+    {{ address.line4 }} {{ address.state }} {{ address.postcode }}<br />
+    {{ address.country.printable_name }}
+{% endwith %}
+{% endblock %}
+
+{% block billing-address %}
+    {% with address=order.billing_address %}
+        {% if address.title %}{{ address.title }}{% endif %}
+        {% if address.first_name %}{{ address.first_name }}{% endif %}
+        {% if address.last_name %}{{ address.last_name }}<br />{% endif %}
+        <br />
+        {{ address.line1 }}<br />
+
+        {% if address.line2 %}
+        {{ address.line2 }}<br />
+        {% endif %}
+
+        {% if address.line3 %}
+        {{ address.line3 }}<br />
+        {% endif %}
+
+        {{ address.line4 }} {{ address.state }} {{ address.postcode }}<br />
+        {{ address.country.printable_name|truncatechars:30 }}
+        {% if address.phone_number %}
+        Phone: {{ address.phone_number }}<br />
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block shipping-address %}
+    {% with address=order.shipping_address %}
+        {% if address.title %}{{ address.title }}{% endif %}
+        {% if address.first_name %}{{ address.first_name }}{% endif %}
+        {% if address.last_name %}{{ address.last_name }}<br />{% endif %}
+        <br />
+        {{ address.line1 }}<br />
+
+        {% if address.line2 %}
+        {{ address.line2 }}<br />
+        {% endif %}
+
+        {% if address.line3 %}
+        {{ address.line3 }}<br />
+        {% endif %}
+
+        {{ address.line4 }} {{ address.state }} {{ address.postcode }}<br />
+        {{ address.country.printable_name|truncatechars:30 }}
+        {% if address.phone_number %}
+        <br/>
+        Phone: {{ address.phone_number }}
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block payment-method %}
+<ul>
+{% for source in order.sources.all %}
+    <li>{{ source.source_type.name }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block phone-number %}
+{% if order.user and order.user.get_profile.phone %}
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td><strong>Contact Number:</strong></td>
+    </tr>
+    <tr>
+        <td>{{ order.user.get_profile.phone }}</td>
+    </tr>
+{% endif %}
+{% endblock %}
+
+{% block delivery-notes %}
+{% if order.shipping_address.notes %}
+    {{ order.shipping_address.notes }}
+{% else %}
+    No special delivery instructions.
+{% endif %}
+{% endblock %}
+
+{% block order-details %}
+    <table width="100%" class="coloured-table">
+        <tr>
+            <th style="text-align: left;">Order Number</th>
+            <th style="text-align: center;">Purchase Date</th>
+            <th style="text-align: center;">Shipping Method</th>
+            <th style="text-align: center;">Lines</th>
+        </tr>
+        <tr>
+            <td style="text-align: left;">{{ order.number }}</td>
+            <td>{{ order.date_placed|date:"jS M Y" }}</td>
+            <td>{{ order.shipping_method }}</td>
+            <td>{{ order.lines.count }}</td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block product-table %}
+{% with max_on_first=6 max_following=19%}
+
+    {% if order.lines.count > max_on_first %}
+    <div class="turn-page-title">
+        <h1>Please turn over for full order listing</h1>
+        <pdf:nexttemplate name="nextPage">
+        <pdf:nextpage>
+        <pdf:spacer height='100mm'>
+    </div>
+    {% endif %}
+
+    {% for line in order.lines.all %}
+        {% if forloop.first or forloop.counter|divisibleby:max_following %}
+            {% if not forloop.first %}
+    </table>
+                {% if forloop.counter|divisibleby:max_following %}
+                <pdf:nexttemplate name="nextPage">
+                <pdf:nextpage>
+                <pdf:spacer height='100mm'>
+                {% endif %}
+            {% endif %}
+    <table class="coloured-table">
+        <tr>
+            <th style="text-align: left; width: 10mm;">Qty<br></th>
+            <th style="text-align: center; width: 15mm;">SKU<br></th>
+            <th style="text-align: left;">Product<br></th>
+            <th style="text-align: center; width: 20mm;">Unit Price<br><small>(incl GST)</small></th>
+            <th style="text-align: center; width: 20mm;">Total Price<br><small>(incl GST)</small></th>
+        </tr>
+        {% endif %}
+
+        <tr>
+            <td style="text-align: left;">{{ line.quantity }}</td>
+            <td style="text-align: center;">{{ line.product.stockrecord.sku|default:line.partner_sku }}</td>
+            <td style="text-align: left; vertical-align: top" width="50%">{{ line.title }}</td>
+            <td style="text-align: center;">{{ line.unit_price_incl_tax|currency }}</td>
+            <td style="text-align: right;padding-right:2mm">{{ line.line_price_before_discounts_incl_tax|currency }}</td>
+        </tr>
+        {% if forloop.last %}
+    </table>
+        {% endif %}
+    {% endfor %}
+
+{% endwith %}
+{% endblock %}
+
+{% block order-sums %}
+<table class="coloured-table" width="100%">
+    <tr style="border: none;">
+        <td colspan="5" style="border-top: 2px solid black; text-align: left;"></td>
+        <td colspan="2" style="text-align: right; border-top: 2px solid black;"><strong>Total discounts (incl GST)</strong></td>
+        <td style="text-align: right; border-top: 2px solid black;padding-right:2mm">- {{ order.total_discount_incl_tax|currency }}</td>
+    </tr>
+    <tr style="border: none;">
+        <td colspan="5" style="text-align: left;">
+            {% if voucher_codes %}
+                Voucher{% if voucher_codes|length > 1 %}s{% endif %} used:
+                {% for code in voucher_codes %}
+                    {{ code }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            {% endif %}
+        </td>
+        <td colspan="2" style="text-align: right;"><strong>Shipping (incl GST)</strong></td>
+        <td style="text-align: right;padding-right:2mm">{{ order.shipping_incl_tax|currency }}</td>
+    </tr>
+    <tr style="border: none;">
+        <td colspan="5"></td>
+        <td colspan="2" style="text-align: right;"><strong>Total tax 10%</strong></td>
+        <td style="text-align: right;padding-right:2mm">{{ order.total_tax|currency }}</td>
+    </tr>
+    <tr style="border: none;">
+        <td colspan="5"></td>
+        <td colspan="2" style="text-align: right; border-bottom: 2px solid black;"><strong>Total (incl. GST)</strong></td>
+        <td style="text-align: right; border-bottom: 2px solid black;padding-right:2mm">{{ order.total_incl_tax|currency }}</td>
+    </tr>
+</table>
+{% endblock %}

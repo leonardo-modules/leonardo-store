@@ -1,3 +1,4 @@
 -e git+https://github.com/django-oscar/django-oscar.git#egg=django-oscar
 pycountry==1.10
 leonardo-import-export>=2015.7.0
+xhtml2pdf==0.0.6
