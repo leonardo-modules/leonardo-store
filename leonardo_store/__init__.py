@@ -103,6 +103,11 @@ class Default(object):
         'OSCAR_DELETE_IMAGE_FILES': (True, _('Delete Image Files')),
         'OSCAR_PROMOTION_FOLDER': ('promotions', _('Promotions Directory')),
         'OSCAR_SHIPPING_DEFAULT_METHOD': ('first', _('Default Shipping Name')),
+        'OSCAR_ALLOW_ANON_CHECKOUT': (False, _('Specifies if an anonymous user can buy products without creating an account first. If set to False users are required to authenticate before they can checkout (using Oscars default checkout views).')),
+        'OSCAR_ALLOW_ANON_REVIEWS': (True, _('This setting defines whether an anonymous user can create a review for a product without registering first. If it is set to True anonymous users can create product reviews.')),
+        'OSCAR_MODERATE_REVIEWS': (False, _('This defines whether reviews have to be moderated before they are publicly available. If set to False a review created by a customer is immediately visible on the product page.')),
+        'OSCAR_FROM_EMAIL': ('oscar@example.com', _('The email address used as the sender for all communication events and emails handled by Oscar.')),
+        'OSCAR_SEND_REGISTRATION_EMAIL': (True, _('Sending out welcome messages to a user after they have registered on the site can be enabled or disabled using this setting. Setting it to True will send out emails on registration.')),
     }
 
     absolute_url_overrides = {
