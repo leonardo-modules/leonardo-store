@@ -1,7 +1,6 @@
+
 from django.views import generic
-from django.db.models import get_model
-from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
+from oscar.core.loading import get_model
 
 Brand = get_model('brand', 'brand')
 
