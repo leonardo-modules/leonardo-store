@@ -1,10 +1,11 @@
 
-from django.conf.urls import include, patterns
+from django.conf.urls import include, patterns, url
 from django.shortcuts import redirect
 #from leonardo.apps import standalone
 from leonardo.module.web.widget.application.reverse import (app_reverse,
                                                             app_reverse_lazy)
 from leonardo_store.payments.invoice.views import OrderPdfView
+
 from oscar.apps.checkout import mixins, views
 from oscar.apps.checkout.app import application
 from oscar.core.loading import get_model

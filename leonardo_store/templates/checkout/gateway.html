@@ -1,16 +1,9 @@
 {% extends "checkout/layout.html" %}
 
-{% load i18n %}
+{% load i18n leonardo_tags %}
+{% load  fragment from applicationcontent_tags %}
 
-{% block title %}
-    {% trans "Checkout gateway" %} | {{ block.super }}
-{% endblock %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=0 %}
-{% endblock %}
-
-{% block checkout_title %}{% trans "Who are you?" %}{% endblock %}
+{% fragment request "_page_title" %}{% block title %}{% trans "Who are you?" %}{% endblock %}{% endfragment %}
 
 {% block content %}
 
@@ -35,7 +28,7 @@
                     {{ form.options.2 }}
                     <div class="form-inline">
                         {{ form.password }}
-                        <small><a href="{% url 'password-reset' %}" tabindex="-1">{% trans "Get a password reminder" %}</a></small>
+                        <small><a href="{% app_reverse 'password-reset' 'leonardo_store.apps.customer' %}" tabindex="-1">{% trans "Get a password reminder" %}</a></small>
                         {% for error in form.password.errors %}
                             <span class="error-block">{{ error }}</span>
                         {% endfor %}
