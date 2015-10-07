@@ -10,6 +10,7 @@ class BrandForm(forms.ModelForm):
     class Meta:
         # exclude = ('description', )
         model = get_model('brand', 'Brand')
+        exclude = list()
 
 
 class DashboardBrandSearchForm(forms.Form):
