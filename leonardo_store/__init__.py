@@ -84,6 +84,7 @@ class Default(object):
             ('leonardo_store.apps.partner', _('Store: Partners'),),
             ('leonardo_store.apps.dashboard', _('Store: Dashboard'),),
             ('leonardo_store.apps.offer', _('Store: Offers'),),
+            ('leonardo_store.apps.promotions', _('Store: Promotions'),),
         ]
 
     widgets = [

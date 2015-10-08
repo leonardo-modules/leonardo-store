@@ -1,5 +1,5 @@
 
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, patterns
 
 
 from oscar.apps.catalogue.app import application
