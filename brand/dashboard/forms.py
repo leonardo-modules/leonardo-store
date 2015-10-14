@@ -2,14 +2,15 @@ from django import forms
 from django.forms import models as modelforms
 from django.forms.formsets import formset_factory
 from django.utils.translation import ugettext_lazy as _, ugettext
-from django.db.models import Q, get_model
+from django.db.models import Q
+from django.apps import apps
 
 
 class BrandForm(forms.ModelForm):
 
     class Meta:
         # exclude = ('description', )
-        model = get_model('brand', 'Brand')
+        model = apps.get_model('brand', 'Brand')
         exclude = list()
 
 

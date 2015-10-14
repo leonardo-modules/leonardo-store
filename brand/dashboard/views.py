@@ -1,5 +1,5 @@
 from django.views import generic
-from django.db.models import get_model
+from django.apps import apps
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _, ugettext
 from extra_views import (CreateWithInlinesView, UpdateWithInlinesView,
@@ -7,7 +7,7 @@ from extra_views import (CreateWithInlinesView, UpdateWithInlinesView,
 from brand.dashboard import forms
 
 
-Brand = get_model('brand', 'Brand')
+Brand = apps.get_model('brand', 'Brand')
 
 
 class BrandEditMixin(object):

@@ -12,18 +12,18 @@ try:
     from accounts.dashboard.app import application as accounts_app
 
     urlpatterns += [
-                    url(r'^accounts/', include(accounts_app.urls))
+                    url(r'^accounts/', include(accounts_app.get_urls()))
                     ]
-except:
+except Exception as e:
     pass
 
 try:
     from brand.dashboard.app import application as brand_app
 
     urlpatterns += [
-                    url(r'^brand/', include(brand_app.urls))
+                    url(r'^brand/', include(brand_app.get_urls()))
                     ]
-except:
+except Exception as e:
     pass
 
 urlpatterns += [

@@ -1,8 +1,8 @@
 
 from django.views import generic
-from oscar.core.loading import get_model
+from django.apps import apps
 
-Brand = get_model('brand', 'brand')
+Brand = apps.get_model('brand', 'brand')
 
 
 class ListView(generic.ListView):
