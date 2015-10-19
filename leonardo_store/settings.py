@@ -55,7 +55,7 @@ def dashboard_access_fn(user, url_name, url_args=None, url_kwargs=None):
     i recommend use permissions on application if is_stuff and next if is
     need it then make some magic here
     '''
-    return True
+    return user.is_staff
 
 OSCAR_DASHBOARD_DEFAULT_ACCESS_FUNCTION = 'leonardo_store.settings.dashboard_access_fn'
 

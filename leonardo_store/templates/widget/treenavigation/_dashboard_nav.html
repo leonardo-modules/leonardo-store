@@ -3,7 +3,7 @@
 {% load dashboard_tags %}
 {% load i18n %}
 
-{% dashboard_navigation user as nav_items %}
+{% dashboard_navigation request.user as nav_items %}
 
     <div class="container-fluid dashboard">
         <div class="navbar-header">
