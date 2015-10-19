@@ -2,7 +2,7 @@
 {% load url from future %}
 {% load i18n %}
 
-{% block title %}
+{% block page_title %}
     {{ title }} | {% trans "Create product type" %} | {{ block.super }}
 {% endblock %}
 
@@ -23,7 +23,7 @@
 {% block headertext %}{{ title }}{% endblock %}
 
 {% block dashboard_content %}
-    <form class="form-stacked wysiwyg fixed-actions" method="post" data-behaviour="affix-nav-errors">
+    <form class="form-stacked wysiwyg fixed-actions" method="post" data-behaviour="affix-nav-errors" action>
         {% csrf_token %}
 
         <div class="row">
@@ -134,7 +134,7 @@
                             {% trans "Cancel" %}
                         </a>
                         {% trans "or" %}
-                        <button class="btn btn-large btn-primary" type="submit">
+                        <button class="btn btn-large btn-primary" type="submit" value="save" data-loading-text="{% trans 'Saving...' %}">
                             {% trans "Save" %}
                         </button>
                     </div>

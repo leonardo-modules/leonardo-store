@@ -4,7 +4,7 @@
 
 {% block body_class %}{{ block.super }} orders{% endblock %}
 
-{% block title %}
+{% block page_title %}
     {% blocktrans with number=order.number %}Order {{ number }}{% endblocktrans %} | {{ block.super }}
 {% endblock %}
 

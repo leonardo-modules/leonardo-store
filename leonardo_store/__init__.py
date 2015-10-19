@@ -153,4 +153,7 @@ class Config(AppConfig, Default):
         from leonardo_store.catalogue.utils import override_catalogue
         override_catalogue()
 
+        from leonardo_store.utils import patch_tables2
+        patch_tables2()
+
 default = Default()

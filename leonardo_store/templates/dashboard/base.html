@@ -1,9 +1,34 @@
 {% extends widget.get_base_template %}
 
-{% block content %}
-<style type="text/css" src="{{ STATIC_URL }}oscar/css/dashboard.css"></style>
-{% block layout %}
+{% load staticfiles %}
 
+{% block content %}
+
+{% block layout %}
 {% endblock %}
+
+{% comment %}
+Scripts loaded from a CDN.  These can't be wrapped by the 'compress' tag and so we
+use a separate block for them.
+{% endcomment %}
+{% block cdn_scripts %}
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery-1.9.1.min.js" %}"><\/script>')</script>
+{% endblock %}
+
+{# Local scripts #}
+{% block scripts %}
+{% endblock %}
+
+{# Additional JS scripts #}
+{% block extrascripts %}{% endblock %}
+
+{# Block for body onload functions #}
+<script type="text/javascript">
+    $(function() {
+        {% block onbodyload %}{% endblock %}
+    });
+</script>
 
 {% endblock %}
