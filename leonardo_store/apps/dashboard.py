@@ -26,6 +26,16 @@ try:
 except Exception as e:
     pass
 
+
+try:
+    from stores.dashboard.app import application as store_app
+
+    urlpatterns += [
+                    url(r'^stores/', include(store_app.get_urls()))
+                    ]
+except Exception as e:
+    pass
+
 urlpatterns += [
     url(r'^', include(application.get_urls()),)
 ]
