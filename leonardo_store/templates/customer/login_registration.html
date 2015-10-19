@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
-{% load i18n %}
+{% load i18n leonardo_tags %}
 
-{% block title %}
+{% block page_title %}
     {% trans 'Login or register' %} | {{ block.super }}
 {% endblock %}
 
@@ -25,7 +25,7 @@
                 <h2>{% trans 'Log In' %}</h2>
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=login_form %}
-                <p><a href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
+                <p><a href="{% url 'password-reset' 'leonardo_store.apps.customer' %}">{% trans "I've forgotten my password" %}</a></p>
                 <button name="login_submit" type="submit" value="Log In" class="btn btn-large btn-primary js-disable-on-click" data-loading-text="{% trans "Logging in..." %}">{% trans 'Log In' %}</button>
             </form>
         </div>
