@@ -2,6 +2,9 @@
 {% load i18n %}
 {% load promotion_tags %}
 {% load category_tags %}
+{% load  fragment from applicationcontent_tags %}
+
+
 
 {% block layout %}
 
@@ -19,7 +22,8 @@
             {% include 'partials/alert_messages.html' %}
 
             <div class="sub-header">
-                <h1>{% block checkout_title %}{% endblock %}</h1>
+                {% fragment request "_page_title" %}{% block page_title %}{% block checkout_title %}{% endblock %}{% endblock %}{% endfragment %}
+                <h1></h1>
             </div>
 
             <!-- The main nav on checkout pages contain links to modal flatpages -->

@@ -1,15 +1,12 @@
 {% extends "checkout/checkout.html" %}
 {% load i18n %}
+{% load  fragment from applicationcontent_tags %}
 
-{% block title %}
-    {% trans "Shipping address" %} | {{ block.super }}
-{% endblock %}
+{% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping address" %}{% endblock %}{% endfragment %}
 
 {% block checkout_nav %}
     {% include 'checkout/nav.html' with step=1 %}
 {% endblock %}
-
-{% block checkout_title %}{% trans "Shipping address" %}{% endblock %}
 
 {% block order_contents %}{% endblock %}
 

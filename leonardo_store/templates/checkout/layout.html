@@ -4,34 +4,22 @@
 {% load category_tags %}
 
 {% block layout %}
+<header class="header container-fluid">
+    {% block checkout_nav %}{% endblock %}
+</header><!-- /header -->
 
-    <header class="header container-fluid">
-        <div class="page_inner">
-            <div class="row-fluid">
-                {% include "partials/brand.html" %}
-            </div><!-- /row-fluid -->
+<div class="container-fluid page">
+   <div class="page_inner">
+
+        {% block content %}
+        {% endblock %}
+
+        <div id="promotions">
+            {% for promotion in promotions_page %}
+                {% render_promotion promotion %}
+            {% endfor %}
         </div>
-        {% block checkout_nav %}{% endblock %}
-    </header><!-- /header -->
-
-    <div class="container-fluid page">
-       <div class="page_inner">
-            {% include 'partials/alert_messages.html' %}
-
-            <div class="sub-header">
-                <h1>{% block checkout_title %}{% endblock %}</h1>
-            </div>
-
-            {% block content %}
-
-            {% endblock %}
-
-            <div id="promotions">
-                {% for promotion in promotions_page %}
-                    {% render_promotion promotion %}
-                {% endfor %}
-            </div>
-        </div><!-- /page_inner -->
-    </div>
-    {% include "partials/footer_checkout.html" %}
+    </div><!-- /page_inner -->
+</div>
+{% include "partials/footer_checkout.html" %}
 {% endblock %}

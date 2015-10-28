@@ -5,7 +5,7 @@
 {% load i18n %}
 {% load staticfiles %}
 
-{% block title %}
+{% block page_title %}
     {% blocktrans with number=order.number %}
         Order {{ number }}: confirmation
     {% endblocktrans %} | {{ block.super }}

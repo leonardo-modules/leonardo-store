@@ -1,3 +1,4 @@
+{% extends widget.get_base_template %}
 
 {% load currency_filters %}
 {% load thumbnail %}
@@ -5,15 +6,11 @@
 {% load purchase_info_tags %}
 {% load staticfiles %}
 
-{% block title %}
-    {% trans "Checkout" %} | {{ block.super }}
-{% endblock %}
+{% block content %}
 
 {% block checkout_nav %}
     {% include 'checkout/nav.html' %}
 {% endblock %}
-
-{% block content %}
 
     {% if error %}
         <div class="alert alert-error">

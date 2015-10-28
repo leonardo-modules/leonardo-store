@@ -1,15 +1,14 @@
 {% extends "checkout/checkout.html" %}
 {% load i18n %}
+{% load  fragment from applicationcontent_tags %}
 
-{% block title %}
-    {% trans "Payment details" %} | {{ block.super }}
-{% endblock %}
+
+{% fragment request "_page_title" %}{% block title %}{% trans "Enter payment details" %}{% endblock %}{% endfragment %}
 
 {% block checkout_nav %}
     {% include 'checkout/nav.html' with step=3 %}
 {% endblock %}
 
-{% block checkout_title %}{% trans "Enter payment details" %}{% endblock %}
 
 {% block order_contents %}{% endblock %}
 {% block shipping_address %}{% endblock %}

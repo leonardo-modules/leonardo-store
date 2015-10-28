@@ -4,10 +4,6 @@
 {% load i18n %}
 {% load shipping_tags %}
 
-{% block title %}
-    {% trans "Shipping method" %} | {{ block.super }}
-{% endblock %}
-
 {% block checkout_nav %}
     {% include 'checkout/nav.html' with step=3 %}
 {% endblock %}
