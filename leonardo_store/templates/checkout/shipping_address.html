@@ -2,15 +2,13 @@
 {% load i18n %}
 {% load  fragment from applicationcontent_tags %}
 
-{% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping address" %}{% endblock %}{% endfragment %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=1 %}
-{% endblock %}
-
 {% block order_contents %}{% endblock %}
 
 {% block shipping_address %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping address" %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block checkout_nav %}{% include 'checkout/nav.html' with step=1 %}{% endblock %}{% endfragment %}
+
     <div class="sub-header">
         <h2>{% trans "Where should we ship to?" %}</h2>
     </div>

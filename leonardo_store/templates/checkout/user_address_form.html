@@ -1,20 +1,17 @@
 {% extends "checkout/checkout.html" %}
 {% load i18n crispy_forms_tags %}
 
-{% block page_title %}
-    {% trans "Edit address" %}
-{% endblock page_title %}
-
 {% block order_contents %}{% endblock %}
 {% block shipping_method %}{% endblock %}
 {% block payment_method %}{% endblock %}
 {% block payment_details %}{% endblock %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=1 %}
-{% endblock %}
+{% load  fragment from applicationcontent_tags %}
 
 {% block shipping_address %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% trans "Edit address" %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block checkout_nav %}{% include 'checkout/nav.html' with step=1 %}{% endblock %}{% endfragment %}
+
     <form id="update_user_address" action="." method="post" class="form form-horizontal">
         <div class="well">
             {% csrf_token %}

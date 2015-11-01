@@ -3,22 +3,17 @@
 {% load currency_filters %}
 {% load i18n %}
 {% load shipping_tags %}
-
-{% block page_title %}
-    {% trans "Shipping method" %} | {{ block.super }}
-{% endblock %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=2 %}
-{% endblock %}
-
-{% block checkout_title %}{% trans "Shipping method" %}{% endblock %}
+{% load  fragment from applicationcontent_tags %}
 
 {% block order_contents %}{% endblock %}
 {% block shipping_address %}{% endblock %}
 {% block payment_method %}{% endblock %}
 
 {% block shipping_method %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping method" %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block current_brand %}{% include 'checkout/nav.html' with step=2 %}{% endblock %}{% endfragment %}
+
     <div class="basket-title">
         <div class="row-fluid">
             <h4 class="span8">{% trans "Method" %}</h4>

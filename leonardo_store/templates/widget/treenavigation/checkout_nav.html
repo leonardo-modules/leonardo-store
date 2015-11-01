@@ -1,5 +1,7 @@
 {% extends widget.get_base_template %}
+{% load checkout %}
+
 
 {% block content %}
-{% include "widget/treenavigation/_checkout_nav.html" %}
+{% checkout_nav request %}
 {% endblock %}
