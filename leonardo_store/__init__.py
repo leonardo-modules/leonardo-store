@@ -40,7 +40,7 @@ class Default(object):
 
     @property
     def apps(self):
-        oscar_apps = get_eshop_apps()
+        oscar_apps = get_eshop_apps(['order', 'address'])
         apps = []
 
         # if is there oscarpi include it

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Profile(models.Model):
     """
-    Dummy profile model used for testing
+    Simple User profile model
     """
     user = models.OneToOneField(compat.AUTH_USER_MODEL, related_name="profile",
                                 blank=True, null=True)
@@ -22,8 +22,8 @@ class Profile(models.Model):
         max_length=255, verbose_name=_("company name"), blank=True, null=True)
     company_id = models.CharField(
         max_length=255, verbose_name=_("company ID"), blank=True, null=True)
-    tax_id = models.CharField(
-        max_length=255, verbose_name=_("tax ID"), blank=True, null=True)
+    vat_id = models.CharField(
+        max_length=255, verbose_name=_("VAT ID"), blank=True, null=True)
     account = models.CharField(
         max_length=255, verbose_name=_("account number"),
         blank=True, null=True)

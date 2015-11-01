@@ -9,7 +9,7 @@
     {% blocktrans with number=order.number %}
         Order {{ number }}: confirmation
     {% endblocktrans %} | {{ block.super }}
-{% endblock title %}
+{% endblock page_title %}
 
 {% block checkout_nav %}
     {% include 'checkout/nav.html' with step=5 %}

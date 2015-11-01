@@ -1,9 +1,9 @@
 {% extends "checkout/checkout.html" %}
-{% load i18n %}
+{% load i18n crispy_forms_tags %}
 
 {% block page_title %}
-    {% trans "Edit address" %} | {{ block.super }}
-{% endblock title %}
+    {% trans "Edit address" %}
+{% endblock page_title %}
 
 {% block order_contents %}{% endblock %}
 {% block shipping_method %}{% endblock %}
@@ -14,13 +14,11 @@
     {% include 'checkout/nav.html' with step=1 %}
 {% endblock %}
 
-{% block checkout_title %}{% trans "Edit address" %}{% endblock %}
-
 {% block shipping_address %}
     <form id="update_user_address" action="." method="post" class="form form-horizontal">
         <div class="well">
             {% csrf_token %}
-            {% include "partials/form_fields.html" with form=form %}
+            {% crispy form %}
             <div class="controls">
                 <button type="submit" class="btn btn-large btn-primary">{% trans "Save" %}</button>
                 {% trans "or" %} <a href="{% url 'checkout:shipping-address' %}">{% trans "cancel" %}</a>.
