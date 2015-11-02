@@ -1,5 +1,5 @@
 {% extends "checkout/checkout.html" %}
-{% load i18n %}
+{% load i18n crispy_forms_tags %}
 {% load  fragment from applicationcontent_tags %}
 
 {% block order_contents %}{% endblock %}
@@ -68,7 +68,7 @@
         <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
             <div class="well">
                 {% csrf_token %}
-                {% include "partials/form_fields.html" with form=form %}
+                {% crispy form %}
                 <div class="controls">
                     <button type="submit" class="btn btn-large btn-primary">{% trans "Continue" %}</button>
                     {% trans "or" %} <a href="{% url 'basket:summary' %}">{% trans "return to basket" %}</a>

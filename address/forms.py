@@ -1,7 +1,8 @@
 from django import forms
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
-from leonardo.forms import FormHelper
+from leonardo.forms import FormHelper, Accordion, Layout, AccordionGroup, Tab, Field
 from oscar.core.loading import get_model
 from oscar.views.generic import PhoneNumberMixin
 
@@ -23,6 +24,21 @@ class AbstractAddressForm(forms.ModelForm):
         # basic layout
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+        self.helper.layout = Layout(
+            Accordion(
+                AccordionGroup(_('Contact Information'),
+                               'title', 'first_name', 'last_name',
+                               'line1', 'line2', 'line3', 'line4',
+                               'state', 'postcode', 'country',
+                               'phone_number', 'notes'
+                               ),
+                AccordionGroup(_('Billing Information'),
+                               'company_name', 'company_id',
+                               'vat_id',
+                               )
+            )
+        )
 
 
 class UserAddressForm(PhoneNumberMixin, AbstractAddressForm):
