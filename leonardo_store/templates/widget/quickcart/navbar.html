@@ -15,11 +15,11 @@
         {% if request.basket.num_lines %}
         <li class="dropdown-toggle">
             <a class="dropdown" role="button" data-toggle="dropdown" href="#" id="quick-cart"><i class="fa fa-shopping-cart"></i>&nbsp;{% trans 'Quick Cart' %}&nbsp;<span class="caret"></span></a>
-            <ul class="dropdown-menu basket-mini-item unstyled" aria-labelledby="quick-cart" style="width:300px;padding:12px;">
+            <ul class="dropdown-menu basket-mini-item unstyled" aria-labelledby="quick-cart" style="width:350px;padding:12px;">
                 {% for line in request.basket.all_lines %}
-                    <li>
-                        <div class="row-fluid">
-                            <div class="col-md-3">
+                    <li class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="image_container">
                                     {% with image=line.product.primary_image %}
                                         {% thumbnail image.original "100x100" upscale=False as thumb %}
@@ -31,13 +31,12 @@
                             <div class="col-md-6">
                                 <p><strong><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></strong></p>
                             </div>
-                            <div class="col-md-1 align-center"><strong>{% trans "Qty" %}</strong> {{ line.quantity }}</div>
-                            <div class="col-md-2 price_color align-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
+                            <div class="col-md-2 text-center"><strong>{% trans "Qty" %}</strong> {{ line.quantity }}</div>
+                            <div class="col-md-5 price_color text-right pull-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
                         </div>
                     </li>
                 {% endfor %}
-                <li class="divider"></li>
-                <li>
+                <li class="text-center">
                     <p class="pull-right">
                         {% if request.basket.is_tax_known %}
                             <small>{% trans "Total:" %} {{ request.basket.total_incl_tax|currency:request.basket.currency }}</small> 
