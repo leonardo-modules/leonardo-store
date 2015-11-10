@@ -1,16 +1,14 @@
 {% extends "checkout/checkout.html" %}
-{% load i18n %}
+{% load i18n crispy_forms_tags %}
 {% load  fragment from applicationcontent_tags %}
-
-{% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping address" %}{% endblock %}{% endfragment %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=1 %}
-{% endblock %}
 
 {% block order_contents %}{% endblock %}
 
 {% block shipping_address %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% trans "Shipping address" %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block checkout_nav %}{% include 'checkout/nav.html' with step=1 %}{% endblock %}{% endfragment %}
+
     <div class="sub-header">
         <h2>{% trans "Where should we ship to?" %}</h2>
     </div>
@@ -70,7 +68,7 @@
         <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
             <div class="well">
                 {% csrf_token %}
-                {% include "partials/form_fields.html" with form=form %}
+                {% crispy form %}
                 <div class="controls">
                     <button type="submit" class="btn btn-large btn-primary">{% trans "Continue" %}</button>
                     {% trans "or" %} <a href="{% url 'basket:summary' %}">{% trans "return to basket" %}</a>

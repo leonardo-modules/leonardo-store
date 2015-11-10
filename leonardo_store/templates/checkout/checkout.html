@@ -5,12 +5,9 @@
 {% load i18n %}
 {% load purchase_info_tags %}
 {% load staticfiles %}
+{% load  fragment from applicationcontent_tags %}
 
 {% block content %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' %}
-{% endblock %}
 
     {% if error %}
         <div class="alert alert-error">
@@ -166,5 +163,16 @@
 
     {% block place_order %}
     {% endblock place_order %}
+
+{% block extrascripts %}
+    {% include "partials/extrascripts.html" %}
+
+    <script type="text/javascript">
+        $(function() {
+            {% block onbodyload %}{% endblock %}
+        });
+    </script>
+
+{% endblock %}
 
 {% endblock content %}

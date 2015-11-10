@@ -1,22 +1,17 @@
 {% extends "checkout/checkout.html" %}
 {% load i18n %}
-
-{% block page_title %}
-    {% trans "Delete address?" %} | {{ block.super }}
-{% endblock title %}
+{% load  fragment from applicationcontent_tags %}
 
 {% block order_contents %}{% endblock %}
 {% block shipping_method %}{% endblock %}
 {% block payment_method %}{% endblock %}
 {% block payment_details %}{% endblock %}
 
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=1 %}
-{% endblock %}
-
-{% block checkout_title %}{% trans "Delete address?" %}{% endblock %}
-
 {% block shipping_address %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% trans "Delete address?" %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block current_brand %}{% include 'checkout/nav.html' with step=1 %}{% endblock %}{% endfragment %}
+
     <form action="." method="post">
         {% csrf_token %}
         <div class="well">

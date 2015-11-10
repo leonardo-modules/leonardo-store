@@ -1,4 +1,0 @@
-{# Used to populate the dropdown state field via ajax. #}
-{% for area in areas %}
-	<option value="{{area.0}}"{% if forloop.first %} selected="selected"{% endif %}>{{area.1}}</option>
-{% endfor %}

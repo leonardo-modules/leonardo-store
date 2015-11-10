@@ -3,9 +3,10 @@
 {% load i18n leonardo_tags %}
 {% load  fragment from applicationcontent_tags %}
 
-{% fragment request "_page_title" %}{% block title %}{% trans "Who are you?" %}{% endblock %}{% endfragment %}
 
 {% block content %}
+
+    {% fragment request "_page_title" %}{% block title %}{% trans "Who are you?" %}{% endblock %}{% endfragment %}
 
     <form action="." method="post" class="form-stacked well">
         {% csrf_token %}

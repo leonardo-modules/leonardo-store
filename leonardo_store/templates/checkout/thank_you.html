@@ -4,24 +4,15 @@
 {% load thumbnail %}
 {% load i18n %}
 {% load staticfiles %}
-
-{% block page_title %}
-    {% blocktrans with number=order.number %}
-        Order {{ number }}: confirmation
-    {% endblocktrans %} | {{ block.super }}
-{% endblock title %}
-
-{% block checkout_nav %}
-    {% include 'checkout/nav.html' with step=5 %}
-{% endblock %}
-
-{% block checkout_title %}
-    {% blocktrans with number=order.number %}
-        Order {{ number }}: confirmation
-    {% endblocktrans %}
-{% endblock %}
+{% load  fragment from applicationcontent_tags %}
 
 {% block content %}
+
+    {% fragment request "_page_title" %}{% block page_title %}{% blocktrans with number=order.number %}
+        Order {{ number }}: confirmation
+    {% endblocktrans %}{% endblock %}{% endfragment %}
+    {% fragment request "current_brand" %}{% block checkout_nav %}{% include 'checkout/nav.html' with step=5 %}{% endblock %}{% endfragment %}
+
     <p class="lead">
         {% blocktrans with number=order.number %}
         Your order has been placed and a confirmation email has been sent - your order number is
