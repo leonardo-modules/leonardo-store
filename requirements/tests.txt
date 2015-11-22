@@ -1,0 +1,4 @@
+-r default.txt
+tox>=0.3.1
+coverage>=3.7.1
+coveralls>=0.4.2

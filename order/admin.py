@@ -4,4 +4,7 @@ from oscar.core.loading import get_model
 
 BillingAddress = get_model('order', 'BillingAddress')
 
-admin.site.register(BillingAddress)
+try:
+    admin.site.register(BillingAddress)
+except Exception as e:
+    pass
