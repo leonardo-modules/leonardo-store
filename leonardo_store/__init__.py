@@ -40,7 +40,7 @@ class Default(object):
 
     @property
     def apps(self):
-        oscar_apps = get_eshop_apps(['order', 'address'])
+        oscar_apps = get_eshop_apps(['order', 'address', 'catalogue'])
         apps = []
 
         # if is there oscarpi include it
@@ -51,7 +51,6 @@ class Default(object):
             'leonardo_store',
             'whoosh',
             'oscar.apps.customer',
-            'oscar.apps.catalogue',
             'leonardo_import_export',
             'django.contrib.flatpages',
             'widget_tweaks',

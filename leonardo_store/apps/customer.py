@@ -44,6 +44,9 @@ urlpatterns += [
     # Password reset - as we're using Django's default view functions,
     # we can't namespace these urls as that prevents
     # the reverse function from working.
+    url(r'^orders/(?P<order_number>[\w-]*)/(?P<line_id>\d+)/$',
+        login_required(application.order_line_view.as_view()),
+        name='order-line'),
     url(r'^password-reset/$',
         login_forbidden(auth_views.password_reset),
         {'password_reset_form': oscar_app.password_reset_form,

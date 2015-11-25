@@ -121,10 +121,12 @@
             </tr>
         {% endif %}
         {% for av in product.attribute_values.all %}
+            {% if not av.attribute.is_hidden %}
             <tr>
                 <th>{{ av.attribute.name }}</th>
                 <td>{{ av.value_as_html }}</td>
             </tr>
+            {% endif %}
         {% endfor %}
         {% iffeature "reviews" %}
             <tr>

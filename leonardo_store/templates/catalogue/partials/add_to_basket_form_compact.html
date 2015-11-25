@@ -1,4 +1,4 @@
-{% load basket_tags %}
+{% load basket_form from custom_basket_tags %}
 {% load i18n %}
 {% load purchase_info_tags %}
 
@@ -8,9 +8,31 @@
     {% basket_form request product 'single' as basket_form %}
     <form action="{% url 'basket:add' pk=product.pk %}" method="post">
         {% csrf_token %}
-        {{ basket_form.as_p }}
-        <button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
+
+	    <ul class="nav add-cart">
+	      <li class="dropdown">
+	        <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>{% trans "Add to basket" %}<span class="caret"></span></a>
+	        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+	        <!-- Login form here -->
+            {{ basket_form.as_p }}
+        	<button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
+
+	        </div>
+	      </li>
+	    </ul>
     </form>
+    <script type="text/javascript">
+    	$(function() {
+		  // Setup drop down menu
+		  $('.add-cart .dropdown-toggle').dropdown();
+		 
+		  // Fix input element click problem
+		  $('.add-cart .dropdown input, .dropdown label').click(function(e) {
+		    e.stopPropagation();
+		  });
+		});
+
+	</script>
 {% else %}
     <span class="btn btn-block disabled">{% trans "Add to basket" %}</span>
 {% endif %}

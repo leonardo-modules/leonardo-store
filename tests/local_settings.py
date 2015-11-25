@@ -48,7 +48,6 @@ else:
     MIGRATION_MODULES['sites'] = 'notmigrations'
     MIGRATION_MODULES['contenttypes'] = 'notmigrations'
     MIGRATION_MODULES['auth'] = 'notmigrations'
-    MIGRATION_MODULES['reversion'] = 'notmigrations'
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
@@ -69,6 +68,8 @@ GITVERSIONS_ROOT_PATH = os.path.join(
 GITVERSIONS_AUTO_SYNC = False
 
 GITVERSIONS_REPO_URL = 'https://gitlab.com/michaelkuty/test-backup.git'
+
+FAVICON_PATH = "/whatever"
 
 APPS = [
     'django_gitversions',

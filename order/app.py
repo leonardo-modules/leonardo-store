@@ -13,7 +13,7 @@ class Config(OrderConfig):
         from oscar.apps.checkout import forms as checkout_forms
         from oscar.apps.checkout import views
         from oscar.apps.checkout.app import application
-        forms.BillingAddressForm = BillingAddressForm
+        #forms.BillingAddressForm = BillingAddressForm
         checkout_forms.ShippingAddressForm = ShippingAddressForm
         views.ShippingAddressForm = ShippingAddressForm
         views.ShippingAddressView.form_class = ShippingAddressForm
