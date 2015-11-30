@@ -9,17 +9,20 @@
     <form action="{% url 'basket:add' pk=product.pk %}" method="post">
         {% csrf_token %}
 
+        {% if basket_form.fields|length > 1 %}
 	    <ul class="nav add-cart">
 	      <li class="dropdown">
 	        <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>{% trans "Add to basket" %}<span class="caret"></span></a>
 	        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-	        <!-- Login form here -->
-            {{ basket_form.as_p }}
+        	{% include "partials/form_fields.html" with form=basket_form %}
         	<button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
-
 	        </div>
 	      </li>
 	    </ul>
+	    {% else %}
+            {{ basket_form.as_p }}
+        	<button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
+    	{% endif %}
     </form>
     <script type="text/javascript">
     	$(function() {
