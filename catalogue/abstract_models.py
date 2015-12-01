@@ -36,7 +36,8 @@ class DynamicOptionsMixin(object):
         return tuple(choices)
 
     def get_type(self, **kwargs):
-        types = dict((r[0], r[2]) for r in FIELD_TYPES)
+        types = dict((r[0], r[2])
+                     for r in utils.get_object(FORM_DESIGNER_FIELD_TYPES))
         return types[self.type](**kwargs)
 
     def formfield(self):
