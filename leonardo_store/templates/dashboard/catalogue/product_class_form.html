@@ -95,9 +95,12 @@
                                         <tr>
                                             <th>{% trans "Name" %}</th>
                                             <th>{% trans "Code" %}</th>
+                                            <th>{% trans "Default Value" %}</th>
                                             <th>{% trans "Type" %}</th>
+                                            <th>{% trans "Help Text" %}</th>
                                             <th>{% trans "Required" %}</th>
-                                            <th>{% trans "Delete?" %}</th>
+                                            <th>{% trans "Is Hidden ?" %}</th>
+                                            <th>{% trans "Delete ?" %}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -108,12 +111,15 @@
                                                 {% endfor %}
                                                 <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.name nolabel=True %}</td>
                                                 <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.code nolabel=True %}</td>
+                                                <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.default_value nolabel=True %}</td>
                                                 <td>
                                                     {% include 'dashboard/partials/form_field.html' with field=attribute_form.type nolabel=True %}
 
                                                     {% include 'dashboard/partials/form_field.html' with field=attribute_form.option_group nolabel=True %}
                                                 </td>
+                                                <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.help_text nolabel=True %}</td>
                                                 <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.required nolabel=True %}</td>
+                                                <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.is_hidden nolabel=True %}</td>
                                                 <td>{% include 'dashboard/partials/form_field.html' with field=attribute_form.DELETE nolabel=True %}</td>
                                             </tr>
                                         {% endfor %}

@@ -155,4 +155,7 @@ class Config(AppConfig, Default):
         from leonardo_store.utils import patch_tables2
         patch_tables2()
 
+        from leonardo_store.catalogue.dashboard import patch_product_class_attributes
+        patch_product_class_attributes()
+
 default = Default()
