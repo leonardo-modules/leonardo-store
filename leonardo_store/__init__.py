@@ -20,14 +20,39 @@ class OscarSearchConfig(AppConfig):
     name = 'oscar.apps.search'
     verbose_name = "oscar_search"
 
+# try change name of oscar dashboard
+try:
+    from oscar.apps.dashboard import config
+    config.DashboardConfig.label = 'oscar_dashboard'
+except:
+    pass
+
 
 class Default(object):
 
     optgroup = ('Store')
 
+    urls_conf = 'leonardo_store.dashboard.urls'
+
     middlewares = [
         'oscar.apps.basket.middleware.BasketMiddleware',
     ]
+
+    dashboard_menu = [
+        'leonardo_store.dashboard.menu.store_menu',
+        'leonardo_store.dashboard.menu.customers',
+        'leonardo_store.dashboard.menu.analytics',
+        ]
+
+    dashboard_widgets_available = [
+        'leonardo_store.dashboard.widgets.customers',
+        'leonardo_store.dashboard.widgets.catalogue',
+        ]
+
+    dashboard_widgets = [
+        'leonardo_store.dashboard.widgets.catalogue',
+        'leonardo_store.dashboard.widgets.customers',
+        ]
 
     def is_oscarapi_installed(self):
         try:

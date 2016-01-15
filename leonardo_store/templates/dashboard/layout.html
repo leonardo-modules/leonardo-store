@@ -1,96 +1,85 @@
 {% extends "dashboard/base.html" %}
-
-{% load category_tags %}
-{% load dashboard_tags %}
-{% load i18n %}
 {% load compress %}
+{% load category_tags %}
+{% load i18n %}
 {% load staticfiles %}
 
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "oscar/js/select2/select2.css" %}" />
+    <link rel="stylesheet" href="{% static "oscar/css/select2-bootstrap.css" %}" />
+    <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" %}" />
+    <link rel="stylesheet" href="{% static "oscar/css/datetimepicker.css" %}" />
+{% endblock %}
 
-{% block page_title %}
+{% block title %}
     {% trans "Dashboard" %} | {{ block.super }}
 {% endblock %}
 
-{% block content %}
+{% block layout %}
 
-{% block mainstyles %}
-    {% compress css %}
-        {% if use_less %}
-            <link rel="stylesheet" type="text/less" href="{% static "oscar/less/dashboard.less" %}" />
-        {% else %}
-            <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
-        {% endif %}
-    {% endcompress %}
+    <div class="container-fluid dashboard">
+
+        {% block breadcrumbs %}
+        <ul class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a></li>
+        </ul>
+        {% endblock %}
+
+        <div class="content">
+            {% include 'dashboard/partials/alert_messages.html' %}
+            {% block header %}
+            <div class="page-header action">
+                <h1>{% block headertext %}{% endblock %}</h1>
+            </div>
+            {% endblock %}
+            <div class="page-content">
+                {% block content %}
+                    {% block dashboard_content %}{% endblock dashboard_content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </div><!-- /container -->
+
 {% endblock %}
 
-   <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" %}" />
-   <link rel="stylesheet" href="{% static "oscar/css/datetimepicker.css" %}" />
-
-    {% block extrastyles %}
-        {{ block.super }}
-        {% compress css %}
-            <link rel="stylesheet" href="{% static "oscar/js/select2/select2.css" %}" />
-            <link rel="stylesheet" href="{% static "oscar/css/select2-bootstrap.css" %}" />
-            <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" %}" />
-        {% endcompress %}
-    {% endblock %}
-
-    {% block breadcrumbs %}
-    <ul class="breadcrumb">
-        <li><a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a></li>
-    </ul>
-    {% endblock %}
-
-    <div class="content">
-        {% include 'dashboard/partials/alert_messages.html' %}
-        {% block header %}
-        <div class="page-header action">
-            <h1>{% block headertext %}{% endblock %}</h1>
-        </div>
-        {% endblock %}
-        <div class="page-content">
-            {% block dashboard_content %}{% endblock dashboard_content %}
-        </div>
-    </div>
-
+{% block extrahead %}
+{{ block.super }}
 {# Local scripts #}
 {% block scripts %}
-    {% compress js %}
+    {% include "_header.html" %}
+    <!-- Twitter Bootstrap -->
+    <script type="text/javascript" src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script>
     <!-- Oscar -->
     <script src="{% static "oscar/js/oscar/ui.js" %}" type="text/javascript" charset="utf-8"></script>
-    {% endcompress %}
 {% endblock %}
 
 {% block extrascripts %}
     {{ block.super }}
 
-
-    {% compress js %}
-        {# jQuery plugins #}
-        <script src="{% static "oscar/js/mousewheel/jquery.mousewheel.min.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "oscar/js/inputmask/jquery.inputmask.bundle.min.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "oscar/js/select2/select2.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "oscar/js/dashboard.js" %}" type="text/javascript" charset="utf-8"></script>
-    {% endcompress %}
+    {# jQuery plugins #}
+    <script src="{% static "oscar/js/mousewheel/jquery.mousewheel.min.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "oscar/js/inputmask/jquery.inputmask.bundle.min.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "oscar/js/select2/select2.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "oscar/js/oscar/dashboard.js" %}" type="text/javascript" charset="utf-8"></script>
 
     {# We don't use a fallback for tinyMCE as it dynamically loads several other files #}
-    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="//tinymce.cachefly.net/4.0/jquery.tinymce.min.js" type="text/javascript" charset="utf-8"></script>
-
-{% endblock %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//cdn.tinymce.com/4/jquery.tinymce.min.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-    $(function() {
-        {% block onbodyload %}
-            {{ block.super }}
-            options = {
-              'languageCode': '{{ LANGUAGE_CODE }}'
-            };
-            oscar.dashboard.init(options);
-        {% endblock %}
-});
+$(function() {
+{% block onbodyload %}
+        {{ block.super }}
+        options = {
+          'languageCode': '{{ LANGUAGE_CODE }}'
+        };
+        oscar.dashboard.init(options);
+{% endblock %}
+    });
 </script>
+{% endblock %}
 
 {% endblock %}

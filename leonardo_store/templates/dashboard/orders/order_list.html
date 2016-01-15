@@ -6,18 +6,10 @@
 
 {% block body_class %}{{ block.super }} orders{% endblock %}
 
-{% block page_title %}
+{% block title %}
     {% trans "Orders" %} | {{ block.super }}
 {% endblock %}
 
-{% block breadcrumbs %}
-    <ul class="breadcrumb">
-        <li>
-            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
-        </li>
-        <li class="active">{% trans "Orders" %}</li>
-    </ul>
-{% endblock %}
 
 {% block header %}
     <div class="page-header">
@@ -26,6 +18,16 @@
 {% endblock header %}
 
 {% block dashboard_content %}
+
+    {% block breadcrumbs %}
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+            </li>
+            <li class="active">{% trans "Orders" %}</li>
+        </ul>
+    {% endblock %}
+
     <div class="table-header">
         <h3><i class="icon-search icon-large"></i>{% trans "Search" %}</h3>
     </div>
@@ -155,7 +157,7 @@
             {% endblock order_list %}
             {% block order_actions %}
                 <div class="well">
-                    <h3><i class="icon-warning"></i> {% trans "Change order status" %}:</h3>
+                    <h3><i class="icon-warning-sign"></i> {% trans "Change order status" %}:</h3>
                     {% if order_statuses %}
                         <div class="form-group">
                             <div class="controls">
@@ -196,7 +198,6 @@
     {% block onbodyload %}
         {{ block.super }}
         oscar.dashboard.orders.initTable();
-        oscar.dashboard.orders.initFilterToggle();
         oscar.dashboard.search.init();
         {% if form.errors %}
         $('#SearchModal').modal('show');
