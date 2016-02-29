@@ -1,4 +1,4 @@
-{% load i18n compress %}
+{% load i18n %}
 {% load staticfiles %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="{{ LANGUAGE_CODE|default:"en-gb" }}" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -38,15 +38,13 @@
                 executable is available and you have COMPRESS_PRECOMPILERS specified
                 correctly.
                 {% endcomment %}
-                {% compress css %}
-                    {% if use_less %}
-                        <link rel="stylesheet" type="text/less" href="{% static "oscar/less/styles.less" %}" />
-                        <link rel="stylesheet" type="text/less" href="{% static "oscar/less/responsive.less" %}" />
-                    {% else %}
-                        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/styles.css" %}" />
-                        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/responsive.css" %}" />
-                    {% endif %}
-                {% endcompress %}
+                {% if use_less %}
+                    <link rel="stylesheet" type="text/less" href="{% static "oscar/less/styles.less" %}" />
+                    <link rel="stylesheet" type="text/less" href="{% static "oscar/less/responsive.less" %}" />
+                {% else %}
+                    <link rel="stylesheet" type="text/css" href="{% static "oscar/css/styles.css" %}" />
+                    <link rel="stylesheet" type="text/css" href="{% static "oscar/css/responsive.css" %}" />
+                {% endif %}
             {% endblock %}
         {% endblock %}
 
