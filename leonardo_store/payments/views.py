@@ -74,6 +74,10 @@ class LeonardoPaymentMethodView(PaymentMethodView):
         # determine selected payment method
         method = Repository().get_method(method_code)
 
+        # check selection and redirect as GET to payment method
+        if request.POST.get('method_code', None):
+            request.method = 'GET'
+
         return method.view.as_view()(request, **kwargs)
 
 
@@ -85,6 +89,7 @@ class CustomPaymentDetailsView(PaymentDetailsView):
 
     def post(self, request, *args, **kwargs):
         payment_method = self.get_payment_method()
+        payment_method.view.preview = True
         return payment_method.view.as_view()(request, **kwargs)
 
     def get(self, request, *args, **kwargs):
