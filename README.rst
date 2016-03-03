@@ -87,6 +87,11 @@ Shipping
 
 Leonardo Store uses ``leonardo_store.shipping.repository.ModelRepository`` as default Shipping provider. This Repository gets all ``WeightBased`` ship methods and provides it. For shipping discount uses offers which affects Basket.
 
+Generate image from model::
+
+    python manage.py graph_models --pygraphviz -g -o store.png catalogue checkout order customer brand partner address analytics basket offer payment promotions shipping voucher wishlists
+
+
 Read More
 =========
 
