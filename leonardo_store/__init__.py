@@ -93,6 +93,10 @@ class Default(object):
         'oscar.core.context_processors.metadata',
     ]
 
+    store_profile_actions = [
+        'widget/profileactions/_actions.html'
+    ]
+
     @property
     def plugins(self):
         _plugins = []

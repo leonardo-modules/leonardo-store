@@ -25,6 +25,15 @@ or as leonardo bundle
 
     pip install django-leonardo["store"]
 
+Configuration
+=============
+
+Add extra config spec into ``local_settings.py``
+
+    LEONARDO_CONF_SPEC = {
+        'store_profile_actions': [],
+    }
+
 
 Add ``leonardo_store`` to leonardo APPS list, in the ``local_settings.py``::
 
@@ -86,6 +95,9 @@ Shipping
 ========
 
 Leonardo Store uses ``leonardo_store.shipping.repository.ModelRepository`` as default Shipping provider. This Repository gets all ``WeightBased`` ship methods and provides it. For shipping discount uses offers which affects Basket.
+
+Model
+=====
 
 Generate image from model::
 
