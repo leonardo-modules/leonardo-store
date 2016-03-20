@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 FIELD_TYPES = [
     ('entity', _('entity'), forms.CharField),
-    ('file', _('file'), forms.CharField),
+    ('file', _('file'), forms.FileField),
     ('image', _('image'), forms.CharField),
 
     ('text', _('text'), forms.CharField),

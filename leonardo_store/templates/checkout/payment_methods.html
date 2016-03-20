@@ -21,6 +21,9 @@
         </div>
     </div>
     {% for method in methods %}
+        {% if method.template_name %}
+        {% include method.template_name %}
+        {% else %}
         <div class="basket-items">
             <div class="row-fluid">
                 <div class="span8">
@@ -38,5 +41,6 @@
                 </div>    
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 {% endblock shipping_method %}

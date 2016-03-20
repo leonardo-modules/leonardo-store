@@ -15,7 +15,7 @@ try:
                     url(r'^accounts/', include(accounts_app.get_urls()))
                     ]
 except Exception as e:
-    pass
+    raise e
 
 try:
     from brand.dashboard.app import application as brand_app
@@ -26,6 +26,24 @@ try:
 except Exception as e:
     pass
 
+try:
+    from paypal.express.dashboard.app import application as paypal_express_app
+
+    urlpatterns += [
+                    url(r'^paypal-express/', include(paypal_express_app.get_urls()))
+                    ]
+except Exception as e:
+    raise e
+
+
+try:
+    from paypal.payflow.dashboard.app import application as paypal_payflow_app
+
+    urlpatterns += [
+                    url(r'^paypal-payflow/', include(paypal_payflow_app.get_urls()))
+                    ]
+except Exception as e:
+    pass
 
 try:
     from stores.dashboard.app import application as store_app

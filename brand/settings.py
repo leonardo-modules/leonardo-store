@@ -9,11 +9,11 @@ OSCAR_DASHBOARD_NAVIGATION.append(
         'children': [
             {
                 'label': _('Trademarks'),
-                'url_name': 'dashboard:brand-list',
+                'url_name': 'brand-list',
             },
             {
                 'label': _('Brands'),
-                'url_name': 'dashboard:brand-list',
+                'url_name': 'brand-list',
             },
         ]
     })

@@ -16,9 +16,5 @@ class PaymentMethod(object):
 
     view = None
 
-    def __init__(self, *args, **kwargs):
-
-        if not self.view:
-            raise Exception('Payment Method must have defined view')
-
-        super(PaymentMethod, self).__init__(*args, **kwargs)
+    # custom template which will be rendered
+    template_name = None
