@@ -1,0 +1,20 @@
+{% load currency_filters i18n %}{% blocktrans with order_number=order.number %}Hello,
+
+<p>We are pleased to send your files.</p>{% endblocktrans %}
+
+{% trans 'Your order contains these files:' %}
+
+<ul>
+{% for file in files %}
+<li>{{ file }}</li>
+{% endfor %}
+</ul>
+
+{% if download_url %}
+<p>
+{% blocktrans %}You can download these files from the URL:
+<a href="{{ download_url }}">Download Files</a>{% endblocktrans %}
+</p>
+{% endif %}
+<br>
+<p>{% blocktrans %}The Leonardo team{% endblocktrans %}</p>

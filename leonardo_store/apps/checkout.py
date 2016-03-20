@@ -78,4 +78,5 @@ urlpatterns = patterns('',
                        (r'^', include(application.get_urls()),),
                        (r'^orders/(?P<id>.*)/pdf/$', OrderPdfView.as_view(),
                         {}, 'order_pdf'),
+                       (r'^', include('leonardo_store.apps.files'),),
                        )

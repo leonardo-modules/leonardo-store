@@ -113,6 +113,7 @@ class Default(object):
             ('leonardo_store.apps.dashboard', _('Store: Dashboard'),),
             ('leonardo_store.apps.offer', _('Store: Offers'),),
             ('leonardo_store.apps.promotions', _('Store: Promotions'),),
+            ('leonardo_store.apps.files', _('Store: Map downloads to custom url'),),
         ]
 
     widgets = [
@@ -186,5 +187,11 @@ class Config(AppConfig, Default):
 
         from leonardo_store.catalogue.dashboard import patch_product_class_attributes
         patch_product_class_attributes()
+
+        # handle and send files
+        from oscar.apps.checkout.signals import post_checkout
+        from .apps.files.payment_handler import send_files_as_mail
+        post_checkout.connect(send_files_as_mail)
+
 
 default = Default()
