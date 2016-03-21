@@ -24,6 +24,7 @@ class DownloadFilesView(TemplateView):
         files, template_name = _extraxt_attrs(self.order)
 
         context['files'] = files
+        context['order'] = self.order
         return context
 
     @property

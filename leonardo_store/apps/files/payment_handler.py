@@ -43,9 +43,10 @@ def send_files_as_mail(sender, order, user, request, response, **kwargs):
 
     context = {
         'download_url': request.site.domain + app_reverse(
-            'store_donwload_files', 'leonardo_store.apps.checkout',
+            'store_donwload_files', 'leonardo_store.apps.files',
             args=(order.number, _get_token(order))),
-        'files': [f.name for f in files]
+        'files': files,
+        'order': order
         }
 
     send_templated_email(

@@ -3,6 +3,17 @@
 
 {% block layout %}
     {% block content %}
-    	{{ files }}
+
+		{% block page_title %}
+		    {% trans 'Downloads' %} for {{ order.number }}
+		{% endblock %}
+
+
+		<ul>
+		{% for file in files %}
+		<li><a href="{{ file.url }}">{{ file.name }}</a></li>
+		{% endfor %}
+		</ul>
+
     {% endblock %}
 {% endblock %}
