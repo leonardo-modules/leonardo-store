@@ -38,6 +38,9 @@ def send_files_as_mail(sender, order, user, request, response, **kwargs):
 
     files, template_name = _extraxt_attrs(order)
 
+    if not files:
+        return
+
     context = {
         'download_url': request.site.domain + app_reverse(
             'store_donwload_files', 'leonardo_store.apps.checkout',
