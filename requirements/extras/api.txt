@@ -1,1 +1,1 @@
--e git+https://github.com/django-oscar/django-oscar-api@0.0.18#egg=django-oscar-api
+django-oscar-api==1.0.3

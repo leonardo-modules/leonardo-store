@@ -34,25 +34,34 @@ class Default(object):
 
     urls_conf = 'leonardo_store.dashboard.urls'
 
-    middlewares = [
-        'oscar.apps.basket.middleware.BasketMiddleware',
-    ]
+    @property
+    def middlewares(self):
+        '''api is replacesment for oscar basket middleware'''
+
+        if is_oscarapi_installed():
+            return [
+                'oscarapi.middleware.ApiBasketMiddleWare'
+            ]
+
+        return [
+            'oscar.apps.basket.middleware.BasketMiddleware'
+        ]
 
     dashboard_menu = [
         'leonardo_store.dashboard.menu.store_menu',
         'leonardo_store.dashboard.menu.customers',
         'leonardo_store.dashboard.menu.analytics',
-        ]
+    ]
 
     dashboard_widgets_available = [
         'leonardo_store.dashboard.widgets.customers',
         'leonardo_store.dashboard.widgets.catalogue',
-        ]
+    ]
 
     dashboard_widgets = [
         'leonardo_store.dashboard.widgets.catalogue',
         'leonardo_store.dashboard.widgets.customers',
-        ]
+    ]
 
     def is_oscarapi_installed(self):
         try:
@@ -70,7 +79,7 @@ class Default(object):
 
         # if is there oscarpi include it
         if self.is_oscarapi_installed():
-            apps = ['oscarapi']
+            apps = ['oscarapi', 'rest_framework']
 
         return apps + [
             'leonardo_store',
@@ -193,5 +202,8 @@ class Config(AppConfig, Default):
         from .apps.files.payment_handler import send_files_as_mail
         post_checkout.connect(send_files_as_mail)
 
+        if self.is_oscarapi_installed():
+            from leonardo_store.apps.api.patch_urls import patch_urls
+            patch_urls()
 
 default = Default()
