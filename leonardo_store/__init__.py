@@ -38,7 +38,7 @@ class Default(object):
     def middlewares(self):
         '''api is replacesment for oscar basket middleware'''
 
-        if is_oscarapi_installed():
+        if self.is_oscarapi_installed():
             return [
                 'oscarapi.middleware.ApiBasketMiddleWare'
             ]
