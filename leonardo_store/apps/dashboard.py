@@ -33,7 +33,7 @@ try:
                     url(r'^paypal-express/', include(paypal_express_app.get_urls()))
                     ]
 except Exception as e:
-    raise e
+    pass
 
 
 try:
