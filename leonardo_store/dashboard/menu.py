@@ -40,7 +40,12 @@ def get_oscar_dashboard_nav(items, childrens=[]):
 def get_oscar_nav():
     '''Just make this process lazy'''
     childrens = []
-    get_oscar_dashboard_nav(settings.OSCAR_DASHBOARD_NAVIGATION, childrens)
+    try:
+        get_oscar_dashboard_nav(settings.OSCAR_DASHBOARD_NAVIGATION, childrens)
+    except:
+        # this method fails if there are not any linked apps
+        # obviously when you create site etc.
+        pass
     return childrens
 
 # append another link list module for "support".
