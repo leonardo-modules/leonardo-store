@@ -3,7 +3,6 @@ from django.conf import settings
 from leonardo.module.web.widget.application.reverse import app_reverse
 from django.utils.translation import ugettext_lazy as _
 from leonardo_admin_dashboard import modules
-from django.utils.functional import lazy
 
 SKIP_ITEMS = ['page-list', 'content-blocks', ]
 
@@ -33,6 +32,8 @@ def get_oscar_dashboard_nav(items, childrens=[]):
                 except:
                     # If there are not any app bind to url
                     # this not work
+                    if 'children' in item:
+                        get_oscar_dashboard_nav(item['children'], childrens)
                     continue
             childrens.append(children)
         if 'children' in item:
