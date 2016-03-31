@@ -1,0 +1,19 @@
+
+// Bootstrap variables
+
+@import "/bootstrap/scss/bootstrap/_variables.scss";
+
+// Core variables and mixins separate from frontend variables and mixins
+@import "dashboard/variables.scss"; 
+@import "dashboard/mixins.scss"; 
+@import "dashboard/alerts.scss"; 
+@import "dashboard/base.scss";
+@import "dashboard/buttons.scss";
+@import "dashboard/datetimepicker.scss";
+@import "dashboard/navbar.scss";
+@import "dashboard/forms.scss";
+@import "dashboard/tables.scss";
+@import "dashboard/index.scss";
+@import "dashboard/catalogue.scss";
+@import "dashboard/order.scss";
+

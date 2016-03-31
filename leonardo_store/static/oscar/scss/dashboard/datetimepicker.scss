@@ -1,0 +1,12 @@
+.datetimepicker {
+  .glyphicon {
+    @include icon-FontAwesome();
+
+    &.glyphicon-arrow-left:before { content: "\f060"; }
+    &.glyphicon-arrow-right:before { content: "\f061"; }
+  }
+}
+
+.form-inline .form-group .form-inline {
+    display: inline-block;
+}

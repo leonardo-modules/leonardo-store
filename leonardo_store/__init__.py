@@ -162,9 +162,17 @@ class Default(object):
         'leonardo_store.navigation_extensions.categories'
     ]
 
+
     css_files = [
         'oscar/css/store.css',
     ]
+    
+    scss_files = [
+#       'oscar/scss/dashboard.scss',
+#       'oscar/scss/styles.scss',
+        'leonardo_store/scss/styles.scss',
+    ]
+
 
 
 class Config(AppConfig, Default):
