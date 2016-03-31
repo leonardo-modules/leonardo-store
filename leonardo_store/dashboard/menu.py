@@ -33,7 +33,7 @@ def get_oscar_dashboard_nav(items, childrens=[]):
                 except:
                     # If there are not any app bind to url
                     # this not work
-                    pass
+                    continue
             childrens.append(children)
         if 'children' in item:
             get_oscar_dashboard_nav(item['children'], childrens)
@@ -50,13 +50,23 @@ def get_oscar_nav():
         pass
     return childrens
 
-# append another link list module for "support".
-store_menu = modules.SubMenuLinkList(
-    _('Store'),
-    children=lazy(get_oscar_nav, list)(),
-    column=2,
-    order=1
-)
+
+class StoreSubMenuLinkList(modules.SubMenuLinkList):
+    # append another link list module for "support".
+    title = _('Store')
+
+    def render(self, request=None):
+
+        if not hasattr(self, 'oscar_nav_loaded'):
+            self.children += get_oscar_nav()
+            self.oscar_nav_loaded = True
+
+        return super(StoreSubMenuLinkList, self).render(request=request)
+
+    column = 2
+    order = 1
+
+store_menu = StoreSubMenuLinkList()
 
 customers = modules.MenuModelList(
     _('Customers'),
