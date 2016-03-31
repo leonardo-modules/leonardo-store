@@ -30,8 +30,10 @@ def get_oscar_dashboard_nav(items, childrens=[]):
                     children['url'] = app_reverse(
                         item['url_name'],
                         'leonardo_store.apps.dashboard')
-                except Exception as e:
-                    raise e
+                except:
+                    # If there are not any app bind to url
+                    # this not work
+                    pass
             childrens.append(children)
         if 'children' in item:
             get_oscar_dashboard_nav(item['children'], childrens)
