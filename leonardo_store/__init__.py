@@ -164,12 +164,12 @@ class Default(object):
 
 
     css_files = [
-        'oscar/css/store.css',
+#       'oscar/css/store.css',
     ]
     
     scss_files = [
-#       'oscar/scss/dashboard.scss',
-#       'oscar/scss/styles.scss',
+        'oscar/scss/dashboard.scss',
+        'oscar/scss/styles.scss',
         'leonardo_store/scss/styles.scss',
     ]
 
