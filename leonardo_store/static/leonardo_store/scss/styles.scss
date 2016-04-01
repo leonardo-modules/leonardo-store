@@ -1,0 +1,23 @@
+
+// Product catalog
+
+.product.thumbnail .caption {
+  padding: 9px 9px 0px 9px;
+}
+
+.product-title a {
+  font-size: 1.2em;
+  color: #666;
+  font-weight: 600;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    color: #428bca;
+  }
+}
+
+.product-link {
+  form, span {
+    margin: 0px 0px -10px 0px;
+  }
+}
+

@@ -6,7 +6,7 @@
 {% load staticfiles %}
 
 {% block product %}
-<div class="thumbnail">
+<div class="thumbnail product">
   {% with image=product.primary_image %}
   {% thumbnail image.original "x155" upscale=False as thumb %}
   <a href="{{ product.get_absolute_url }}">
@@ -15,15 +15,18 @@
   {% endthumbnail %}
   {% endwith %}
   <div class="caption">
-    <h4 class="pull-right">
+    <div class="product-title"><a href="{{ product.get_absolute_url }}">{{ product.get_title|truncatewords:4 }}</a></div>
+    <hr>
+    <div class="product-price pull-right">
       {% include "catalogue/partials/stock_record.html" %}
+    </div>
+    <div class="product-link">
       {% if product.is_parent %}
       <a class="btn btn-primary" href="{{ product.get_absolute_url }}">{% trans "Product detail" %}</a>
       {% else %}
       {% include "catalogue/partials/add_to_basket_form_compact.html" %}
       {% endif %}
-    </h4>
-    <h4><a href="{{ product.get_absolute_url }}">{{ product.get_title|truncatewords:4 }}</a></h4>
+    </div>
   </div>
 
   {% iffeature "reviews" %}
