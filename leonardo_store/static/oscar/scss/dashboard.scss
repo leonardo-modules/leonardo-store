@@ -1,8 +1,4 @@
 
-// Bootstrap variables
-
-@import "/bootstrap/scss/bootstrap/_variables.scss";
-
 // Core variables and mixins separate from frontend variables and mixins
 @import "dashboard/variables.scss"; 
 @import "dashboard/mixins.scss"; 

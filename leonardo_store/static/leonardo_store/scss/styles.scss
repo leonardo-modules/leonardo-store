@@ -1,23 +1,15 @@
 
-// Store actions widget
 
-.leonardo-storeactions-widget .text-right .navbar-nav {
-  float: right;
-}
+// Bootstrap variables
 
-// Product catalog
+@import "/bootstrap/scss/bootstrap/_variables.scss";
 
-.product.thumbnail .caption {
-  padding: 9px 9px 0px 9px;
-}
+// Oscar
 
-.product-title a {
-  font-size: 1.2em;
-  color: #666;
-  font-weight: 600;
-  &:hover, &:focus, &:active {
-    text-decoration: none;
-    color: #428bca;
-  }
-}
+@import "../../oscar/scss/styles.scss";
+@import "../../oscar/scss/dashboard.scss";
+
+// Leonardo store
+
+@import "_styles.scss";
 

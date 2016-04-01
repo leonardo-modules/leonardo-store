@@ -13,8 +13,21 @@
     <ul class="nav navbar-nav">
 
         {% if request.basket.num_lines %}
-        <li class="dropdown-toggle">
-            <a class="dropdown" role="button" data-toggle="dropdown" href="#" id="quick-cart"><i class="fa fa-shopping-cart"></i>&nbsp;{% trans 'Quick Cart' %}&nbsp;<span class="caret"></span></a>
+        <li class="dropdown" id="quick-cart-menu">
+            <a class="dropdown-toggle clearfix" role="button" href="#" id="quick-cart">
+              <div class="cart-icon"><i class="fa fa-shopping-cart"></i></div>
+              <div class="cart-text">
+                <span>{% trans 'Your Cart' %}</span>
+                <hr>
+                <span>
+                {% if request.basket.is_tax_known %}
+                  {{ request.basket.total_incl_tax|currency:request.basket.currency }}
+                {% else %}
+                  {{ request.basket.total_excl_tax|currency:request.basket.currency }}
+                {% endif %}
+                </span>
+              </div>
+            </a>
             <ul class="dropdown-menu basket-mini-item unstyled" aria-labelledby="quick-cart" style="width:350px;padding:12px;">
                 {% for line in request.basket.all_lines %}
                     <li class="container-fluid">
@@ -53,10 +66,19 @@
         </li>
         {% else %}
             <li>
-                <a role="button" href="#" id="quick-cart"><i class="fa fa-shopping-cart"></i>&nbsp;{% trans 'Basket is empty' %}</a>
+                <a role="button" href="#" id="quick-cart"><i class="fa fa-shopping-cart"></i><span>{% trans 'Basket is empty' %}</span></a>
             </li>
         {% endif %}
         
     </ul>
 </div>
+
+<script>
+$('#quick-cart-menu').hover(function() {
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
+}, function() {
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(200);
+});
+</script>
+
 {% endblock content %}

@@ -1,0 +1,56 @@
+
+// Store actions widget
+
+.leonardo-storeactions-widget .text-right .navbar-nav {
+  float: right;
+}
+
+// Quick Cart widget
+
+#quick-cart {
+  .cart-icon {
+    font-size: 46px;
+    padding-right: 8px;
+    transform: rotateY(180deg);
+    color: $brand-primary
+  }
+  .cart-text {
+    color: $text-color;
+  }
+  hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 0;
+    border-top: 1px solid $brand-primary;
+    width: 56px;
+  }
+  > div {
+    float: right;
+  }
+  &:hover, &:focus, &:active {
+    background-color: transparent;
+    .cart-icon {
+      color: $brand-primary;
+    }
+    .cart-text {
+      color: $brand-primary;
+    }
+  }
+}  
+
+// Product catalog
+
+.product.thumbnail .caption {
+  padding: 9px 9px 0px 9px;
+}
+
+.product-title a {
+  font-size: 1.2em;
+  color: #666;
+  font-weight: 600;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    color: #428bca;
+  }
+}
+

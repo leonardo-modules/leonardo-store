@@ -168,8 +168,6 @@ class Default(object):
     ]
     
     scss_files = [
-        'oscar/scss/dashboard.scss',
-        'oscar/scss/styles.scss',
         'leonardo_store/scss/styles.scss',
     ]
 
