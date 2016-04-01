@@ -49,12 +49,23 @@
 {% endif %}
 
 <script type="text/javascript">
-    $( document ).ready(function() {
-        $('#id_order_by').change(
-            function(){
-                 $(this).closest('form').trigger('submit');
-            });
+$( document ).ready(function() {
+  $('#id_order_by').change(
+    function(){
+      $(this).closest('form').trigger('submit');
     });
+
+  var product = $(".product"),
+      max_height = 0,
+      this_height = 0;
+
+  product.each(function() {
+    this_height = $(this).height();
+    max_height = this_height > max_height ? this_height : max_height;
+  });
+
+  product.height(max_height);
+});
 
 </script>
 
