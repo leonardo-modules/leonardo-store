@@ -10,7 +10,7 @@
 {% block content %}
 <div class="navbar-collapse collapse" id="navbar-secondary">
 
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav{% if widget.align == 'right' %} navbar-right{% endif %}">
 
         {% if request.basket.num_lines %}
         <li class="dropdown" id="quick-cart-menu">

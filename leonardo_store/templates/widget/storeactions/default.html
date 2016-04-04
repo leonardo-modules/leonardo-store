@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block content %}
-<ul class="nav {% if widget.inline %}navbar-nav{% else %}nav-list{% endif %}">
+<ul class="nav {% if widget.inline %}navbar-nav{% else %}nav-list{% endif %}{% if widget.inline and widget.align == 'right' %} navbar-right{% endif %}">
   <li><a href="{% url 'customers:profile-view' %}">{% trans "My Account" %}</a></li>
   <li><a href="{% url 'basket:summary' %}">{% trans "My Cart" %}{% if cart.numItems > 0 %} ({{ cart.numItems }}){% endif %}</a></li>
   {% if cart.numItems > 0 %}
