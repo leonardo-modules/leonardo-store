@@ -42,7 +42,7 @@ h5, .h5 { font-size: $font-size-base; line-height: $line-height-base; } // 14px
 // Page / sub headers consistant
 .sub-header {
     padding-bottom: ($line-height-computed / 2) - 1;
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: 1px solid $text-color;
 }
 .page-header {
     h1,h2 {

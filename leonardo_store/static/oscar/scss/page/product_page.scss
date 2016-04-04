@@ -17,7 +17,13 @@
     font-weight:bold;
 }
 
-.product_main .price_color {font-size: 26px; }
+.product_main {
+    .price_color,
+    .text-muted {
+        font-size: 26px; 
+    }
+}
+
 .product_pod .price_color { margin-top:0 }
 .es-carousel .price_color { font-size:20px; }
 
