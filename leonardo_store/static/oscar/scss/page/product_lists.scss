@@ -33,7 +33,7 @@ ul {
     }
     .price_color {
         @include h4();
-        color:$brand-success;
+        color:$price-color;
     }
     .availability,
     .price_color {

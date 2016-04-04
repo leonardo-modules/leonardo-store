@@ -4,6 +4,10 @@
 
 @import "/bootstrap/scss/bootstrap/_variables.scss";
 
+// Store variables
+
+@import "_variables.scss";
+
 // Oscar
 
 @import "../../oscar/scss/styles.scss";
