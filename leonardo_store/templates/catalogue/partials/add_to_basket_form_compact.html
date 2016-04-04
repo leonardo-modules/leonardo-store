@@ -15,13 +15,13 @@
 	        <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>{% trans "Add to basket" %}<span class="caret"></span></a>
 	        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
         	{% include "partials/form_fields.html" with form=basket_form %}
-        	<button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
+        	<button type="submit" class="btn btn-primary">{% trans "Add to basket" %}</button>
 	        </div>
 	      </li>
 	    </ul>
 	    {% else %}
             {{ basket_form.as_p }}
-        	<button type="submit" class="btn btn-primary btn-block">{% trans "Add to basket" %}</button>
+        	<button type="submit" class="btn btn-primary">{% trans "Add to basket" %}</button>
     	{% endif %}
     </form>
     <script type="text/javascript">
@@ -37,5 +37,5 @@
 
 	</script>
 {% else %}
-    <span class="btn btn-block btn-primary disabled">{% trans "Add to basket" %}</span>
+    <a class="btn btn-primary disabled">{% trans "Add to basket" %}</a>
 {% endif %}
