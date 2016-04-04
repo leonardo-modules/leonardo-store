@@ -45,7 +45,12 @@
                                 <p><strong><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></strong></p>
                             </div>
                             <div class="col-md-2 text-center"><strong>{% trans "Qty" %}</strong> {{ line.quantity }}</div>
-                            <div class="col-md-5 price_color text-right pull-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
+                            {% if request.basket.is_tax_known %}
+                            <div class="col-md-4 price_color text-right pull-right">{{ line.unit_price_incl_tax|currency:request.basket.currency }}</div>
+                            <div class="col-md-4 text-muted text-right pull-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
+                            {% else %}
+                            <div class="col-md-8 price_color text-right pull-right">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
+                            {% endif %}
                         </div>
                     </li>
                 {% endfor %}
