@@ -69,6 +69,12 @@ ul {
     }
 }
 
+// Thumbnail width fix
+
+.thumbnail > img, .thumbnail a > img {
+  width: 100%
+}
+
 // Add a hover state for thumbnail
 a:hover .thumbnail {
     border-color: $link-color;
