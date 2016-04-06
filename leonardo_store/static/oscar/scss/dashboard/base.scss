@@ -1,10 +1,13 @@
-
+/*
 body {
   background: url("../img/ui/dashboard/bg_subtle_dots.png") repeat scroll 0 0 #fff;
 }
-
+*/
 // TYPES CHANGES
 // -----------
+
+/*
+
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: $line-height-base / 2;
   margin-top: 0;
@@ -28,11 +31,11 @@ h3.app-ico:before {
 }
 
 body {
-  font-size: 12px;
+  font-size: $font-size-base;
 }
 
 label, input, button, select, textarea {
-  font-size: 12px;
+  font-size: $font-size-base;
 }
 
 
@@ -40,7 +43,7 @@ label, input, button, select, textarea {
   margin-top: 20px;
 }
 
-/*.page-header {
+.page-header {
   padding: 0 0 10px 0;
   margin: 20px 0 0 0;
   border-bottom: 0;

@@ -9,7 +9,7 @@
 }
 
 .dropdown-menu {
-  font-size: 12px;
+  font-size: $font-size-base;
 }
 
 .navbar-inverse {
@@ -22,7 +22,7 @@
     padding-left:  20px;
     padding-right: 20px;
     min-height: 50px;
-    font-size: 12px;
+    font-size: $font-size-base;
     line-height: 1.6666;
     #gradient > .vertical(#373737, #242424);
     border: none;
@@ -67,7 +67,7 @@
         border-right: 1px solid $gray-darker;
         @include border-radius(0);
         color: #DCDCDC;
-        font-size: 12px;
+        font-size: $font-size-base;
         line-height: 1.2;
         padding: 15px;
         .caret {

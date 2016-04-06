@@ -18,7 +18,7 @@ form.flat {
   input[type=url],
   textarea,
   select {
-    font-size: 12px;
+    font-size: $font-size-base;
   }
   textarea {
     max-height: 200px;
