@@ -31,6 +31,12 @@
       color: $brand-primary;
     }
   }
+  ~ .basket-mini-item {
+    .text-muted,
+    .price_color {
+      font-size: 12px;
+    }
+  }  
 }  
 
 // Product catalog
