@@ -71,7 +71,14 @@
         </li>
         {% else %}
             <li>
-                <a role="button" href="#" id="quick-cart"><i class="fa fa-shopping-cart"></i><span>{% trans 'Basket is empty' %}</span></a>
+                <a class="clearfix" role="button" href="#" id="quick-cart">
+                   <div class="cart-icon"><i class="fa fa-shopping-cart"></i></div>
+                   <div class="cart-text">
+                     <span>{% trans 'Your Cart' %}</span>
+                     <hr>
+                     <span>0.00 {{ request.basket.currency }}</span>
+                   </div>
+                 </a>
             </li>
         {% endif %}
         
