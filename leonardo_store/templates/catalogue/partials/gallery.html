@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <ol class="carousel-indicators thumbnail">
+            <ol class="carousel-indicators thumbnail clearfix">
                 {% for image in all_images %}
                     <li data-target="#product_gallery" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}">
                         {% thumbnail image.original "65x55" crop="center" as thumb %}
