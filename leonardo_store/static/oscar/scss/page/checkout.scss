@@ -45,7 +45,7 @@ input[type="text"][id*="quantity"], input[type="number"][id*="quantity"] {
     }
     .price_color {
         @include h4();
-        color:$brand-success;
+        color:$price-color;
         font-weight:bold;
     }
 }
