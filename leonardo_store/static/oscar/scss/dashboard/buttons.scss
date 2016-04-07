@@ -7,7 +7,7 @@
 .btn-group > .btn,
 .btn-group > .dropdown-menu,
 .btn {
-  font-size: $font-size-base;
+//  font-size: $font-size-base; - Breaks Bootstrap .btn-group size variations
   font-family: inherit;
 }
 

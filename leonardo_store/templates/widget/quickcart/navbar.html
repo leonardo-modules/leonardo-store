@@ -62,9 +62,9 @@
                             <small>{% trans "Total:" %} {{ request.basket.total_excl_tax|currency:request.basket.currency }}</small> 
                         {% endif %}
                     </p>
-                    <div class="btn-group">
-                        <a type="button" href="{% url 'basket:summary' %}" class="btn btn-info btn-small pull-left">{% trans "View basket" %}</a>
-                        <a type="button" href="{% url 'checkout:index' %}" class="btn btn-primary btn-small pull-right">{% trans "Checkout" %}</a>
+                    <div class="btn-group btn-group-sm">
+                        <a type="button" href="{% url 'basket:summary' %}" class="btn btn-info">{% trans "View basket" %}</a>
+                        <a type="button" href="{% url 'checkout:index' %}" class="btn btn-primary">{% trans "Checkout" %}</a>
                     </div>
                 </li>
             </ul>
