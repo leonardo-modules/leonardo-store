@@ -119,7 +119,7 @@
                     {% block product_categories %}
                         <div class="tab-pane" id="product_category">
                             {% block product_categories_content %}
-                                <table class="table table-striped table-bordered form-inline">
+                                <table class="table table-hover form-inline">
                                     <caption>{% trans "Category" %}</caption>
                                     {{ category_formset.management_form }}
                                     {{ category_formset.non_form_errors }}
@@ -138,7 +138,7 @@
                     {% block product_attributes %}
                         <div class="tab-pane" id="product_attributes">
                             {% block product_attributes_content %}
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-hover">
                                     <caption>
                                         {% trans "Attributes" %}
                                         <span class="label label-success">
@@ -181,7 +181,7 @@
                     {% block stockrecords %}
                         <div class="tab-pane" id="product_stock">
                             {% block stockrecords_content %}
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-hover">
                                     <caption>{% trans "Stock and pricing" %}</caption>
                                     {{ stockrecord_formset.management_form }}
                                     {{ stockrecord_formset.non_form_errors }}
@@ -240,7 +240,7 @@
                         {% with children=product.children.all %}
                             <div class="tab-pane" id="child_products">
                                 {% block child_products_content %}
-                                    <table class='table table-striped table-bordered'>
+                                    <table class='table table-hover'>
                                         <caption>
                                             {% trans "Variants" %}
                                             <button class="btn btn-primary pull-right{% if not product.can_be_parent %} disabled{% endif %}" name="action" type="submit" value="create-child" data-loading-text="{% trans 'Adding...' %}">
@@ -293,7 +293,7 @@
                     {% block recommended_products %}
                         <div class="tab-pane" id="product_recommended">
                             {% block recommended_products_content %}
-                                <table class="table table-striped table-bordered form-inline">
+                                <table class="table table-hover form-inline">
                                     <caption>{% trans "Recommended products" %}</caption>
                                     {{ recommended_formset.management_form }}
                                     {{ recommended_formset.non_form_errors }}
