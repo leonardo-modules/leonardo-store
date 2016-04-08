@@ -1,10 +1,13 @@
-# transform oscar nav
+
+import logging
 from django.conf import settings
 from leonardo.module.web.widget.application.reverse import app_reverse
 from django.utils.translation import ugettext_lazy as _
 from leonardo_admin_dashboard import modules
 
 SKIP_ITEMS = ['page-list', 'content-blocks', ]
+
+LOG = logging.getLogger(__name__)
 
 
 def is_enabled(item):
@@ -29,11 +32,12 @@ def get_oscar_dashboard_nav(items, childrens=[]):
                     children['url'] = app_reverse(
                         item['url_name'],
                         'leonardo_store.apps.dashboard')
-                except:
+                except Exception as e:
                     # If there are not any app bind to url
                     # this not work
                     if 'children' in item:
                         get_oscar_dashboard_nav(item['children'], childrens)
+                    LOG.exception(e)
                     continue
             childrens.append(children)
         if 'children' in item:
